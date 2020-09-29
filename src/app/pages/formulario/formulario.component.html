@@ -1,0 +1,167 @@
+<div class="col-12">
+    <div style="text-align: center;">
+        <h1>
+            {{'HOME.TITLE' | translate}}
+        </h1>
+    </div>
+    <div>
+        <select [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
+            <option value="formulario-es">
+                {{'HOME.SPANISH' | translate}}
+            </option>
+
+            <option value="formulario-en">
+                {{'HOME.ENGLISH' | translate}}
+            </option>
+        </select>
+    </div>
+
+
+    <mat-vertical-stepper linear>
+
+        <mat-step [label]="step[0]">
+            <form>
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Nombres</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">Apellidos</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Dirección</label>
+                        <input type="text" class="form-control" placeholder="Address">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">Teléfono</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Correo Electrónico</label>
+                        <input type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">Pais</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <option selected>Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperNext>{{'HOME.NEXT' | translate}}</button>
+            </div>
+        </mat-step>
+
+        <mat-step [label]="step[1]">
+
+            <div class="accordion row-formulario" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="false" aria-controls="collapseOne">
+                                Estudiantes EPN
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <app-datos-inscripcion></app-datos-inscripcion>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Estudiantes Externos (Pregrado)
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <app-datos-inscripcion></app-datos-inscripcion>   
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Estudiantes de Postgrado
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <app-datos-inscripcion></app-datos-inscripcion>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Profesionales
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                        data-parent="#accordionExample">
+                        <div class="card-body">
+                            <app-datos-inscripcion></app-datos-inscripcion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperNext>{{'HOME.NEXT' | translate}}</button>
+            </div>
+        </mat-step>
+
+        <mat-step [label]="step[2]">
+            Ya ha terminado.
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+            </div>
+        </mat-step>
+
+    </mat-vertical-stepper>
+
+</div>

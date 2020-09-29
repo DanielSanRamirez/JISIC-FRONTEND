@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+.fondo {
+    background-color: #172534;
+}
+
+.fondo-app {
+    margin-top: 10px;
+    background-color: #fff;
+    width: 960px;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.row-formulario {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

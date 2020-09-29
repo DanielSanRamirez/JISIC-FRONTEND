@@ -1,0 +1,10 @@
+{
+    "HOME": {
+        "TITLE": "Sistema de Registro JISIC2021",
+        "ENGLISH": "Inglés",
+        "SPANISH": "Español",
+        "STEP": ["Información personal", "Inscripción", "Finalización"],
+        "NEXT": "Siguiente",
+        "BACK": "Regresar"
+    }
+}

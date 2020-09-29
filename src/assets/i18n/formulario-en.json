@@ -1,0 +1,10 @@
+{
+    "HOME": {
+        "TITLE": "Registration System for JISIC2021",
+        "ENGLISH": "English",
+        "SPANISH": "Spanish",
+        "STEP": ["Personal information", "Registration", "Done"],
+        "NEXT": "Next",
+        "BACK": "Back"
+    }
+}
