@@ -10,10 +10,13 @@ import { PagesModule } from './pages/pages.module';
 
 /* Importación de angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NoPageFoundComponent,
   ],
   imports: [
     BrowserModule,

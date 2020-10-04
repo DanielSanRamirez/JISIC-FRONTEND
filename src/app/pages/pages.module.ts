@@ -11,7 +11,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 /* Importación de angular material */
 import {MatStepperModule} from '@angular/material/stepper';
+
+// Importación de componentes
 import { DatosInscripcionComponent } from './datos-inscripcion/datos-inscripcion.component';
+import { PagesComponent } from './pages.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -20,11 +23,14 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     FormularioComponent,
-    DatosInscripcionComponent
+    DatosInscripcionComponent,
+    PagesComponent
   ],
 
   exports: [
-    FormularioComponent
+    FormularioComponent,
+    PagesComponent,
+    TranslateModule
   ],
 
   imports: [

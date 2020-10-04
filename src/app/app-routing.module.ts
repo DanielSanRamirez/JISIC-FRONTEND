@@ -1,10 +1,29 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+// Importación de componentes
+import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
+
+// Importación de modulo de rutas
+import { PagesRoutingModule } from './pages/pages.routing';
+
+const routes: Routes = [
+
+  // Ruta vacía
+  { path: '', redirectTo: '/inscripcion', pathMatch: 'full' },
+
+  // Ruta no encontrada
+  { path:'**', component: NoPageFoundComponent }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  // Importación de la rutas definidas
+  imports: [
+    RouterModule.forRoot(routes),
+    PagesRoutingModule
+  ],
+
+  // Exportación del módulo de rutas
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

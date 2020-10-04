@@ -4,8 +4,8 @@
             {{'HOME.TITLE' | translate}}
         </h1>
     </div>
-    <div>
-        <select [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
+    <div class="col-2">
+        <select class="custom-select" [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
             <option value="formulario-es">
                 {{'HOME.SPANISH' | translate}}
             </option>
@@ -16,152 +16,304 @@
         </select>
     </div>
 
+    <form [formGroup]="participanteForm" (submit)="datosParticipante()">
+        <mat-vertical-stepper linear #stepper>
 
-    <mat-vertical-stepper linear>
+            <!--Step de Información Personal-->
+            <mat-step [label]="step[0]" [stepControl]="participanteForm" disabled=true>
 
-        <mat-step [label]="step[0]">
-            <form>
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">Nombres</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name" formControlName="nombres">
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('nombres')">{{'HOME.NAMESMSG' | translate}}</p>
+
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">Apellidos</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="apellidos">
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('apellidos')">{{'HOME.LASTNAMESMSG' | translate}}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">Dirección</label>
-                        <input type="text" class="form-control" placeholder="Address">
+                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Address" formControlName="direccion">
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('direccion')">{{'HOME.ADDRESSMSG' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">Teléfono</label>
-                        <div class="input-group mb-2">
+                        <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
+                                formControlName="codTelefono">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.nombre}}
+                                </option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Phone">
+
+                            <input type="text" class="form-control" placeholder="Phone" formControlName="telefono"
+                                maxlength="20">
+
+                        </div>
+
+
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
+                                formControlName="codTelefono">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.name}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone" formControlName="telefono">
+                        </div>
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('codTelefono')">{{'HOME.CODEPHONEMSG' | translate}}</p>
+                        </div>
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('telefono')">{{'HOME.PHONEMSG' | translate}}</p>
                         </div>
 
                     </div>
                 </div>
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">Correo Electrónico</label>
-                        <input type="text" class="form-control" placeholder="Email">
+                        <label for="inputEmail4">{{'HOME.EMAIL' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Email" formControlName="email">
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('email')">{{'HOME.EMAILMSG' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">Pais</label>
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                            <option selected>Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-            <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperNext>{{'HOME.NEXT' | translate}}</button>
-            </div>
-        </mat-step>
+                        <label for="inputEmail4">{{'HOME.COUNTRY' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
 
-        <mat-step [label]="step[1]">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="pais">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.nombre}}
+                                </option>
+                            </select>
 
-            <div class="accordion row-formulario" id="accordionExample">
-                <div class="card">
-                    <div class="card-header" id="headingOne">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="false" aria-controls="collapseOne">
-                                Estudiantes EPN
-                            </button>
-                        </h5>
-                    </div>
-
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                        data-parent="#accordionExample">
-                        <div class="card-body">
-                            <app-datos-inscripcion></app-datos-inscripcion>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Estudiantes Externos (Pregrado)
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <app-datos-inscripcion></app-datos-inscripcion>   
+
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="pais">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.name}}
+                                </option>
+                            </select>
+
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Estudiantes de Postgrado
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                        data-parent="#accordionExample">
-                        <div class="card-body">
-                            <app-datos-inscripcion></app-datos-inscripcion>
+                        <div class="col text-danger">
+                            <p *ngIf="campoNoValido('pais')">{{'HOME.COUNTRYMSG' | translate}}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header" id="headingFour">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Profesionales
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                        data-parent="#accordionExample">
-                        <div class="card-body">
-                            <app-datos-inscripcion></app-datos-inscripcion>
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button matStepperNext
+                        [disabled]="participanteForm.invalid">{{'HOME.NEXT' | translate}}</button>
+                </div>
+
+
+
+            </mat-step>
+
+            <!--Step de Inscripción-->
+            <mat-step [label]="step[1]" disabled='true'>
+
+                <div class="row">
+                    <!--<div class="col-8 accordion row-formulario" id="accordionExample">
+
+                        <div class="card" *ngFor="let producto of productos; let i=index">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne-producto.nombre" aria-expanded="false" aria-controls="collapseOne">
+                                        {{producto.nombre}}
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne-producto.nombre" class="collapse" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion
+                                    (agregarCosto) = "agregar($event, 'Estudiantes EPN')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoEstudianteEPN"
+                                    ></app-datos-inscripcion>
+                                    
+                                </div>
+                            </div>
+
+                            
                         </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="EPN" aria-expanded="false" >
+                                        Estudiantes Externos (Pregrado)
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="EPN" class="collapse" aria-labelledby="headingOne"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion
+                                    (agregarCosto) = "agregar($event, 'Estudiantes Externos (Pregrado)')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoEstudianteEXT"
+                                    ></app-datos-inscripcion>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        Estudiantes de Postgrado
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion
+                                    (agregarCosto) = "agregar($event, 'Estudiantes de Postgrado')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoEstudiantePOS"
+                                    ></app-datos-inscripcion>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingFour">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        Profesionales
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion 
+                                    [perfil]="profesional"
+                                    (agregarCosto) = "agregar($event, 'Profesionales')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoProfesional"
+                                    ></app-datos-inscripcion>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingFive">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        Autores - Primer Artículo
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion
+                                    (agregarCosto) = "agregar($event, 'Autores - Primer Artículo')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoAutorArticulo"
+                                    ></app-datos-inscripcion>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" id="headingSix">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                        Autores - Por cada artículo adicional
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseSix" class="collapse" aria-labelledby="headingSix"
+                                data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <app-datos-inscripcion
+                                    (agregarCosto) = "agregar($event, 'Autores - Por cada artículo adicional')"
+                                    (quitarCosto) = "quitar($event)"
+                                    [costo]="costoArticulo"
+                                    ></app-datos-inscripcion>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <div class="col-8">
+
+                        <div *ngFor="let producto of productos">
+                            <app-datos-inscripcion
+                            [perfil]="producto.nombre"
+                            [perfilEn]="producto.name"
+                            [costo]="producto.costo"
+                            [idioma]="selectedLanguages"
+                            ></app-datos-inscripcion>
+                        </div>
+
+                    </div>
+
+                    <div class="col-4">
+                        <h1>TOTAL A PAGAR</h1>
+                        <h1>{{costoTotal}}</h1>
+
                     </div>
                 </div>
-            </div>
 
 
-            <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperNext>{{'HOME.NEXT' | translate}}</button>
-            </div>
-        </mat-step>
 
-        <mat-step [label]="step[2]">
-            Ya ha terminado.
-            <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-            </div>
-        </mat-step>
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
+                </div>
+            </mat-step>
 
-    </mat-vertical-stepper>
+            <!--Step de Done-->
+            <mat-step [label]="step[2]">
+                Ya ha terminado.
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                    <button type="submit" class="btn btn-info" mat-button>{{'HOME.SEND' | translate}}</button>
+                </div>
+            </mat-step>
 
+        </mat-vertical-stepper>
+
+    </form>
 </div>
