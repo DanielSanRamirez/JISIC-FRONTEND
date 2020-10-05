@@ -32,8 +32,8 @@ export class DatosInscripcionComponent implements OnInit {
 
   ngOnInit(): void {
     this.participanteForm = this._fb.group({
-      tipoIdentificacion: ['1', Validators.required],
-      identificacion: ['1714108568', [Validators.required, Validators.pattern('[0-9]*')]],
+      tipoIdentificacion: ['', Validators.required],
+      identificacion: ['0', [Validators.required, Validators.pattern('[0-9]*')]],
       pasaporte: ['0', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
     });
 

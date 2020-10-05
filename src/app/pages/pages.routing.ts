@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FormularioComponent } from './formulario/formulario.component';
 import { PagesComponent } from './pages.component';
 import { MensajePreregistroComponent } from './mensaje-preregistro/mensaje-preregistro.component';
+import { MensajeEmailConfirmadoComponent } from './mensaje-email-confirmado/mensaje-email-confirmado.component';
 
 
 const routes: Routes = [
@@ -18,7 +19,11 @@ const routes: Routes = [
     {
         path: 'success',
         component: MensajePreregistroComponent
-    }
+    },
+    {
+        path: 'email-confirmation',
+        component: MensajeEmailConfirmadoComponent
+    },
 ];
 
 @NgModule({

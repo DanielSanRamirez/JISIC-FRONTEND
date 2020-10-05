@@ -18,6 +18,7 @@ import { PagesComponent } from './pages.component';
 import { MensajeFinFormularioComponent } from './mensaje-fin-formulario/mensaje-fin-formulario.component';
 import { MensajePreregistroComponent } from './mensaje-preregistro/mensaje-preregistro.component';
 import { RouterModule } from '@angular/router';
+import { MensajeEmailConfirmadoComponent } from './mensaje-email-confirmado/mensaje-email-confirmado.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -30,6 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
     PagesComponent,
     MensajeFinFormularioComponent,
     MensajePreregistroComponent,
+    MensajeEmailConfirmadoComponent,
   ],
 
   exports: [

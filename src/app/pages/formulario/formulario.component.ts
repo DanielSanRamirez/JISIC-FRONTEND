@@ -68,7 +68,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.stepper.selectedIndex = 1;
+      this.stepper.selectedIndex = 0;
     })
   }
 
@@ -86,13 +86,13 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     );
 
     this.participanteForm = this._fb.group({
-      nombres: ['Daniel Sebastián', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      apellidos: ['Ramírez', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      direccion: ['La Vicentina', Validators.required],
-      codTelefono: ['5ec46b09c0bb9535c0ebdbbf', Validators.required],
-      telefono: ['987890751', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['daniel@gmail.com', [Validators.required, Validators.email]],
-      pais: ['5ec46b09c0bb9535c0ebdbbf', Validators.required]
+      nombres: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidos: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccion: ['', Validators.required],
+      codTelefono: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      email: ['', [Validators.required, Validators.email]],
+      pais: ['', Validators.required]
     })
   }
 
