@@ -29,3 +29,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-left: 1px;
     margin-right: 1px;
 }
+
+.icono {
+    height: 150px;
+    width: auto;
+}

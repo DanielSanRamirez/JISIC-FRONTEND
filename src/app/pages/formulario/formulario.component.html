@@ -20,7 +20,7 @@
         <mat-vertical-stepper linear #stepper>
 
             <!--Step de Información Personal-->
-            <mat-step [label]="step[0]" [stepControl]="participanteForm" disabled=true>
+            <mat-step [label]="step[0]" [stepControl]="participanteForm">
 
                 <div class="row row-formulario">
                     <div class="col">
@@ -136,180 +136,74 @@
             </mat-step>
 
             <!--Step de Inscripción-->
-            <mat-step [label]="step[1]" disabled='true'>
+            <mat-step [label]="step[1]" [stepControl]="false">
 
                 <div class="row">
-                    <!--<div class="col-8 accordion row-formulario" id="accordionExample">
-
-                        <div class="card" *ngFor="let producto of productos; let i=index">
-                            <div class="card-header" id="headingOne">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-toggle="collapse"
-                                        data-target="#collapseOne-producto.nombre" aria-expanded="false" aria-controls="collapseOne">
-                                        {{producto.nombre}}
-                                    </button>
-                                </h5>
-                            </div>
-
-                            <div id="collapseOne-producto.nombre" class="collapse" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion
-                                    (agregarCosto) = "agregar($event, 'Estudiantes EPN')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoEstudianteEPN"
-                                    ></app-datos-inscripcion>
-                                    
-                                </div>
-                            </div>
-
-                            
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingOne">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                        data-target="EPN" aria-expanded="false" >
-                                        Estudiantes Externos (Pregrado)
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="EPN" class="collapse" aria-labelledby="headingOne"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion
-                                    (agregarCosto) = "agregar($event, 'Estudiantes Externos (Pregrado)')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoEstudianteEXT"
-                                    ></app-datos-inscripcion>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" id="headingThree">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                        data-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Estudiantes de Postgrado
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion
-                                    (agregarCosto) = "agregar($event, 'Estudiantes de Postgrado')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoEstudiantePOS"
-                                    ></app-datos-inscripcion>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingFour">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                        Profesionales
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion 
-                                    [perfil]="profesional"
-                                    (agregarCosto) = "agregar($event, 'Profesionales')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoProfesional"
-                                    ></app-datos-inscripcion>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingFive">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                        data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        Autores - Primer Artículo
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion
-                                    (agregarCosto) = "agregar($event, 'Autores - Primer Artículo')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoAutorArticulo"
-                                    ></app-datos-inscripcion>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="card-header" id="headingSix">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                                        data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                        Autores - Por cada artículo adicional
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapseSix" class="collapse" aria-labelledby="headingSix"
-                                data-parent="#accordionExample">
-                                <div class="card-body">
-                                    <app-datos-inscripcion
-                                    (agregarCosto) = "agregar($event, 'Autores - Por cada artículo adicional')"
-                                    (quitarCosto) = "quitar($event)"
-                                    [costo]="costoArticulo"
-                                    ></app-datos-inscripcion>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
 
                     <div class="col-8">
 
                         <div *ngFor="let producto of productos">
-                            <app-datos-inscripcion
-                            [perfil]="producto.nombre"
-                            [perfilEn]="producto.name"
-                            [costo]="producto.costo"
-                            [idioma]="selectedLanguages"
-                            ></app-datos-inscripcion>
+                            <app-datos-inscripcion [_id]="producto._id" [perfil]="producto.nombre"
+                                [perfilEn]="producto.name" [costo]="producto.costo" [idioma]="selectedLanguages"
+                                (enviarArreglo)="obtenerDatosCompra($event)"></app-datos-inscripcion>
                         </div>
 
                     </div>
 
                     <div class="col-4">
-                        <h1>TOTAL A PAGAR</h1>
-                        <h1>{{costoTotal}}</h1>
+                        <h1>{{'HOME.CART' | translate}}</h1>
+                        <div *ngIf="arregloItemProducto.length > 0; else elseBlock">
+                            <div class="info alert alert-info" *ngFor="let item of arregloItemProducto" role="alert"
+                                style="width: 100%;">
+                                <p *ngIf="selectedLanguages === 'formulario-es'">
+                                    {{item.nombre}}
+                                </p>
+                                <p *ngIf="selectedLanguages === 'formulario-en'">
+                                    {{item.name}}
+                                </p>
+                                <p>$ {{item.costo}}</p>
+                                <div class="row justify-content-end">
+                                    <div class="col-auto">
+                                        <button class="btn btn-primary" type="button"
+                                            (click)="eliminarProducto(item.idProducto)">{{'HOME.DELETE' | translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h1>{{'HOME.TOTALCOST' | translate}}{{costoTotal}}</h1>
+                                <h1></h1>
+                            </div>
 
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn btn-info" mat-button
+                                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                                <button type="button" class="btn btn-info" mat-button
+                                    matStepperNext>{{'HOME.NEXT' | translate}}</button>
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>
 
+                <ng-template #elseBlock>
+                    <div class="info alert alert-warning" role="alert">
+                        No tiene productos en la cesta
+                    </div>
+                </ng-template>
 
-
-                <div class="row justify-content-end">
-                    <button type="button" class="btn btn-info" mat-button
-                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="button" class="btn btn-info" mat-button
-                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
-                </div>
             </mat-step>
 
             <!--Step de Done-->
             <mat-step [label]="step[2]">
-                Ya ha terminado.
+                <app-mensaje-fin-formulario
+                [completo]="arregloItemProducto.length"
+                ></app-mensaje-fin-formulario>
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="submit" class="btn btn-info" mat-button>{{'HOME.SEND' | translate}}</button>
+                    <button type="submit" class="btn btn-info" mat-button
+                        *ngIf="arregloItemProducto.length > 0">{{'HOME.SEND' | translate}}</button>
                 </div>
             </mat-step>
 

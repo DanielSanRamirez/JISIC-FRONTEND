@@ -23,12 +23,15 @@ import { CampoValidoService } from 'src/app/services/campoValido.service';
 export class FormularioComponent implements OnInit, AfterViewInit {
 
   public participanteForm: FormGroup;
+  public inscripcionForm = [];
   public selectedLanguages = 'formulario-es';
   public step = [];
   public paises: Pais[] = [];
   public productos: Producto[] = [];
   public infoParticipante: Participante;
   public costoTotal: number = 0;
+  public arregloItemProducto = [];
+  public arregloProductoCopia = [];
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -90,13 +93,52 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
     this.infoParticipante = this.participanteForm.value;
     console.log(this.infoParticipante);
-
-
+    
   }
 
   campoNoValido(campo) {
     const valor = this._campoValidoService.campoNoValido(campo, this.participanteForm);
     return valor;
+  }
+
+  obtenerDatosCompra(arrayProductos) {
+    
+    this.costoTotal += arrayProductos.costo;
+    const idProducto = arrayProductos.idProducto;
+  
+    this.agregarEliminarProducto(this.productos, idProducto, 'agregar', arrayProductos);
+    //console.log(this.arregloItemProducto);
+
+  }
+
+  eliminarProducto(idProductoEliminar) {
+
+    this.agregarEliminarProducto(this.arregloItemProducto, idProductoEliminar, 'eliminarCosto')
+    
+    this.agregarEliminarProducto(this.arregloProductoCopia, idProductoEliminar, 'eliminar');
+  }
+
+  agregarEliminarProducto(arreglo, idProducto, tipo, arrayProductos?) {
+    arreglo.forEach((producto, index) => {
+      for (const key in producto) {
+        if (producto.hasOwnProperty(key)) {
+          if (producto[key] == idProducto) {
+
+            if (tipo === 'agregar') {
+              this.arregloItemProducto.splice(index, 0, arrayProductos);
+              this.arregloProductoCopia.splice(index, 0, producto);
+              this.productos.splice(index, 1);
+            } else if (tipo === 'eliminar'){
+              this.productos.splice(index, 0, producto);
+              this.arregloProductoCopia.splice(index, 1);
+            } else {
+              this.arregloItemProducto.splice(index, 1);
+              this.costoTotal -= producto.costo;
+            }
+          }
+        }
+      }
+    });
   }
 
 }

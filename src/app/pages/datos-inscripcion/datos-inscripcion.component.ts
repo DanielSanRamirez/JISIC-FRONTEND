@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // Importación del servicio
@@ -13,11 +13,17 @@ export class DatosInscripcionComponent implements OnInit {
 
   public ver = false;
   public participanteForm: FormGroup;
+  public imagenSubir: File;
+  public imagenValida: Boolean = false;
 
+  @Input('_id') _id: string;
   @Input('perfil') perfil: string = 'estudiante';
   @Input('perfilEn') perfilEn: string = 'student';
   @Input('costo') costo: number = 20;
   @Input('idioma') idioma: string;
+
+  @Output()
+  public enviarArreglo = new EventEmitter<Object>();
 
   constructor(
     private _fb: FormBuilder,
@@ -28,9 +34,9 @@ export class DatosInscripcionComponent implements OnInit {
     this.participanteForm = this._fb.group({
       tipoIdentificacion: ['1', Validators.required],
       identificacion: ['1714108568', [Validators.required, Validators.pattern('[0-9]*')]],
-      pasaporte: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
+      pasaporte: ['0', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
     });
-    console.log(this.participanteForm.controls.tipoIdentificacion.value);
+
   }
 
   verInfo() {
@@ -44,6 +50,30 @@ export class DatosInscripcionComponent implements OnInit {
   campoNoValido(campo) {
     const valor = this._campoValidoService.campoNoValido(campo, this.participanteForm);
     return valor;
+  }
+
+  cambiarImagen(file: File) {
+    this.imagenSubir = file;
+
+    if (this.imagenSubir.type === 'image/png' || this.imagenSubir.type === 'image/jpeg') {
+      this.imagenValida = true;
+    } else {
+      this.imagenValida = false;
+    }
+  }
+
+  agregarCarrito(idProducto) {
+
+    const itemCarrito = {
+      idProducto: idProducto,
+      costo: this.costo,
+      nombre: this.perfil,
+      name: this.perfilEn,
+      participanteForm: this.participanteForm.controls,
+      file: this.imagenSubir
+    };
+
+    this.enviarArreglo.emit(itemCarrito);
   }
 
 }

@@ -1,0 +1,25 @@
+<div class="card text-center" *ngIf="completo === 0">
+    <div class="card-header">
+        <img class="card-img-top icono"
+            src="https://www.flaticon.es/svg/static/icons/svg/594/594598.svg"
+            alt="Card image cap">
+            
+    </div>
+    <div class="card-body">
+        <h1 class="card-title">No puede finalizar pre-registro</h1>
+        <h2 class="card-text">Usted no ha seleccionado ningún producto en la cesta, regrese al paso 2 y complete esta acción</h2>
+    </div>
+</div>
+
+<div class="card text-center" *ngIf="completo !== 0">
+    <div class="card-header">
+        <img class="card-img-top icono"
+            src="https://www.flaticon.es/svg/static/icons/svg/941/941565.svg"
+            alt="Card image cap">
+            
+    </div>
+    <div class="card-body">
+        <h1 class="card-title">Finalizar pre-registro</h1>
+        <h2 class="card-text">De clic en el botón "Enviar" para realizar el pre-registro a las JISIC2021</h2>
+    </div>
+</div>

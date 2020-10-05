@@ -1,8 +1,10 @@
 <form [formGroup]="participanteForm">
-    <button type="button" class="btn btn btn-outline-info btn-lg btn-block" (click)="verInfo()" *ngIf="idioma === 'formulario-es'">
+    <button type="button" class="btn btn btn-outline-info btn-lg btn-block" (click)="verInfo()"
+        *ngIf="idioma === 'formulario-es'">
         {{perfil}}
     </button>
-    <button type="button" class="btn btn btn-outline-info btn-lg btn-block" (click)="verInfo()" *ngIf="idioma !== 'formulario-es'">
+    <button type="button" class="btn btn btn-outline-info btn-lg btn-block" (click)="verInfo()"
+        *ngIf="idioma !== 'formulario-es'">
         {{perfilEn}}
     </button>
     <div class="card" *ngIf="ver">
@@ -14,7 +16,8 @@
             <div class="row">
                 <div class="col-6">
                     <label>{{'HOME.IDTYPE' | translate}}</label>
-                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="tipoIdentificacion">
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
+                        formControlName="tipoIdentificacion">
                         <option selected value="">Choose...</option>
                         <option value="1">{{'HOME.IDCARD' | translate}}</option>
                         <option value="2">{{'HOME.PASSPORT' | translate}}</option>
@@ -22,7 +25,8 @@
                 </div>
                 <div class="col-6" *ngIf="participanteForm.controls.tipoIdentificacion.value === '1'">
                     <label>{{'HOME.IDENTIFICATION' | translate}}</label>
-                    <input type="text" class="form-control" placeholder="Identification" formControlName="identificacion">
+                    <input type="text" class="form-control" placeholder="Identification"
+                        formControlName="identificacion" maxlength="10" minlength="10">
                 </div>
                 <div class="col-6" *ngIf="participanteForm.controls.tipoIdentificacion.value === '2'">
                     <label>{{'HOME.IDENTIFICATION' | translate}}</label>
@@ -42,12 +46,19 @@
             <div class="row row-formulario" *ngIf="perfil !== 'Profesionales y Profesores Externos'">
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Suba el horario de clases de la EPN</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <img src="" alt="">
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1"
+                        (change)="cambiarImagen($event.target.files[0])">
+                    <div class="col text-danger" *ngIf="!imagenValida">
+                        <p>Debe seleccionar un archivo o el archivo no es correcto</p>
+                    </div>
                 </div>
             </div>
-
+            <br>
             <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" [disabled]="participanteForm.invalid">Agregar</button>
+                <button type="button" class="btn btn-info"
+                    [disabled]="(participanteForm.invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
+                    (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
             </div>
         </div>
 

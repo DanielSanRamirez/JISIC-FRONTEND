@@ -15,6 +15,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 // Importación de componentes
 import { DatosInscripcionComponent } from './datos-inscripcion/datos-inscripcion.component';
 import { PagesComponent } from './pages.component';
+import { MensajeFinFormularioComponent } from './mensaje-fin-formulario/mensaje-fin-formulario.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,7 +25,8 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     FormularioComponent,
     DatosInscripcionComponent,
-    PagesComponent
+    PagesComponent,
+    MensajeFinFormularioComponent
   ],
 
   exports: [
