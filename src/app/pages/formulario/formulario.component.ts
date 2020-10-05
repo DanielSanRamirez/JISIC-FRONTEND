@@ -17,6 +17,13 @@ import { PaisService } from 'src/app/services/pais.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { CampoValidoService } from 'src/app/services/campoValido.service';
 import { ParticipanteService } from 'src/app/services/participante.service';
+import { InscripcionService } from 'src/app/services/inscripcion.service';
+import { Inscripcion } from 'src/app/models/inscripcion';
+import { identifierModuleUrl } from '@angular/compiler';
+import { FileUploadService } from 'src/app/services/file-upload.service';
+
+// Importación para rutas
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario',
@@ -45,7 +52,10 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     private _paisService: PaisService,
     private _productoService: ProductoService,
     private _campoValidoService: CampoValidoService,
-    private _participanteService: ParticipanteService
+    private _participanteService: ParticipanteService,
+    private _inscripcionService: InscripcionService,
+    private _fileUploadService: FileUploadService,
+    private _router: Router
 
   ) {
     this._translateService.setDefaultLang(this.selectedLanguages);
@@ -97,11 +107,45 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   datosParticipante() {
 
     this.infoParticipante = this.participanteForm.value;
-    const {nombres, apellidos} = this.participanteForm.value;
+    const { nombres, apellidos } = this.participanteForm.value;
     this._participanteService.crearParticipante(this.infoParticipante).subscribe(
-      resp => {
-        console.log(this.arregloItemProducto);
-        Swal.fire('Creado', `${nombres} ${apellidos} creado correctamente`, 'success');
+      (resp: any) => {
+
+        let participante = resp.participante.uid;
+
+        this.arregloItemProducto.forEach((productos, index) => {
+          let producto = productos.idProducto;
+          let tipoIdentificacion = productos.participanteForm.tipoIdentificacion.value;
+          let identificacion;
+
+          let file = productos.file;
+
+          if (tipoIdentificacion === '1') {
+            identificacion = productos.participanteForm.identificacion.value;
+          } else {
+            identificacion = productos.participanteForm.pasaporte.value;
+          }
+          let inscripcion = new Inscripcion(tipoIdentificacion, identificacion, participante, producto, this.costoTotal);
+          this._inscripcionService.crearInscripcion(inscripcion).subscribe(
+            (resp: any) => {
+
+              let idInscripcion = resp.inscripcion._id;
+              if (file !== undefined) {
+                this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
+              } else {
+                Swal.fire('Creado',
+                  `La pre-inscripción del participante ${nombres} ${apellidos} ha sido creado correctamente`,
+                  'success').then((result) => {
+                    if (result.isConfirmed) {
+                      this._router.navigateByUrl('/success');
+                    }
+
+                  });
+              }
+
+            }
+          )
+        });
       },
       err => {
         Swal.fire('Error', err.error.msg, 'error');
@@ -115,10 +159,10 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   }
 
   obtenerDatosCompra(arrayProductos) {
-    
+
     this.costoTotal += arrayProductos.costo;
     const idProducto = arrayProductos.idProducto;
-  
+
     this.agregarEliminarProducto(this.productos, idProducto, 'agregar', arrayProductos);
     //console.log(this.arregloItemProducto);
 
@@ -127,7 +171,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   eliminarProducto(idProductoEliminar) {
 
     this.agregarEliminarProducto(this.arregloItemProducto, idProductoEliminar, 'eliminarCosto')
-    
+
     this.agregarEliminarProducto(this.arregloProductoCopia, idProductoEliminar, 'eliminar');
   }
 
@@ -141,7 +185,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
               this.arregloItemProducto.splice(index, 0, arrayProductos);
               this.arregloProductoCopia.splice(index, 0, producto);
               this.productos.splice(index, 1);
-            } else if (tipo === 'eliminar'){
+            } else if (tipo === 'eliminar') {
               this.productos.splice(index, 0, producto);
               this.arregloProductoCopia.splice(index, 1);
             } else {

@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 // Importación de componentes
 import { FormularioComponent } from './formulario/formulario.component';
 import { PagesComponent } from './pages.component';
+import { MensajePreregistroComponent } from './mensaje-preregistro/mensaje-preregistro.component';
+
 
 const routes: Routes = [
     {
@@ -13,6 +15,10 @@ const routes: Routes = [
             { path: '', component: FormularioComponent }
         ]
     },
+    {
+        path: 'success',
+        component: MensajePreregistroComponent
+    }
 ];
 
 @NgModule({

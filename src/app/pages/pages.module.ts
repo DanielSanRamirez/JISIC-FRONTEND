@@ -16,6 +16,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { DatosInscripcionComponent } from './datos-inscripcion/datos-inscripcion.component';
 import { PagesComponent } from './pages.component';
 import { MensajeFinFormularioComponent } from './mensaje-fin-formulario/mensaje-fin-formulario.component';
+import { MensajePreregistroComponent } from './mensaje-preregistro/mensaje-preregistro.component';
+import { RouterModule } from '@angular/router';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,7 +28,8 @@ export function createTranslateLoader(http: HttpClient) {
     FormularioComponent,
     DatosInscripcionComponent,
     PagesComponent,
-    MensajeFinFormularioComponent
+    MensajeFinFormularioComponent,
+    MensajePreregistroComponent,
   ],
 
   exports: [
@@ -40,6 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
     FormsModule,
     MatStepperModule,
     ReactiveFormsModule,
+    RouterModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

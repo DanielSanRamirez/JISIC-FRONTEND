@@ -4,9 +4,11 @@ import { Router } from '@angular/router';
 
 // Importación de varibles globales
 import { GLOBAL } from '../services/global'
+import { Participante } from '../models/participante.model';
+import { Producto } from '../models/producto.model';
 
 // Importación del modelo
-import { Pais } from '../models/pais.model';
+
 
 // Definir varible global
 const base_url = GLOBAL.base_url;
@@ -14,25 +16,23 @@ const base_url = GLOBAL.base_url;
 @Injectable({
     providedIn: 'root'
 })
-export class ParticipanteService {
+export class InscripcionService {
 
     constructor(
         private _http: HttpClient,
         private _router: Router,
     ) { }
 
-    crearParticipante(participante: {
-        nombres: string,
-        apellidos: string,
-        direccion: string,
-        codTelefono: Pais,
-        telefono: string,
-        email: string,
-        pais: Pais
+    crearInscripcion(inscripcion: {
+        tipoIdentificacion: string,
+        identificacion: string,
+        participante: Participante,
+        producto: Producto,
+        costoTotal: number
     }) {
-        const url = `${base_url}/participantes`;
+        const url = `${base_url}/inscripciones`;
 
-        return this._http.post(url, participante);
+        return this._http.post(url, inscripcion);
     }
 
 }
