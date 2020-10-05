@@ -1,5 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
+// Importar popup
+import Swal from 'sweetalert2';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 
@@ -13,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PaisService } from 'src/app/services/pais.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { CampoValidoService } from 'src/app/services/campoValido.service';
+import { ParticipanteService } from 'src/app/services/participante.service';
 
 @Component({
   selector: 'app-formulario',
@@ -40,7 +44,8 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     private _fb: FormBuilder,
     private _paisService: PaisService,
     private _productoService: ProductoService,
-    private _campoValidoService: CampoValidoService
+    private _campoValidoService: CampoValidoService,
+    private _participanteService: ParticipanteService
 
   ) {
     this._translateService.setDefaultLang(this.selectedLanguages);
@@ -92,8 +97,16 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   datosParticipante() {
 
     this.infoParticipante = this.participanteForm.value;
-    console.log(this.infoParticipante);
-    
+    const {nombres, apellidos} = this.participanteForm.value;
+    this._participanteService.crearParticipante(this.infoParticipante).subscribe(
+      resp => {
+        console.log(this.arregloItemProducto);
+        Swal.fire('Creado', `${nombres} ${apellidos} creado correctamente`, 'success');
+      },
+      err => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    )
   }
 
   campoNoValido(campo) {
