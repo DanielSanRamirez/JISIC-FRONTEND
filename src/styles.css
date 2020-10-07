@@ -34,3 +34,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     height: 150px;
     width: auto;
 }
+
+.iconoPerfil {
+    height: 50px;
+    width: auto;
+}

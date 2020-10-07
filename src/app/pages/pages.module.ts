@@ -19,6 +19,13 @@ import { MensajeFinFormularioComponent } from './mensaje-fin-formulario/mensaje-
 import { MensajePreregistroComponent } from './mensaje-preregistro/mensaje-preregistro.component';
 import { RouterModule } from '@angular/router';
 import { MensajeEmailConfirmadoComponent } from './mensaje-email-confirmado/mensaje-email-confirmado.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PreRegistroComponent } from './pre-registro/pre-registro.component';
+import { MensajeBienvenidaComponent } from './mensaje-bienvenida/mensaje-bienvenida.component';
+import { PreInscripcionComponent } from './pre-inscripcion/pre-inscripcion.component';
+import { InscripcionComponent } from './inscripcion/inscripcion.component';
+import { ProductosComponent } from './productos/productos.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -32,6 +39,13 @@ export function createTranslateLoader(http: HttpClient) {
     MensajeFinFormularioComponent,
     MensajePreregistroComponent,
     MensajeEmailConfirmadoComponent,
+    DashboardComponent,
+    PreRegistroComponent,
+    MensajeBienvenidaComponent,
+    PreInscripcionComponent,
+    InscripcionComponent,
+    ProductosComponent,
+    UsuariosComponent,
   ],
 
   exports: [

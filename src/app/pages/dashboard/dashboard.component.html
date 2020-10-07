@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" routerLink="/admin/dashboard">JISIC2021</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" routerLinkActive="active" routerLink="pre-registros">Pre-registro <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLinkActive="active" routerLink="pre-inscripciones">Pre-inscripción</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLinkActive="active" routerLink="inscripciones">Inscripción</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLinkActive="active" routerLink="productos">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLinkActive="active" routerLink="usuarios">Usuarios</a>
+            </li>
+        </ul>
+        <div class="nav justify-content-end">
+            <div class="dropdown">
+                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="https://www.flaticon.es/svg/static/icons/svg/727/727399.svg" alt="..."
+                        class="rounded-circle iconoPerfil">
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <span class="dropdown-item-text">Administrador</span>
+                    <span class="dropdown-item-text">Gabriela Quiguango</span>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Cerrar sesión</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <h1>{{titulo}}</h1>
+    <router-outlet></router-outlet>
+</div>

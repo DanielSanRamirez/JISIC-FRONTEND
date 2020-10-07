@@ -42,7 +42,7 @@ export class FileUploadService {
 
       if (data.ok) {
         Swal.fire('Creado',
-        `La pre-inscripción del participante ${nombres} ${apellidos} ha sido creado correctamente. Revise su correo electrónico para completar el registro`,
+        `La pre-inscripción del participante ${nombres} ${apellidos} ha sido creado correctamente.`,
         'success').then((result) => {
             if (result.isConfirmed) {
               this._router.navigateByUrl('/success');

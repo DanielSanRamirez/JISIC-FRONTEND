@@ -6,6 +6,7 @@ import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
 
 // Importación de modulo de rutas
 import { PagesRoutingModule } from './pages/pages.routing';
+import { AuthRoutingModule } from './auth/auth.routing';
 
 const routes: Routes = [
 
@@ -20,7 +21,8 @@ const routes: Routes = [
   // Importación de la rutas definidas
   imports: [
     RouterModule.forRoot(routes),
-    PagesRoutingModule
+    PagesRoutingModule,
+    AuthRoutingModule
   ],
 
   // Exportación del módulo de rutas

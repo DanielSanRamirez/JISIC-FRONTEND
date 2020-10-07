@@ -21,8 +21,8 @@ import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule,
     PagesModule,
+    AuthModule,
     BrowserAnimationsModule
   ],
   providers: [],
