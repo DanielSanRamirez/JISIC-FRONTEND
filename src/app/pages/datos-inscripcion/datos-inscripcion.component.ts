@@ -55,6 +55,12 @@ export class DatosInscripcionComponent implements OnInit {
 
   cambiarImagen(file: File) {
     this.imagenSubir = file;
+    
+    if (!this.imagenSubir) {
+      this.imagenValida = false;
+      this.mostrarErrorArchivo = true;
+      return;
+    }
 
     if (this.imagenSubir.type === 'image/png' || this.imagenSubir.type === 'image/jpeg') {
       this.imagenValida = true;
