@@ -33,13 +33,16 @@
                     <input type="text" class="form-control" placeholder="Identification" formControlName="pasaporte">
                 </div>
             </div>
-            <div class="col text-danger">
+            <div class="col text-danger"
+                *ngIf="participanteForm.get('tipoIdentificacion').invalid && (participanteForm.get('tipoIdentificacion').dirty || participanteForm.get('tipoIdentificacion').touched)">
                 <p *ngIf="campoNoValido('tipoIdentificacion')">{{'HOME.IDTYPEMSG' | translate}}</p>
             </div>
-            <div class="col text-danger" *ngIf="participanteForm.controls.tipoIdentificacion.value === '1'">
+            <div class="col text-danger"
+                *ngIf="participanteForm.value.tipoIdentificacion === '1' && participanteForm.get('identificacion').invalid && (participanteForm.get('identificacion').dirty || participanteForm.get('identificacion').touched)">
                 <p *ngIf="campoNoValido('identificacion')">{{'HOME.IDENTIFICATIONMSG' | translate}}</p>
             </div>
-            <div class="col text-danger" *ngIf="participanteForm.controls.tipoIdentificacion.value === '2'">
+            <div class="col text-danger"
+                *ngIf="participanteForm.value.tipoIdentificacion === '2' && participanteForm.get('pasaporte').invalid && (participanteForm.get('pasaporte').dirty || participanteForm.get('pasaporte').touched)">
                 <p *ngIf="campoNoValido('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}</p>
             </div>
 
@@ -49,15 +52,18 @@
                     <img src="" alt="">
                     <input type="file" class="form-control-file" id="exampleFormControlFile1"
                         (change)="cambiarImagen($event.target.files[0])">
-                    <div class="col text-danger" *ngIf="!imagenValida">
-                        <p>Debe seleccionar un archivo o el archivo no es correcto</p>
+                    <div class="col text-danger" *ngIf="!imagenValida && mostrarErrorArchivo">
+                        <p>Debe seleccionar un archivo o el archivo seleccionado no tiene formato .jpg o .png</p>
                     </div>
                 </div>
             </div>
             <br>
             <div class="row justify-content-end">
-                <button type="button" class="btn btn-info"
-                    [disabled]="(participanteForm.invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
+                <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '1'"
+                    [disabled]="(participanteForm.get('identificacion').invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
+                    (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
+                    <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '2'"
+                    [disabled]="(participanteForm.get('pasaporte').invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
                     (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
             </div>
         </div>

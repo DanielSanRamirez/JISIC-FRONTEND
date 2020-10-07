@@ -26,7 +26,8 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
                         <input type="text" class="form-control" placeholder="First name" formControlName="nombres">
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('nombres').invalid && (participanteForm.get('nombres').dirty || participanteForm.get('nombres').touched)">
                             <p *ngIf="campoNoValido('nombres')">{{'HOME.NAMESMSG' | translate}}</p>
 
                         </div>
@@ -34,7 +35,8 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Last name" formControlName="apellidos">
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('apellidos').invalid && (participanteForm.get('apellidos').dirty || participanteForm.get('apellidos').touched)">
                             <p *ngIf="campoNoValido('apellidos')">{{'HOME.LASTNAMESMSG' | translate}}</p>
                         </div>
                     </div>
@@ -43,7 +45,8 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Address" formControlName="direccion">
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('direccion').invalid && (participanteForm.get('direccion').dirty || participanteForm.get('direccion').touched)">
                             <p *ngIf="campoNoValido('direccion')">{{'HOME.ADDRESSMSG' | translate}}</p>
                         </div>
                     </div>
@@ -80,10 +83,12 @@
                             </select>
                             <input type="text" class="form-control" placeholder="Phone" formControlName="telefono">
                         </div>
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('codTelefono').invalid && (participanteForm.get('codTelefono').dirty || participanteForm.get('codTelefono').touched)">
                             <p *ngIf="campoNoValido('codTelefono')">{{'HOME.CODEPHONEMSG' | translate}}</p>
                         </div>
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('telefono').invalid && (participanteForm.get('telefono').dirty || participanteForm.get('telefono').touched)">
                             <p *ngIf="campoNoValido('telefono')">{{'HOME.PHONEMSG' | translate}}</p>
                         </div>
 
@@ -93,7 +98,8 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.EMAIL' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Email" formControlName="email">
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('email').invalid && (participanteForm.get('email').dirty || participanteForm.get('email').touched)">
                             <p *ngIf="campoNoValido('email')">{{'HOME.EMAILMSG' | translate}}</p>
                         </div>
                     </div>
@@ -120,7 +126,8 @@
                             </select>
 
                         </div>
-                        <div class="col text-danger">
+                        <div class="col text-danger"
+                            *ngIf="participanteForm.get('pais').invalid && (participanteForm.get('pais').dirty || participanteForm.get('pais').touched)">
                             <p *ngIf="campoNoValido('pais')">{{'HOME.COUNTRYMSG' | translate}}</p>
                         </div>
                     </div>
@@ -196,14 +203,12 @@
 
             <!--Step de Done-->
             <mat-step [label]="step[2]">
-                <app-mensaje-fin-formulario
-                [completo]="arregloItemProducto.length"
-                ></app-mensaje-fin-formulario>
+                <app-mensaje-fin-formulario [completo]="arregloItemProducto.length"></app-mensaje-fin-formulario>
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
                     <button type="submit" class="btn btn-info" mat-button
-                        *ngIf="arregloItemProducto.length > 0" >{{'HOME.SEND' | translate}}</button>
+                        *ngIf="arregloItemProducto.length > 0">{{'HOME.SEND' | translate}}</button>
                 </div>
             </mat-step>
 
