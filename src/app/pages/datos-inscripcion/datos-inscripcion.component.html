@@ -60,10 +60,10 @@
             <br>
             <div class="row justify-content-end">
                 <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '1'"
-                    [disabled]="(participanteForm.get('identificacion').invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
+                    [disabled]="participanteForm.get('identificacion').invalid || (!imagenValida || !imagenSubir) && perfil !== 'Profesionales y Profesores Externos'"
                     (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
                     <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '2'"
-                    [disabled]="(participanteForm.get('pasaporte').invalid || (!imagenSubir || !imagenValida)) && perfil !== 'Profesionales y Profesores Externos'"
+                    [disabled]="participanteForm.get('pasaporte').invalid || (!imagenValida || !imagenSubir) && perfil !== 'Profesionales y Profesores Externos'"
                     (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
             </div>
         </div>

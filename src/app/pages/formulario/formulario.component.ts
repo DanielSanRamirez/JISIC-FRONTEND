@@ -86,16 +86,14 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     );
 
     this.participanteForm = this._fb.group({
-      nombres: ['d', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      nombres: ['d ', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
       apellidos: ['d', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
       direccion: ['d', Validators.required],
       codTelefono: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
-      telefono: ['2', [Validators.required, Validators.pattern('[0-9]*')]],
+      telefono: ['3', [Validators.required, Validators.pattern('[0-9]*')]],
       email: ['d@d', [Validators.required, Validators.email]],
       pais: ['5ec46b09c0bb9535c0ebdb87', Validators.required]
     })
-
-    //console.log(this.participanteForm);
     
   }
 

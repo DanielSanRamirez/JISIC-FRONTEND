@@ -37,7 +37,8 @@ export class DatosInscripcionComponent implements OnInit {
       identificacion: ['', [Validators.required, Validators.pattern('[0-9]*')]],
       pasaporte: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
     });
-
+    console.log(this.participanteForm.get('identificacion').invalid);
+    
   }
 
   verInfo() {
