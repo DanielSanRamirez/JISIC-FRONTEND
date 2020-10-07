@@ -35,4 +35,13 @@ export class ParticipanteService {
         return this._http.post(url, participante);
     }
 
+    actualizarEstadoParticipante(_id: string) {
+
+        const url = `${base_url}/participantes/estado/${ _id }`;
+        const estado = true;
+    
+        return this._http.put(url, {estado});
+          
+      }
+
 }

@@ -28,7 +28,7 @@ const routes: Routes = [
         component: MensajePreregistroComponent
     },
     {
-        path: 'email-confirmation',
+        path: 'email-confirmation/:id',
         component: MensajeEmailConfirmadoComponent
     },
     {
