@@ -6,24 +6,26 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-6">
-            <form>
+            <form autocomplete="off"
+            [formGroup]="loginForm"
+            (ngSubmit)="login()">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Usuario</label>
                     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Ingrese el usuario">
+                        placeholder="Ingrese el usuario" formControlName="nombre">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Contraseña</label>
                     <input type="password" class="form-control" id="exampleInputPassword1"
-                        placeholder="Ingrese la contraseña">
+                        placeholder="Ingrese la contraseña" formControlName="password">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Perfil</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="perfil">
                         <option selected value="">Choose...</option>
-                        <option value="1">Administrador/a</option>
-                        <option value="2">Secretario/a</option>
-                        <option value="3">Tesorero/a</option>
+                        <option value="USER_ADMIN">Administrador/a</option>
+                        <option value="USER_SECRE">Secretario/a</option>
+                        <option value="USER_TESO">Tesorero/a</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
