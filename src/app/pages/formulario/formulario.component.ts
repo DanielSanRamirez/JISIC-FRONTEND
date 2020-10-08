@@ -18,7 +18,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { CampoValidoService } from 'src/app/services/campoValido.service';
 import { ParticipanteService } from 'src/app/services/participante.service';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
-import { Inscripcion } from 'src/app/models/inscripcion';
+import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { identifierModuleUrl } from '@angular/compiler';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 

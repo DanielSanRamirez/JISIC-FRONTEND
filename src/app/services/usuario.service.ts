@@ -1,9 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 // Importación de interfaz
 import { LoginForm } from '../interfaces/login-form.interface';
+
+// Importación del modelo
+import { Usuario } from '../models/usuario.model';
 
 // Importar las variables de entorno globales
 import { GLOBAL } from './global';
@@ -16,13 +21,45 @@ const base_url = GLOBAL.base_url;
 })
 export class UsuarioService {
 
+    public auth2: any;
+    public usuario: Usuario;
+
     constructor(
         private _http: HttpClient,
+        private _router: Router,
+        private _ngZone: NgZone
     ) { }
+
+    get token() {
+        return localStorage.getItem('token') || '';
+    }
 
     guardarLocalStorage(token: string, menu: any) {
         localStorage.setItem('token', token);
         localStorage.setItem('menu', JSON.stringify(menu));
+    }
+
+    validarToken(): Observable<boolean> {
+        const token = this.token;
+
+        return this._http.get(`${base_url}/login/renew`, {
+            headers: {
+                'x-token': token
+            }
+        }).pipe(
+            map((resp: any) => {
+
+                const { nombre, perfil, _id, nombres } = resp.usuario;
+
+                this.usuario = new Usuario(
+                    nombre, perfil, nombres, '', _id
+                );
+                this.guardarLocalStorage(resp.token, resp.menu);
+
+                return true;
+            }),
+            catchError(error => of(false))
+        );
     }
 
     login(formData: LoginForm) {
@@ -34,5 +71,13 @@ export class UsuarioService {
                     }
                 )
             );
+    }
+
+    logout() {
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('menu');
+        this._router.navigateByUrl('/login-admin');
+        
     }
 }

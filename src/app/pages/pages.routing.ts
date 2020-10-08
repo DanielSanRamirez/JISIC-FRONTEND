@@ -1,6 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
+// Implementación de guards
+import { AuthGuard } from '../guards/auth.guard';
+
 // Importación de componentes
 import { FormularioComponent } from './formulario/formulario.component';
 import { PagesComponent } from './pages.component';
@@ -34,8 +37,9 @@ const routes: Routes = [
     {
         path: 'admin/dashboard',
         component: DashboardComponent,
+        canActivate: [AuthGuard],
         children: [
-            { path: '', component: MensajeBienvenidaComponent },
+            { path: '', component: MensajeBienvenidaComponent, data: { titulo: 'BIENVENID@' } },
             { path: 'pre-registros', component: PreRegistroComponent, data: { titulo: 'PRE-REGISTROS' } },
             { path: 'pre-inscripciones', component: PreInscripcionComponent, data: { titulo: 'PRE-INSCRIPCIONES' } },
             { path: 'inscripciones', component: InscripcionComponent, data: { titulo: 'INSCRIPCIONES' } },

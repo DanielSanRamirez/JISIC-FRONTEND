@@ -5,22 +5,11 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="pre-registros">Pre-registro <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="pre-inscripciones">Pre-inscripción</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="inscripciones">Inscripción</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="productos">Productos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="usuarios">Usuarios</a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02" >
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0" *ngFor="let item of menuService.menu">
+            <li class="nav-item" *ngFor="let menu of item.menu">
+                <a class="nav-link" routerLinkActive="active" [routerLink]="menu.url">{{menu.titulo}}
+                </a>
             </li>
         </ul>
         <div class="nav justify-content-end">
@@ -32,10 +21,12 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <span class="dropdown-item-text">Administrador</span>
-                    <span class="dropdown-item-text">Gabriela Quiguango</span>
+                    <span class="dropdown-item-text">{{usuario.nombres}}</span>
+                    <span class="dropdown-item-text" *ngIf="usuario.perfil === 'USER_ADMIN'">Administrador/a</span>
+                    <span class="dropdown-item-text" *ngIf="usuario.perfil === 'USER_SECRE'">Secretario/a</span>
+                    <span class="dropdown-item-text" *ngIf="usuario.perfil === 'USER_TESO'">Tesorero/a</span>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Cerrar sesión</a>
+                    <a class="dropdown-item cursor" (click)="logout()">Cerrar sesión</a>
                 </div>
             </div>
 

@@ -7,7 +7,10 @@
                 alt="Card image cap">
         </div>
         <div class="card-body">
-            <h2 class="card-title">Bienvenid@ al Sistema de Gestión de las JISIC</h2>
+            <h2 class="card-title">Sistema de Gestión de las JISIC</h2>
+            <p class="card-text" *ngIf="usuario.perfil === 'USER_ADMIN'">El usuario es {{usuario.nombres}} con el perfil Administrador/a</p>
+            <p class="card-text" *ngIf="usuario.perfil === 'USER_SECRE'">El usuario es {{usuario.nombres}} con el perfil Secretario/a</p>
+            <p class="card-text" *ngIf="usuario.perfil === 'USER_TESO'">El usuario es {{usuario.nombres}} con el perfil Tesorero/a</p>
         </div>
     </div>
 </div>
