@@ -34,6 +34,10 @@ export class UsuarioService {
         return localStorage.getItem('token') || '';
     }
 
+    get perfil(): 'USER_ADMIN' | 'USER_SECRE' | 'USER_TESO' {
+        return this.usuario.perfil;
+      }
+
     guardarLocalStorage(token: string, menu: any) {
         localStorage.setItem('token', token);
         localStorage.setItem('menu', JSON.stringify(menu));

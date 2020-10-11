@@ -17,6 +17,11 @@ import { InscripcionComponent } from './inscripcion/inscripcion.component';
 import { ProductosComponent } from './productos/productos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 
+// Importación de Guards
+import { AdminGuard } from '../guards/admin.guard';
+import { SecretariaGuard } from '../guards/secretaria.guard';
+import { TesoreraGuard } from '../guards/tesorera.guard';
+
 
 const routes: Routes = [
     {
@@ -40,11 +45,17 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: '', component: MensajeBienvenidaComponent, data: { titulo: 'BIENVENID@' } },
-            { path: 'pre-registros', component: PreRegistroComponent, data: { titulo: 'PRE-REGISTROS' } },
-            { path: 'pre-inscripciones', component: PreInscripcionComponent, data: { titulo: 'PRE-INSCRIPCIONES' } },
-            { path: 'inscripciones', component: InscripcionComponent, data: { titulo: 'INSCRIPCIONES' } },
-            { path: 'productos', component: ProductosComponent, data: { titulo: 'PRODUCTOS' } },
-            { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'USUARIOS' } }
+
+            // Rutas de Secretario/a
+            { path: 'pre-inscripciones', canActivate: [SecretariaGuard], component: PreInscripcionComponent, data: { titulo: 'PRE-INSCRIPCIONES' } },
+
+            // Rutas de Tesorero/a
+            { path: 'inscripciones', canActivate: [TesoreraGuard], component: InscripcionComponent, data: { titulo: 'INSCRIPCIONES' } },
+
+            // Rutas del Administrador/a
+            { path: 'pre-registros', canActivate: [AdminGuard], component: PreRegistroComponent, data: { titulo: 'PRE-REGISTROS' } },
+            { path: 'productos', canActivate: [AdminGuard], component: ProductosComponent, data: { titulo: 'PRODUCTOS' } },
+            { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'USUARIOS' } }
         ]
     },
 ];
