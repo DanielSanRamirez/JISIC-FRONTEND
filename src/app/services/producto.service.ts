@@ -10,6 +10,9 @@ import { GLOBAL } from '../services/global'
 // Importación del modelo
 import { Producto } from '../models/producto.model';
 
+// Importación de interface
+import { CargarProducto } from '../interfaces/cargar-productos.interface';
+
 // Definir varible global
 const base_url = GLOBAL.base_url;
 
@@ -29,6 +32,24 @@ export class ProductoService {
     return this._http.get(url).pipe(
       map( (resp: {ok: boolean, productos: Producto[]}) => resp.productos)
     );
+  }
+
+  cargarProductosPaginado(desde: number = 0) {
+
+    const url = `${base_url}/productos/pag?desde=${desde}`;
+
+    return this._http.get<CargarProducto>(url)
+      .pipe(
+        map(resp => {
+          const productos = resp.productos.map(
+            producto => new Producto(producto.nombre, producto.name, producto.costo, producto._id)
+          );
+          return {
+            total: resp.total,
+            productos
+          }
+        })
+      )
   }
 
 }

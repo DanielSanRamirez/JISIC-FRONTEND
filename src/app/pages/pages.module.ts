@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 /* Importación de angular material */
 import {MatStepperModule} from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import {MatIconModule} from '@angular/material/icon'
 
 // Importación de componentes
 import { DatosInscripcionComponent } from './datos-inscripcion/datos-inscripcion.component';
@@ -58,6 +60,8 @@ export function createTranslateLoader(http: HttpClient) {
     CommonModule,
     FormsModule,
     MatStepperModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,

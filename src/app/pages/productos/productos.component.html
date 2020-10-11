@@ -1,32 +1,73 @@
-<div class="table-responsive">
+<div class="row text-center" *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Cargando</h4>
+            <mat-spinner style="margin:0 auto;"> </mat-spinner>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-end" *ngIf="!cargando">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" >
+        <mat-icon>create_new_folder</mat-icon>
+        Crear nuevo
+    </button>
+</div>
+
+<br>
+
+<div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Name</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr *ngFor="let producto of productos; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{producto.nombre}}</td>
+                <td>{{producto.name}}</td>
+                <td>${{producto.costo}}</td>
+                <td class="text-nowrap text-center">
+                    
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
