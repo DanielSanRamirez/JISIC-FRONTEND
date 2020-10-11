@@ -24,11 +24,11 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.cargarUsuarios();
+    this.cargarProductos();
 
   }
 
-  cargarUsuarios() {
+  cargarProductos() {
     this.cargando = true;
     this._productoService.cargarProductosPaginado(this.desde).subscribe(
       ({ total, productos }) => {

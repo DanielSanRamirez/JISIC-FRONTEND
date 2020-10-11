@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+// Importar Interface
+import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
+
 // Importación de interfaz
 import { LoginForm } from '../interfaces/login-form.interface';
 
@@ -36,7 +39,25 @@ export class UsuarioService {
 
     get perfil(): 'USER_ADMIN' | 'USER_SECRE' | 'USER_TESO' {
         return this.usuario.perfil;
-      }
+    }
+
+    cargarUsuariosPaginado(desde: number = 0) {
+
+        const url = `${base_url}/usuarios/pag?desde=${desde}`;
+
+        return this._http.get<CargarUsuario>(url)
+            .pipe(
+                map(resp => {
+                    const usuarios = resp.usuarios.map(
+                        usuario => new Usuario(usuario.nombre, usuario.perfil, usuario.nombres, usuario.estado, '', usuario._id)
+                    );
+                    return {
+                        total: resp.total,
+                        usuarios
+                    }
+                })
+            )
+    }
 
     guardarLocalStorage(token: string, menu: any) {
         localStorage.setItem('token', token);
@@ -56,7 +77,7 @@ export class UsuarioService {
                 const { nombre, perfil, _id, nombres } = resp.usuario;
 
                 this.usuario = new Usuario(
-                    nombre, perfil, nombres, '', _id
+                    nombre, perfil, nombres, true, '', _id
                 );
                 this.guardarLocalStorage(resp.token, resp.menu);
 
@@ -82,6 +103,6 @@ export class UsuarioService {
         localStorage.removeItem('token');
         localStorage.removeItem('menu');
         this._router.navigateByUrl('/login-admin');
-        
+
     }
 }

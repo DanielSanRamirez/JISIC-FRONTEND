@@ -1,4 +1,4 @@
-<div class="row animated fedeIn fast text-center">
+<div class="row text-center" *ngIf="cargando">
     <div class="col-12">
         <div class="alert alert-info">
             <h4 class="alert-heading">Cargando</h4>
@@ -8,35 +8,73 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="row justify-content-end" *ngIf="!cargando">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+        <mat-icon>create_new_folder</mat-icon>
+        Crear nuevo
+    </button>
+</div>
+
+<br>
+
+<div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr *ngFor="let usuario of usuarios; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{usuario.nombres}}</td>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.perfil}}</td>
+                <td>
+                    <select class="form-control" [(ngModel)]="usuario.estado">
+                        <option value="true">Activo</option>
+                        <option value="false">Deshabilitado</option>
+                    </select>
+                </td>
+                <td class="text-nowrap text-center">
+
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
 </div>
