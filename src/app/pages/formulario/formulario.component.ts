@@ -34,6 +34,7 @@ import { Router } from '@angular/router';
 export class FormularioComponent implements OnInit, AfterViewInit {
 
   public participanteForm: FormGroup;
+  public identificacionForm: FormGroup;
   public inscripcionForm = [];
   public selectedLanguages = 'formulario-es';
   public step = [];
@@ -68,7 +69,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.stepper.selectedIndex = 1;
+      this.stepper.selectedIndex = 0;
     })
   }
 
@@ -86,13 +87,19 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     );
 
     this.participanteForm = this._fb.group({
-      nombres: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      apellidos: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      direccion: ['', Validators.required],
-      codTelefono: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['', [Validators.required, Validators.email]],
-      pais: ['', Validators.required]
+      nombres: ['j', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidos: ['j', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccion: ['j', Validators.required],
+      codTelefono: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
+      telefono: ['43', [Validators.required, Validators.pattern('[0-9]*')]],
+      email: ['d@d', [Validators.required, Validators.email]],
+      pais: ['5ec46b09c0bb9535c0ebdb87', Validators.required],    
+    });
+
+    this.identificacionForm = this._fb.group({
+      tipoIdentificacion: ['', Validators.required],
+      identificacion: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      pasaporte: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
     })
     
   }
@@ -108,6 +115,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   datosParticipante() {
 
     this.infoParticipante = this.participanteForm.value;
+    console.log(this.infoParticipante);
     const { nombres, apellidos } = this.participanteForm.value;
     this._participanteService.crearParticipante(this.infoParticipante).subscribe(
       (resp: any) => {
@@ -155,7 +163,12 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   }
 
   campoNoValido(campo) {
-    const valor = this._campoValidoService.campoNoValido(campo, this.participanteForm);
+    let valor = this._campoValidoService.campoNoValido(campo, this.participanteForm);
+    return valor;
+  }
+
+  campoNoValidoTipoIdentificacion(campo) {
+    let valor = this._campoValidoService.campoNoValido(campo, this.identificacionForm);
     return valor;
   }
 

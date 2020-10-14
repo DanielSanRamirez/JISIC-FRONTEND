@@ -15,6 +15,24 @@
             </option>
         </select>
     </div>
+    <br>
+    <div class="alert alert-info" role="alert">
+        <h2>{{'HOME.TITULOINFO' | translate}}</h2>
+        <ul>
+            <li>
+                {{'HOME.REGLA1' | translate}}
+            </li>
+            <li>
+                {{'HOME.REGLA2' | translate}}
+            </li>
+            <li>
+                {{'HOME.REGLA3' | translate}}
+            </li>
+            <li>
+                {{'HOME.REGLA4' | translate}}
+            </li>
+        </ul>
+    </div>
 
     <form [formGroup]="participanteForm" (submit)="datosParticipante()">
         <mat-vertical-stepper linear #stepper>
@@ -56,7 +74,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
+                            <select class="custom-select mr-sm-2"
                                 formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
@@ -74,7 +92,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
+                            <select class="custom-select mr-sm-2"
                                 formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
@@ -97,7 +115,7 @@
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.EMAIL' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Email" formControlName="email">
+                        <input type="text" class="form-control" placeholder="example@email.com" formControlName="email">
                         <div class="col text-danger"
                             *ngIf="participanteForm.get('email').invalid && (participanteForm.get('email').dirty || participanteForm.get('email').touched)">
                             <p *ngIf="campoNoValido('email')">{{'HOME.EMAILMSG' | translate}}</p>
@@ -132,10 +150,53 @@
                         </div>
                     </div>
                 </div>
+                <form [formGroup]="identificacionForm">
+                    <div class="row">
+                        <div class="col-6">
+                            <label>{{'HOME.IDTYPE' | translate}}</label>
+                            <select class="custom-select mr-sm-2 tipoIdt"
+                                formControlName="tipoIdentificacion">
+                                <option selected value="">Choose...</option>
+                                <option value="1">{{'HOME.IDCARD' | translate}}</option>
+                                <option value="2">{{'HOME.PASSPORT' | translate}}</option>
+                            </select>
+                        </div>
+                        <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '1'">
+                            <label>{{'HOME.IDENTIFICATION' | translate}}</label>
+                            <input type="text" class="form-control" placeholder="Identification"
+                                formControlName="identificacion" maxlength="10" minlength="10">
+                        </div>
+                        <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '2'">
+                            <label>{{'HOME.IDENTIFICATION' | translate}}</label>
+                            <input type="text" class="form-control" placeholder="Identification"
+                                formControlName="pasaporte">
+                        </div>
+                    </div>
+
+                    <div class="col text-danger"
+                        *ngIf="identificacionForm.get('tipoIdentificacion').invalid && (identificacionForm.get('tipoIdentificacion').dirty || identificacionForm.get('tipoIdentificacion').touched)">
+                        <p *ngIf="campoNoValidoTipoIdentificacion('tipoIdentificacion')">{{'HOME.IDTYPEMSG' | translate}}</p>
+                    </div>
+                    <div class="col text-danger"
+                        *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
+                        <p *ngIf="campoNoValidoTipoIdentificacion('identificacion')">{{'HOME.IDENTIFICATIONMSG' | translate}}</p>
+                    </div>
+                    <div class="col text-danger"
+                        *ngIf="identificacionForm.value.tipoIdentificacion === '2' && identificacionForm.get('pasaporte').invalid && (identificacionForm.get('pasaporte').dirty || identificacionForm.get('pasaporte').touched)">
+                        <p *ngIf="campoNoValidoTipoIdentificacion('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}</p>
+                    </div>
+                </form>
+
+
+                <br>
 
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button matStepperNext
-                        [disabled]="participanteForm.invalid">{{'HOME.NEXT' | translate}}</button>
+                        *ngIf="identificacionForm.value.tipoIdentificacion === '1'"
+                        [disabled]="participanteForm.invalid || identificacionForm.get('identificacion').invalid">{{'HOME.NEXT' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button matStepperNext
+                        *ngIf="identificacionForm.value.tipoIdentificacion === '2'"
+                        [disabled]="participanteForm.invalid || identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
                 </div>
 
 
