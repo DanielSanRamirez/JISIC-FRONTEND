@@ -91,18 +91,18 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     );
 
     this.participanteForm = this._fb.group({
-      nombres: ['j', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      apellidos: ['j', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      direccion: ['j', Validators.required],
-      codTelefono: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
-      telefono: ['43', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['d@d.com', [Validators.required, Validators.email]],
-      pais: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
+      nombres: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidos: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccion: ['', Validators.required],
+      codTelefono: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      email: ['', [Validators.required, Validators.email]],
+      pais: ['', Validators.required],
     });
 
     this.identificacionForm = this._fb.group({
-      tipoIdentificacion: ['1', Validators.required],
-      identificacion: ['1714108568', [Validators.pattern('[0-9]*')]],
+      tipoIdentificacion: ['', Validators.required],
+      identificacion: ['', [Validators.pattern('[0-9]*')]],
       pasaporte: ['', [Validators.pattern('[a-zA-Z0-9]*')]],
     });
 
