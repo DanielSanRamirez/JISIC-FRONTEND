@@ -25,6 +25,9 @@ import { FileUploadService } from 'src/app/services/file-upload.service';
 // Importación para rutas
 import { Router } from '@angular/router';
 
+// Importar directiva de validación
+import { cedulaIdentidad } from 'src/app/validaciones/cedula-identidad.directive';
+
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
@@ -59,7 +62,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     private _participanteService: ParticipanteService,
     private _inscripcionService: InscripcionService,
     private _fileUploadService: FileUploadService,
-    private _router: Router
+    private _router: Router,
 
   ) {
     this._translateService.setDefaultLang(this.selectedLanguages);
@@ -102,8 +105,8 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
     this.identificacionForm = this._fb.group({
       tipoIdentificacion: ['', Validators.required],
-      identificacion: ['', [Validators.pattern('[0-9]*')]],
-      pasaporte: ['', [Validators.pattern('[a-zA-Z0-9]*')]],
+      identificacion: ['', [Validators.pattern('[0-9]*'), cedulaIdentidad()]],
+      pasaporte: ['', [Validators.pattern('[a-zA-Z0-9À-ÿ\u00f1\u00d1]*')]],
     });
 
   }

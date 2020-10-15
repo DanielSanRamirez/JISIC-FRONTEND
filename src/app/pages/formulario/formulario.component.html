@@ -160,9 +160,10 @@
                             </select>
                         </div>
                         <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '1'">
-                            <label>{{'HOME.IDENTIFICATION' | translate}}</label>
+                            <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
                             <input type="text" class="form-control" placeholder="Identification"
                                 formControlName="identificacion" maxlength="10" minlength="10" required>
+
                         </div>
                         <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '2'">
                             <label>{{'HOME.IDENTIFICATION' | translate}}</label>
@@ -178,13 +179,18 @@
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
-                        <p *ngIf="campoNoValidoTipoIdentificacion('identificacion')">
+                        <p *ngIf="identificacionForm.controls.identificacion.errors.pattern || identificacionForm.controls.identificacion.errors.required || identificacionForm.controls.identificacion.errors.minlength">
                             {{'HOME.IDENTIFICATIONMSG' | translate}}</p>
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '2' && identificacionForm.get('pasaporte').invalid && (identificacionForm.get('pasaporte').dirty || identificacionForm.get('pasaporte').touched)">
                         <p *ngIf="campoNoValidoTipoIdentificacion('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}
                         </p>
+                    </div>
+                    <div class="col text-danger"
+                        *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
+                        <p *ngIf="identificacionForm.controls.identificacion.errors.cedulaIdentidad">Error en la cédula
+                            de identidad</p>
                     </div>
                 </form>
 

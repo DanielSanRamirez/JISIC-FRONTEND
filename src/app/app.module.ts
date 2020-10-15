@@ -11,12 +11,14 @@ import { PagesModule } from './pages/pages.module';
 /* Importación de angular material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoPageFoundComponent } from './no-page-found/no-page-found.component';
+import { CedulaIdentidadDirective } from './validaciones/cedula-identidad.directive';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NoPageFoundComponent,
+    CedulaIdentidadDirective,
   ],
   imports: [
     BrowserModule,
