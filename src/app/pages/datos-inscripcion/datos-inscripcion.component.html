@@ -13,57 +13,43 @@
                 <h1>$ {{costo}}</h1>
             </div>
 
-            <div class="row">
-                <div class="col-6">
-                    <label>{{'HOME.IDTYPE' | translate}}</label>
-                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect"
-                        formControlName="tipoIdentificacion">
-                        <option selected value="">Choose...</option>
-                        <option value="1">{{'HOME.IDCARD' | translate}}</option>
-                        <option value="2">{{'HOME.PASSPORT' | translate}}</option>
-                    </select>
-                </div>
-                <div class="col-6" *ngIf="participanteForm.controls.tipoIdentificacion.value === '1'">
-                    <label>{{'HOME.IDENTIFICATION' | translate}}</label>
-                    <input type="text" class="form-control" placeholder="Identification"
-                        formControlName="identificacion" maxlength="10" minlength="10">
-                </div>
-                <div class="col-6" *ngIf="participanteForm.controls.tipoIdentificacion.value === '2'">
-                    <label>{{'HOME.IDENTIFICATION' | translate}}</label>
-                    <input type="text" class="form-control" placeholder="Identification" formControlName="pasaporte">
-                </div>
+            <div
+                *ngIf="perfil !== 'Profesionales y Profesores Externos' && perfil !== 'Estudiante EPN Postgrado' && perfil !== 'Estudiante EPN'">
+                <label for="inputEmail4">{{'HOME.COLLEGE' | translate}} *</label>
+                <input type="text" class="form-control" placeholder="Institution" formControlName="institucion" required>
             </div>
-            <div class="col text-danger"
-                *ngIf="participanteForm.get('tipoIdentificacion').invalid && (participanteForm.get('tipoIdentificacion').dirty || participanteForm.get('tipoIdentificacion').touched)">
-                <p *ngIf="campoNoValido('tipoIdentificacion')">{{'HOME.IDTYPEMSG' | translate}}</p>
+
+            <div *ngIf="perfil === 'Profesionales y Profesores Externos'">
+                <label for="inputEmail4">{{'HOME.COLLEGE' | translate}}</label>
+                <input type="text" class="form-control" placeholder="Institution" formControlName="institucion">
             </div>
-            <div class="col text-danger"
-                *ngIf="participanteForm.value.tipoIdentificacion === '1' && participanteForm.get('identificacion').invalid && (participanteForm.get('identificacion').dirty || participanteForm.get('identificacion').touched)">
-                <p *ngIf="campoNoValido('identificacion')">{{'HOME.IDENTIFICATIONMSG' | translate}}</p>
-            </div>
-            <div class="col text-danger"
-                *ngIf="participanteForm.value.tipoIdentificacion === '2' && participanteForm.get('pasaporte').invalid && (participanteForm.get('pasaporte').dirty || participanteForm.get('pasaporte').touched)">
-                <p *ngIf="campoNoValido('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}</p>
+
+            <div *ngIf="perfil === 'Estudiante EPN Postgrado' || perfil === 'Estudiante EPN'">
+                <label for="inputEmail4">{{'HOME.COLLEGE' | translate}}</label>
+                <input type="text" class="form-control" placeholder="Institution" disabled
+                    value="Escuela Politécnica Nacional">
             </div>
 
             <div class="row row-formulario" *ngIf="perfil !== 'Profesionales y Profesores Externos'">
                 <div class="form-group">
-                    <label for="exampleFormControlFile1">Suba el horario de clases de la EPN</label>
+                    <label *ngIf="perfil === 'Estudiante EPN' || perfil === 'Estudiante EPN Postgrado'"
+                        for="exampleFormControlFile1">{{'HOME.FILEMSGEPN' | translate}}</label>
+                    <label *ngIf="perfil === 'Estudiante Externo (otras universidades)'"
+                        for="exampleFormControlFile1">{{'HOME.FILEMSGEXT' | translate}}</label>
+                        <label *ngIf="perfil === 'Autores - Primer Artículo' || perfil === 'Autores - Por cada artículo adicional'"
+                        for="exampleFormControlFile1">{{'HOME.FILEMSGAUT' | translate}}</label>
                     <img src="" alt="">
                     <input type="file" class="form-control-file" id="exampleFormControlFile1"
                         (change)="cambiarImagen($event.target.files[0])">
                     <div class="col text-danger" *ngIf="!imagenValida && mostrarErrorArchivo">
-                        <p>Debe seleccionar un archivo o el archivo seleccionado no tiene formato .jpg o .png</p>
+                        <p>{{'HOME.FILEMSGERR' | translate}}</p>
                     </div>
                 </div>
             </div>
             <br>
             <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '1'"
-                    [disabled]="participanteForm.get('identificacion').invalid || (!imagenValida || !imagenSubir) && perfil !== 'Profesionales y Profesores Externos'"
-                    (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
-                    <button type="button" class="btn btn-info" *ngIf="participanteForm.value.tipoIdentificacion === '2'"
-                    [disabled]="participanteForm.get('pasaporte').invalid || (!imagenValida || !imagenSubir) && perfil !== 'Profesionales y Profesores Externos'"
+                <button type="button" class="btn btn-info"
+                    [disabled]="participanteForm.invalid || (!imagenValida || !imagenSubir) && perfil !== 'Profesionales y Profesores Externos'"
                     (click)="agregarCarrito(_id)">{{'HOME.ADD' | translate}}</button>
             </div>
         </div>

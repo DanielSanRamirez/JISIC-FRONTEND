@@ -33,9 +33,7 @@ export class DatosInscripcionComponent implements OnInit {
 
   ngOnInit(): void {
     this.participanteForm = this._fb.group({
-      tipoIdentificacion: ['', Validators.required],
-      identificacion: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      pasaporte: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
+      institucion: [''],
     });
   }
 
@@ -54,7 +52,7 @@ export class DatosInscripcionComponent implements OnInit {
 
   cambiarImagen(file: File) {
     this.imagenSubir = file;
-    
+
     if (!this.imagenSubir) {
       this.imagenValida = false;
       this.mostrarErrorArchivo = true;

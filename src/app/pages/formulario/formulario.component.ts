@@ -44,6 +44,9 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   public costoTotal: number = 0;
   public arregloItemProducto = [];
   public arregloProductoCopia = [];
+  public tituloMensaje;
+  public textoMensaje1;
+  public textoMensaje2;
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -70,7 +73,8 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.stepper.selectedIndex = 0;
-    })
+    });
+
   }
 
   ngOnInit(): void {
@@ -92,16 +96,16 @@ export class FormularioComponent implements OnInit, AfterViewInit {
       direccion: ['j', Validators.required],
       codTelefono: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
       telefono: ['43', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['d@d', [Validators.required, Validators.email]],
-      pais: ['5ec46b09c0bb9535c0ebdb87', Validators.required],    
+      email: ['d@d.com', [Validators.required, Validators.email]],
+      pais: ['5ec46b09c0bb9535c0ebdb87', Validators.required],
     });
 
     this.identificacionForm = this._fb.group({
-      tipoIdentificacion: ['', Validators.required],
-      identificacion: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      pasaporte: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]],
-    })
-    
+      tipoIdentificacion: ['1', Validators.required],
+      identificacion: ['1714108568', [Validators.pattern('[0-9]*')]],
+      pasaporte: ['', [Validators.pattern('[a-zA-Z0-9]*')]],
+    });
+
   }
 
   selectLanguage(lang: string) {
@@ -109,13 +113,28 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     this._translateService.use(lang);
     this._translateService.get('HOME.STEP').subscribe(
       res => this.step = res
-    )
+    );
+    this._translateService.get('HOME.TITLEMSGCORRECT').subscribe(
+      res => this.tituloMensaje = res
+    );
+    this._translateService.get('HOME.TEXTMSGCORRECT1').subscribe(
+      res => this.textoMensaje1 = res
+    );
+    this._translateService.get('HOME.TEXTMSGCORRECT2').subscribe(
+      res => this.textoMensaje2 = res
+    );
   }
 
   datosParticipante() {
 
     this.infoParticipante = this.participanteForm.value;
-    console.log(this.infoParticipante);
+    this.infoParticipante.tipoIdentificacion = this.identificacionForm.get('tipoIdentificacion').value;
+    if (this.identificacionForm.get('tipoIdentificacion').value === '1') {
+      this.infoParticipante.identificacion = this.identificacionForm.get('identificacion').value;
+    } else {
+      this.infoParticipante.identificacion = this.identificacionForm.get('pasaporte').value;
+    }
+
     const { nombres, apellidos } = this.participanteForm.value;
     this._participanteService.crearParticipante(this.infoParticipante).subscribe(
       (resp: any) => {
@@ -124,17 +143,12 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
         this.arregloItemProducto.forEach((productos, index) => {
           let producto = productos.idProducto;
-          let tipoIdentificacion = productos.participanteForm.tipoIdentificacion.value;
-          let identificacion;
+
+          let institucion = productos.participanteForm.institucion.value;
 
           let file = productos.file;
 
-          if (tipoIdentificacion === '1') {
-            identificacion = productos.participanteForm.identificacion.value;
-          } else {
-            identificacion = productos.participanteForm.pasaporte.value;
-          }
-          let inscripcion = new Inscripcion(tipoIdentificacion, identificacion, participante, producto, this.costoTotal);
+          let inscripcion = new Inscripcion(participante, producto, this.costoTotal, institucion);
           this._inscripcionService.crearInscripcion(inscripcion).subscribe(
             (resp: any) => {
 
@@ -142,8 +156,9 @@ export class FormularioComponent implements OnInit, AfterViewInit {
               if (file !== undefined) {
                 this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
               } else {
-                Swal.fire('Creado',
-                  `La pre-inscripción del participante ${nombres} ${apellidos} ha sido creado correctamente`,
+
+                Swal.fire(this.tituloMensaje,
+                  `${this.textoMensaje1} ${nombres} ${apellidos} ${this.textoMensaje2}`,
                   'success').then((result) => {
                     if (result.isConfirmed) {
                       this._router.navigateByUrl('/success');
@@ -173,6 +188,10 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   }
 
   obtenerDatosCompra(arrayProductos) {
+
+    if (arrayProductos.nombre === 'Estudiante EPN Postgrado' || arrayProductos.nombre === 'Estudiante EPN') {
+      arrayProductos.participanteForm.institucion.value = 'Escuela Politécnica Nacional'
+    }
 
     this.costoTotal += arrayProductos.costo;
     const idProducto = arrayProductos.idProducto;

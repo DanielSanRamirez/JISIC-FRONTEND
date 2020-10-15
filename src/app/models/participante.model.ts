@@ -11,6 +11,8 @@ export class Participante {
         public telefono: string,
         public email: string,
         public pais: Pais,
+        public tipoIdentificacion: string,
+        public identificacion: string,
         public _id?: string,
     ) { }
 }

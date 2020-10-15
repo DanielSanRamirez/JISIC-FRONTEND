@@ -5,11 +5,10 @@ import { Producto } from './producto.model';
 export class Inscripcion {
 
     constructor(
-        public tipoIdentificacion: string,
-        public identificacion: string,
         public participante: Participante,
         public producto: Producto,
         public costoTotal: number,
+        public institucion?: string,
         public img?: string,
         public estado?: boolean,
         public _id?: string,

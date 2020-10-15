@@ -38,7 +38,8 @@
         <mat-vertical-stepper linear #stepper>
 
             <!--Step de Información Personal-->
-            <mat-step [label]="step[0]" [stepControl]="participanteForm">
+            <mat-step [label]="step[0]" [stepControl]="participanteForm" [stepControl]="identificacionForm">
+
 
                 <div class="row row-formulario">
                     <div class="col">
@@ -74,8 +75,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2"
-                                formControlName="codTelefono">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.nombre}}
@@ -92,8 +92,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2"
-                                formControlName="codTelefono">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.name}}
@@ -154,8 +153,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label>{{'HOME.IDTYPE' | translate}}</label>
-                            <select class="custom-select mr-sm-2 tipoIdt"
-                                formControlName="tipoIdentificacion">
+                            <select class="custom-select mr-sm-2 tipoIdt" formControlName="tipoIdentificacion">
                                 <option selected value="">Choose...</option>
                                 <option value="1">{{'HOME.IDCARD' | translate}}</option>
                                 <option value="2">{{'HOME.PASSPORT' | translate}}</option>
@@ -164,26 +162,29 @@
                         <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '1'">
                             <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                             <input type="text" class="form-control" placeholder="Identification"
-                                formControlName="identificacion" maxlength="10" minlength="10">
+                                formControlName="identificacion" maxlength="10" minlength="10" required>
                         </div>
                         <div class="col-6" *ngIf="identificacionForm.controls.tipoIdentificacion.value === '2'">
                             <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                             <input type="text" class="form-control" placeholder="Identification"
-                                formControlName="pasaporte">
+                                formControlName="pasaporte" required>
                         </div>
                     </div>
 
                     <div class="col text-danger"
                         *ngIf="identificacionForm.get('tipoIdentificacion').invalid && (identificacionForm.get('tipoIdentificacion').dirty || identificacionForm.get('tipoIdentificacion').touched)">
-                        <p *ngIf="campoNoValidoTipoIdentificacion('tipoIdentificacion')">{{'HOME.IDTYPEMSG' | translate}}</p>
+                        <p *ngIf="campoNoValidoTipoIdentificacion('tipoIdentificacion')">
+                            {{'HOME.IDTYPEMSG' | translate}}</p>
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
-                        <p *ngIf="campoNoValidoTipoIdentificacion('identificacion')">{{'HOME.IDENTIFICATIONMSG' | translate}}</p>
+                        <p *ngIf="campoNoValidoTipoIdentificacion('identificacion')">
+                            {{'HOME.IDENTIFICATIONMSG' | translate}}</p>
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '2' && identificacionForm.get('pasaporte').invalid && (identificacionForm.get('pasaporte').dirty || identificacionForm.get('pasaporte').touched)">
-                        <p *ngIf="campoNoValidoTipoIdentificacion('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}</p>
+                        <p *ngIf="campoNoValidoTipoIdentificacion('pasaporte')">{{'HOME.PASAPORTEMSG' | translate}}
+                        </p>
                     </div>
                 </form>
 
@@ -193,22 +194,23 @@
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button matStepperNext
                         *ngIf="identificacionForm.value.tipoIdentificacion === '1'"
-                        [disabled]="participanteForm.invalid || identificacionForm.get('identificacion').invalid">{{'HOME.NEXT' | translate}}</button>
+                        [disabled]="participanteForm.invalid"
+                        [disabled]="identificacionForm.get('identificacion').invalid"
+                        [disabled]="!identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
                     <button type="button" class="btn btn-info" mat-button matStepperNext
                         *ngIf="identificacionForm.value.tipoIdentificacion === '2'"
-                        [disabled]="participanteForm.invalid || identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
+                        [disabled]="participanteForm.invalid"
+                        [disabled]="identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
                 </div>
-
-
 
             </mat-step>
 
             <!--Step de Inscripción-->
-            <mat-step [label]="step[1]" [stepControl]="false">
+            <mat-step [label]="step[1]">
 
                 <div class="row">
 
-                    <div class="col-8">
+                    <div class="col-7">
 
                         <div *ngFor="let producto of productos">
                             <app-datos-inscripcion [_id]="producto._id" [perfil]="producto.nombre"
@@ -218,7 +220,7 @@
 
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-5">
                         <h1>{{'HOME.CART' | translate}}</h1>
                         <div *ngIf="arregloItemProducto.length > 0; else elseBlock">
                             <div class="info alert alert-info" *ngFor="let item of arregloItemProducto" role="alert"
@@ -250,13 +252,11 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 <ng-template #elseBlock>
                     <div class="info alert alert-warning" role="alert">
-                        No tiene productos en la cesta
+                        {{'HOME.CARTMSG' | translate}}
                     </div>
                 </ng-template>
 

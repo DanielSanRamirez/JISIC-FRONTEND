@@ -28,7 +28,9 @@ export class ParticipanteService {
         codTelefono: Pais,
         telefono: string,
         email: string,
-        pais: Pais
+        pais: Pais,
+        tipoIdentificacion: string,
+        identificacion: string
     }) {
         const url = `${base_url}/participantes`;
 

@@ -24,8 +24,7 @@ export class InscripcionService {
     ) { }
 
     crearInscripcion(inscripcion: {
-        tipoIdentificacion: string,
-        identificacion: string,
+        institucion?: string,
         participante: Participante,
         producto: Producto,
         costoTotal: number
