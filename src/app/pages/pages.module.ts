@@ -28,6 +28,8 @@ import { PreInscripcionComponent } from './pre-inscripcion/pre-inscripcion.compo
 import { InscripcionComponent } from './inscripcion/inscripcion.component';
 import { ProductosComponent } from './productos/productos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { PorPagarComponent } from './por-pagar/por-pagar.component';
+import { InscritosComponent } from './inscritos/inscritos.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -48,6 +50,8 @@ export function createTranslateLoader(http: HttpClient) {
     InscripcionComponent,
     ProductosComponent,
     UsuariosComponent,
+    PorPagarComponent,
+    InscritosComponent,
   ],
 
   exports: [
