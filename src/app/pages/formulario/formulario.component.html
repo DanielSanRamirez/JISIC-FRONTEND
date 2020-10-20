@@ -38,7 +38,7 @@
         <mat-vertical-stepper linear #stepper>
 
             <!--Step de Información Personal-->
-            <mat-step [label]="step[0]" [stepControl]="participanteForm" [stepControl]="identificacionForm">
+            <mat-step [label]="step[0]" [stepControl]="participanteForm">
 
 
                 <div class="row row-formulario">
@@ -179,7 +179,8 @@
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
-                        <p *ngIf="identificacionForm.controls.identificacion.errors.pattern || identificacionForm.controls.identificacion.errors.required || identificacionForm.controls.identificacion.errors.minlength">
+                        <p
+                            *ngIf="identificacionForm.controls.identificacion.errors.pattern || identificacionForm.controls.identificacion.errors.required || identificacionForm.controls.identificacion.errors.minlength">
                             {{'HOME.IDENTIFICATIONMSG' | translate}}</p>
                     </div>
                     <div class="col text-danger"
@@ -205,8 +206,7 @@
                         [disabled]="!identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
                     <button type="button" class="btn btn-info" mat-button matStepperNext
                         *ngIf="identificacionForm.value.tipoIdentificacion === '2'"
-                        [disabled]="participanteForm.invalid"
-                        [disabled]="identificacionForm.get('pasaporte').invalid">{{'HOME.NEXT' | translate}}</button>
+                        [disabled]="participanteForm.invalid || identificacionForm.get('pasaporte').invalid || !identificacionForm.get('identificacion').invalid">{{'HOME.NEXT' | translate}}</button>
                 </div>
 
             </mat-step>

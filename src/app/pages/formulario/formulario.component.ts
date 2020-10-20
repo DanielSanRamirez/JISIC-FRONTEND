@@ -39,7 +39,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
   public participanteForm: FormGroup;
   public identificacionForm: FormGroup;
   public inscripcionForm = [];
-  public selectedLanguages = 'formulario-es';
+  public selectedLanguages = 'formulario-en';
   public step = [];
   public paises: Pais[] = [];
   public productos: Producto[] = [];
@@ -65,12 +65,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     private _router: Router,
 
   ) {
-    this._translateService.setDefaultLang(this.selectedLanguages);
-    this._translateService.use(this.selectedLanguages);
-    this._translateService.get('HOME.STEP').subscribe(
-      res => this.step = res
-    )
-
+    this.selectLanguage(this.selectedLanguages);
   }
 
   ngAfterViewInit(): void {
@@ -115,13 +110,16 @@ export class FormularioComponent implements OnInit, AfterViewInit {
     this.selectedLanguages = lang;
     this._translateService.use(lang);
     this._translateService.get('HOME.STEP').subscribe(
-      res => this.step = res
+      res => {this.step = res}
+      
     );
     this._translateService.get('HOME.TITLEMSGCORRECT').subscribe(
-      res => this.tituloMensaje = res
+      res => {this.tituloMensaje = res}
     );
     this._translateService.get('HOME.TEXTMSGCORRECT1').subscribe(
-      res => this.textoMensaje1 = res
+      res => {
+        this.textoMensaje1 = res
+      }
     );
     this._translateService.get('HOME.TEXTMSGCORRECT2').subscribe(
       res => this.textoMensaje2 = res
@@ -159,7 +157,8 @@ export class FormularioComponent implements OnInit, AfterViewInit {
               if (file !== undefined) {
                 this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
               } else {
-
+                console.log(this.tituloMensaje + this.textoMensaje1 + this.textoMensaje2);
+                
                 Swal.fire(this.tituloMensaje,
                   `${this.textoMensaje1} ${nombres} ${apellidos} ${this.textoMensaje2}`,
                   'success').then((result) => {
