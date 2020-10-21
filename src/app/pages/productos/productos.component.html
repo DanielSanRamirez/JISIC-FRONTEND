@@ -9,10 +9,17 @@
 </div>
 
 <div class="row justify-content-end" *ngIf="!cargando">
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" >
-        <mat-icon>create_new_folder</mat-icon>
-        Crear nuevo
-    </button>
+    <div class="col-10 input-group mb-3">
+        <input type="text" class="form-control" placeholder="Buscar por nombre" aria-label="Buscar"
+            aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
+    </div>
+
+    <div class="col-2 justify-content-end">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal">
+            <mat-icon>create_new_folder</mat-icon>
+            Crear nuevo
+        </button>
+    </div>
 </div>
 
 <br>
@@ -35,12 +42,13 @@
                 <td>{{producto.name}}</td>
                 <td>${{producto.costo}}</td>
                 <td class="text-nowrap text-center">
-                    
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#actualizarModal"
+                        (click)="obtenerProducto(producto)">
                         <mat-icon>edit</mat-icon>
                     </button>
 
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-danger" (click)="eliminarProducto(producto)">
                         <mat-icon>delete</mat-icon>
                     </button>
 
@@ -48,26 +56,106 @@
             </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation example" *ngIf="totalProductos > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<!--Create Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="createModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h3 class="modal-title" id="exampleModalLabel">Crear Producto</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form [formGroup]="productoForm" (submit)="guardardatosProducto()">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre" autocomplete="off"
+                            formControlName="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" autocomplete="off"
+                            formControlName="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="costo">Costo</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="number" class="form-control" id="costo" placeholder="Costo" autocomplete="off"
+                                formControlName="costo">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]='productoForm.invalid'>Guardar</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+
+        </div>
+    </div>
+</div>
+
+<!--Actualizar Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="actualizarModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Actualizar Producto</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form [formGroup]="productoForm" (submit)="actualizardatosProducto()">
+                    <div class="form-group">
+                        <label for="nombreA">Nombre</label>
+                        <input type="text" class="form-control" id="nombreA" placeholder="Nombre" autocomplete="off"
+                            formControlName="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameA">Name</label>
+                        <input type="text" class="form-control" id="nameA" placeholder="Name" autocomplete="off"
+                            formControlName="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="costoA">Costo</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="number" class="form-control" id="costoA" placeholder="Costo" autocomplete="off"
+                                formControlName="costo">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]='productoForm.invalid'>Guardar</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

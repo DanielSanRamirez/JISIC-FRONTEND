@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 // Importación de varibles globales
 import { GLOBAL } from '../services/global'
@@ -34,7 +34,7 @@ export class ProductoService {
     );
   }
 
-  cargarProductosPaginado(desde: number = 0) {
+  cargarProductosPaginado(desde: number = 1) {
 
     const url = `${base_url}/productos/pag?desde=${desde}`;
 
@@ -45,11 +45,48 @@ export class ProductoService {
             producto => new Producto(producto.nombre, producto.name, producto.costo, producto._id)
           );
           return {
-            total: resp.total,
+            totalPages: resp.totalPages,
             productos
           }
         })
       )
+  }
+
+  crearProducto(producto: {nombre: string, name: string, costo: number}) {
+    const url = `${base_url}/productos`;
+
+    return this._http.post(url, producto);
+  }
+
+  private transformarProductos(resultados: any[]): Producto[] {
+
+    return resultados;
+  }
+
+  buscar(
+    termino: string
+  ) {
+    const url = `${base_url}/productos/coleccion/nombre/${termino}`;
+
+    return this._http.get<any[]>(url)
+      .pipe(
+        map((resp: any) => {
+          return this.transformarProductos(resp.resultados);
+        })
+      );
+  }
+
+  actualizarProducto(producto: {nombre: string, name: string, costo: number, id: string}) {
+    
+    return this._http.put(`${base_url}/productos/${producto.id}`, producto);
+
+  }
+
+  eliminarProducto(producto: {_id: string}) {
+
+    const url = `${base_url}/productos/${producto._id}`;
+
+    return this._http.delete(url);
   }
 
 }
