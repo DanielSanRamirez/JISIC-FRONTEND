@@ -13,6 +13,6 @@ export class Participante {
         public pais: Pais,
         public tipoIdentificacion: string,
         public identificacion: string,
-        public _id?: string,
+        public uid?: string,
     ) { }
 }

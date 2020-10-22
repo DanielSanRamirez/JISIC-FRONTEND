@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 export class UsuariosComponent implements OnInit {
 
   public cargando: boolean = true;
-  public desde: number = 0;
+  public desde: number = 1;
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
   public usuariosTemp: Usuario[] = [];

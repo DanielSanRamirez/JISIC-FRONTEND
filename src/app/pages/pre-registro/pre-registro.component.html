@@ -1,4 +1,4 @@
-<div class="row animated fedeIn fast text-center">
+<div class="row text-center" *ngIf="cargando">
     <div class="col-12">
         <div class="alert alert-info">
             <h4 class="alert-heading">Cargando</h4>
@@ -8,35 +8,140 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="row" *ngIf="!cargando">
+    <div class="col-10 input-group mb-3">
+        <div class="col-3 tipoBuscar">
+            <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
+                <option value="nombres">Identificación</option>
+                <option value="participante">Participante</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
+            aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
+    </div>
+</div>
+
+<div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Participante</th>
+                <th scope="col">Email</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr *ngFor="let participante of participantes; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{participante.identificacion}}</td>
+                <td>{{participante.apellidos}} {{participante.nombres}}</td>
+                <td>{{participante.email}}</td>
+                <td class="text-nowrap text-center">
+
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#actualizarModal"
+                        (click)="obtenerParticipante(participante)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button type="button" class="btn btn-danger" (click)="eliminarParticipante(participante)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </td>
             </tr>
         </tbody>
     </table>
+    <h3># Página {{desde}}</h3>
+    <nav aria-label="Page navigation example" *ngIf="totalParticipantes > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>
+</div>
+
+<!--Actualizar Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="actualizarModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Actualizar Participante</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="participanteForm" (submit)="actualizardatosParticipante()">
+                    <div class="form-group">
+                        <label for="nombresA">Nombres</label>
+                        <input type="text" class="form-control" id="nombresA" placeholder="Nombres" autocomplete="off"
+                            formControlName="nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidosA">Apellidos</label>
+                        <input type="text" class="form-control" id="apellidosA" placeholder="Apellidos"
+                            autocomplete="off" formControlName="apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="direccionA">Dirección</label>
+                        <input type="text" class="form-control" id="direccionA" placeholder="Dirección"
+                            autocomplete="off" formControlName="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="codTelefonoA">Código Teléfono</label>
+                        <select class="form-control" formControlName="codTelefono">
+                            <option value="">Seleccione...</option>
+                            <option *ngFor="let pais of paises" [value]="pais._id">
+                                {{pais.phone_code}} - {{pais.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefonoA">Telefono</label>
+                        <input type="text" class="form-control" id="telefonoA" placeholder="Teléfono" autocomplete="off"
+                            formControlName="telefono">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailA">Email</label>
+                        <input type="text" class="form-control" id="emailA" placeholder="Correo Electrónico"
+                            autocomplete="off" formControlName="email" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="paisA">País</label>
+                        <select class="form-control" formControlName="pais">
+                            <option value="">Seleccione...</option>
+                            <option *ngFor="let pais of paises" [value]="pais._id">
+                                {{pais.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoIdentificacionA">Tipo de Identificación</label>
+                        <select class="form-control" formControlName="tipoIdentificacion">
+                            <option value="">Seleccione...</option>
+                            <option value="1">Cédula de Identidad</option>
+                            <option value="2">Pasaporte</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="identificacionA">Identificación</label>
+                        <input type="text" class="form-control" id="identificacionA" placeholder="Identificación"
+                            autocomplete="off" formControlName="identificacion">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]='participanteForm.invalid'>Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
