@@ -41,7 +41,7 @@ export class UsuarioService {
         return this.usuario.perfil;
     }
 
-    cargarUsuariosPaginado(desde: number = 0) {
+    cargarUsuariosPaginado(desde: number = 1) {
 
         const url = `${base_url}/usuarios/pag?desde=${desde}`;
 
@@ -52,7 +52,7 @@ export class UsuarioService {
                         usuario => new Usuario(usuario.nombre, usuario.perfil, usuario.nombres, usuario.estado, '', usuario._id)
                     );
                     return {
-                        total: resp.total,
+                        totalPages: resp.totalPages,
                         usuarios
                     }
                 })
@@ -131,9 +131,20 @@ export class UsuarioService {
             );
     }
 
-    actualizarUsuario(usuario: { nombre: string, nombres: string, perfil: string, password: string, id: string, estado?: boolean }) {
+    actualizarUsuario(usuario: { nombre: string, nombres: string, perfil: string, password: string, _id?: string, estado?: boolean, id?: string }) {
 
-        return this._http.put(`${base_url}/usuarios/${usuario.id}`, usuario);
+        if (usuario._id) {
+            return this._http.put(`${base_url}/usuarios/${usuario._id}`, usuario);
+        } else {
+            return this._http.put(`${base_url}/usuarios/${usuario.id}`, usuario);
+        }
 
+    }
+
+    eliminarUsuario(usuario: { _id: string }) {
+
+        const url = `${base_url}/usuarios/${usuario._id}`;
+
+        return this._http.delete(url);
     }
 }

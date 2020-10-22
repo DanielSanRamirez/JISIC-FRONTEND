@@ -126,7 +126,7 @@ export class ProductosComponent implements OnInit {
           .subscribe(
             resp => {
               this.cargarProductos();
-              Swal.fire('producto borrado', `${producto.nombre} fue eliminado correctamente`, 'success')
+              Swal.fire('Producto borrado', `${producto.nombre} fue eliminado correctamente`, 'success')
             }
           );
       }
