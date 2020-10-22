@@ -105,4 +105,35 @@ export class UsuarioService {
         this._router.navigateByUrl('/login-admin');
 
     }
+
+    crearUsuario(usuario: { nombre: string, nombres: string, password: string, perfil: string }) {
+        const url = `${base_url}/usuarios`;
+
+        return this._http.post(url, usuario);
+    }
+
+    private transformarUsuarios(resultados: any[]): Usuario[] {
+
+        return resultados;
+    }
+
+    buscar(
+        tipo: 'nombres' | 'perfil' | 'estado',
+        termino: string
+    ) {
+        const url = `${base_url}/usuarios/coleccion/${tipo}/${termino}`;
+
+        return this._http.get<any[]>(url)
+            .pipe(
+                map((resp: any) => {
+                    return this.transformarUsuarios(resp.resultados);
+                })
+            );
+    }
+
+    actualizarUsuario(usuario: { nombre: string, nombres: string, perfil: string, password: string, id: string, estado?: boolean }) {
+
+        return this._http.put(`${base_url}/usuarios/${usuario.id}`, usuario);
+
+    }
 }

@@ -9,10 +9,37 @@
 </div>
 
 <div class="row justify-content-end" *ngIf="!cargando">
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-        <mat-icon>create_new_folder</mat-icon>
-        Crear nuevo
-    </button>
+    <div class="col-10 input-group mb-3">
+        <div class="col-3 tipoBuscar">
+            <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
+                <option value="nombres">Nombres</option>
+                <option value="perfil">Perfil</option>
+                <option value="estado">Estado</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" placeholder="Buscar por nombres" aria-label="Buscar"
+            aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino *ngIf="dato === 'nombres'">
+
+        <select class="form-control" *ngIf="dato === 'perfil'" (change)="buscar($event.target.value)">
+            <option value="">Seleccione...</option>
+            <option value="USER_ADMIN">ADMINISTRADOR/A</option>
+            <option value="USER_SECRE">SECRETARIO/A</option>
+            <option value="USER_TESO">TESORERO/A</option>
+        </select>
+
+        <select class="form-control" *ngIf="dato === 'estado'" (change)="buscar($event.target.value)">
+            <option value="">Seleccione...</option>
+            <option value="true">Activo</option>
+            <option value="false">Deshabilitado</option>
+        </select>
+    </div>
+
+    <div class="col-2 justify-content-end">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal">
+            <mat-icon>create_new_folder</mat-icon>
+            Crear nuevo
+        </button>
+    </div>
 </div>
 
 <br>
@@ -35,7 +62,13 @@
                 <td>{{usuario.nombres}}</td>
                 <td>{{usuario.nombre}}</td>
                 <td>{{usuario.perfil}}</td>
-                <td>
+                <td *ngIf="usuarioL._id === usuario._id">
+                    <select class="form-control" [(ngModel)]="usuario.estado" disabled>
+                        <option value="true">Activo</option>
+                        <option value="false">Deshabilitado</option>
+                    </select>
+                </td>
+                <td *ngIf="usuarioL._id !== usuario._id">
                     <select class="form-control" [(ngModel)]="usuario.estado">
                         <option value="true">Activo</option>
                         <option value="false">Deshabilitado</option>
@@ -43,7 +76,8 @@
                 </td>
                 <td class="text-nowrap text-center">
 
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#actualizarModal"
+                        (click)="obtenerUsuario(usuario)">
                         <mat-icon>edit</mat-icon>
                     </button>
 
@@ -55,26 +89,113 @@
             </tr>
         </tbody>
     </table>
+
+    <!--<nav aria-label="Page navigation example" *ngIf="totalUsuarios > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>-->
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<!--Create Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="createModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h3 class="modal-title" id="exampleModalLabel">Crear Usuario</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form [formGroup]="usuarioForm" (submit)="guardardatosUsuario()">
+                    <div class="form-group">
+                        <label for="nombre">Usuario</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Usuario" autocomplete="off"
+                            formControlName="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" class="form-control" id="nombres" placeholder="Nombres" autocomplete="off"
+                            formControlName="nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="text" class="form-control" id="password" placeholder="Password" autocomplete="off"
+                            formControlName="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="costo">Perfil</label>
+                        <select class="form-control" formControlName="perfil">
+                            <option value="">Seleccione...</option>
+                            <option value="USER_ADMIN">ADMINISTRADOR/A</option>
+                            <option value="USER_SECRE">SECRETARIO/A</option>
+                            <option value="USER_TESO">TESORERO/A</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]='usuarioForm.invalid'>Guardar</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+
+        </div>
+    </div>
+</div>
+
+<!--Actualizar Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="actualizarModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Actualizar Usuario</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form [formGroup]="usuarioForm" (submit)="actualizardatosUsuario()">
+                    <div class="form-group">
+                        <label for="nombreA">Usuario</label>
+                        <input type="text" class="form-control" id="nombreA" placeholder="Usuario" autocomplete="off"
+                            formControlName="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombresA">Nombres</label>
+                        <input type="text" class="form-control" id="nombresA" placeholder="Nombres" autocomplete="off"
+                            formControlName="nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordA">Password</label>
+                        <input type="text" class="form-control" id="passwordA" placeholder="Password" autocomplete="off"
+                            formControlName="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="costo">Perfil</label>
+                        <select class="form-control" formControlName="perfil">
+                            <option value="">Seleccione...</option>
+                            <option value="USER_ADMIN">ADMINISTRADOR/A</option>
+                            <option value="USER_SECRE">SECRETARIO/A</option>
+                            <option value="USER_TESO">TESORERO/A</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]='usuarioForm.invalid'>Guardar</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

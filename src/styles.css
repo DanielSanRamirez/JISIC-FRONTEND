@@ -43,3 +43,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cursor {
     cursor: pointer;
 }
+
+.tipoBuscar {
+    padding-left: 0%;
+    padding-right: 1%;
+}
