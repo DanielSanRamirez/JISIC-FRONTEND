@@ -174,7 +174,12 @@ export class FormularioComponent implements OnInit, AfterViewInit {
         });
       },
       err => {
-        Swal.fire('Error', err.error.msg, 'error');
+        if (err.error.msg) {
+          Swal.fire('Error', err.error.msg, 'error'); 
+        } else {
+          Swal.fire('Error', 'The email is not correct', 'error');
+        }
+        
       }
     )
   }
