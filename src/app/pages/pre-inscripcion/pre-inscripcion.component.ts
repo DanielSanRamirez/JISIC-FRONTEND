@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { PreInscripcionService } from 'src/app/services/pre-inscripciones.service';
 
@@ -17,6 +17,9 @@ export class PreInscripcionComponent implements OnInit {
   public inscripciones: Inscripcion[] = [];
   public inscripcionesTemp: Inscripcion[] = [];
   public element = [];
+  public dato: 'identificacion' | 'apellidos' | 'nombres' = 'identificacion';
+  public preInscripcionForm: FormGroup;
+  public isChecked = false;
 
   constructor(
     private _preInscripcionService: PreInscripcionService,
@@ -25,18 +28,21 @@ export class PreInscripcionComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarPreInscripcionesParticipantes();
+
+    this.participanteFormGroup();
   }
 
   cargarPreInscripcionesParticipantes() {
     this.cargando = true;
     this._preInscripcionService.cargarPreInscripcionesPaginado(this.desde).subscribe(
       ({ totalPages, inscripciones }) => {
-        
+
         this.totalInscripciones = totalPages;
         for (let index = 0; index < totalPages; index++) {
           this.element[index] = index + 1;
         }
         this.inscripciones = inscripciones;
+        console.log(this.inscripciones);
         this.inscripcionesTemp = inscripciones;
         this.cargando = false;
       }
@@ -58,6 +64,69 @@ export class PreInscripcionComponent implements OnInit {
       this.desde = valor;
     }
     this.cargarPreInscripcionesParticipantes();
+  }
+
+  cambiarBusqueda(value) {
+    this.dato = value.target.value;
+  }
+
+  buscar(termino: string) {
+
+    if (termino.length === 0) {
+      return this.inscripciones = this.inscripcionesTemp;
+    }
+
+    this._preInscripcionService.buscar(this.dato, termino)
+      .subscribe((resultados: Inscripcion[]) => {
+        this.inscripciones = resultados;
+      }
+      );
+  }
+
+  limpiarDatos() {
+    this.participanteFormGroup();
+  }
+
+  participanteFormGroup() {
+    this.preInscripcionForm = this._fb.group({
+      nombreProducto: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      nombres: ['', Validators.required],
+      identificacion: ['', Validators.required],
+      institucion: ['', Validators.required],
+      img: ['', Validators.required],
+    });
+  }
+
+  actualizardatosParticipante() {
+
+    /*this._preRegistroService.actualizarParticipante(this.participanteForm.value)
+      .subscribe(
+        (resp: any) => {
+          Swal.fire('Actualizado', `Participante ${this.participanteForm.value.nombres} ${this.participanteForm.value.apellidos} actualizado correctamente`, 'success');
+          this.cargarParticipanteResgistrados();
+        },
+        err => {
+          Swal.fire('Error', err.error.msg, 'error');
+        }
+      )*/
+
+  }
+
+  obtenerParticipante(inscripcion) {
+    this.preInscripcionForm = this._fb.group({
+      nombreProducto: [inscripcion.producto.nombre, Validators.required],
+      apellidos: [inscripcion.participante.apellidos, Validators.required],
+      nombres: [inscripcion.participante.nombres, Validators.required],
+      identificacion: [inscripcion.participante.identificacion, Validators.required],
+      institucion: [inscripcion.institucion, Validators.required],
+      img: [inscripcion.img, Validators.required],
+      id: [inscripcion._id]
+    });
+  }
+
+  cambioCheck(event) {
+    this.isChecked= event.target.checked;
   }
 
 }

@@ -53,26 +53,26 @@ export class PreInscripcionService {
       )
   }
 
-  /*private transformarParticipantes(resultados: any[]): Participante[] {
+  private transformarPreInscripciones(resultados: any[]): Inscripcion[] {
 
     return resultados;
   }
 
   buscar(
-    tipo: 'identificacion' | 'participante',
+    tipo: 'identificacion' | 'apellidos' | 'nombres',
     termino: string
   ) {
-    const url = `${base_url}/pre-registro/coleccion/${tipo}/${termino}`;
+    const url = `${base_url}/pre-inscripcion/coleccion/${tipo}/${termino}`;
 
     return this._http.get<any[]>(url)
       .pipe(
         map((resp: any) => {
-          return this.transformarParticipantes(resp.resultados);
+          return this.transformarPreInscripciones(resp.resultados);
         })
       );
   }
 
-  actualizarParticipante(participante: { nombres: string, apellidos: string, direccion: string, codTelefono: string, telefono: string, email: string, pais: string, tipoIdentificacion: string, identificacion: string, id: string }) {
+  /*actualizarParticipante(participante: { nombres: string, apellidos: string, direccion: string, codTelefono: string, telefono: string, email: string, pais: string, tipoIdentificacion: string, identificacion: string, id: string }) {
 
     return this._http.put(`${base_url}/pre-registro/${participante.id}`, participante);
 
