@@ -1,6 +1,10 @@
-
 import { Participante } from './participante.model';
 import { Producto } from './producto.model';
+
+/* Importación de variables globales */
+import { GLOBAL } from '../services/global'
+
+const base_url = GLOBAL.base_url;
 
 export class Inscripcion {
 

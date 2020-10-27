@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { GLOBAL } from '../services/global'
 import { Participante } from '../models/participante.model';
 import { Producto } from '../models/producto.model';
+import { Inscripcion } from '../models/inscripcion.model';
 
 // Importación del modelo
 

@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 
 // Importación para rutas
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 const base_url = GLOBAL.base_url;
 
@@ -17,7 +19,8 @@ const base_url = GLOBAL.base_url;
 export class FileUploadService {
 
   constructor(
-    private _router: Router
+    private _router: Router,
+    private _http: HttpClient,
   ) { }
 
   async actualizarArchivo(
@@ -60,6 +63,16 @@ export class FileUploadService {
       console.log(error);
       return false;
     }
+  }
+
+  downloadImagen(
+    tipo: 'participante' | 'factura',
+    archivo: string
+  ) {
+    
+    const url = `${base_url}/uploads/descargar/${tipo}/${archivo}`;
+    console.log(url);
+    return this._http.get(url);
   }
 
 }

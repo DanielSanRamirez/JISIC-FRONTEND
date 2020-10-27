@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Inscripcion } from 'src/app/models/inscripcion.model';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { PreInscripcionService } from 'src/app/services/pre-inscripciones.service';
 
 @Component({
@@ -20,13 +21,17 @@ export class PreInscripcionComponent implements OnInit {
   public dato: 'identificacion' | 'apellidos' | 'nombres' = 'identificacion';
   public preInscripcionForm: FormGroup;
   public isChecked = false;
+  public inscripcion: Inscripcion;
 
   constructor(
     private _preInscripcionService: PreInscripcionService,
     private _fb: FormBuilder,
-  ) { }
+    private _fileUploadService: FileUploadService,
+  ) { 
+  }
 
   ngOnInit(): void {
+
     this.cargarPreInscripcionesParticipantes();
 
     this.participanteFormGroup();
@@ -127,6 +132,11 @@ export class PreInscripcionComponent implements OnInit {
 
   cambioCheck(event) {
     this.isChecked= event.target.checked;
+  }
+
+  downloadImagen(img) {
+    console.log(img);
+    this._fileUploadService.downloadImagen('participante', img);
   }
 
 }

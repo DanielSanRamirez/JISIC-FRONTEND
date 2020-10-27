@@ -78,22 +78,34 @@
                 <form [formGroup]="preInscripcionForm" (submit)="actualizardatosParticipante()">
                     <div class="card-body bg-light">
                         <div class="form-group">
-                            <label for="nombre"><h3><strong>Tipo de Inscripción:</strong></h3>
-                                {{preInscripcionForm.get('nombreProducto').value}}</label>
+                            <label for="nombre">
+                                <h3><strong>Tipo de Inscripción:</strong></h3>
+                                {{preInscripcionForm.get('nombreProducto').value}}
+                            </label>
                         </div>
                         <div class="form-group">
-                            <label for="participante"><h3><strong>Participante:</strong></h3> {{preInscripcionForm.get('apellidos').value}}
-                                {{preInscripcionForm.get('nombres').value}}</label>
+                            <label for="participante">
+                                <h3><strong>Participante:</strong></h3> {{preInscripcionForm.get('apellidos').value}}
+                                {{preInscripcionForm.get('nombres').value}}
+                            </label>
                         </div>
                         <div class="form-group">
-                            <label for="identificacionA"><h3><strong>Identificación:</strong></h3>
-                                {{preInscripcionForm.get('identificacion').value}}</label>
+                            <label for="identificacionA">
+                                <h3><strong>Identificación:</strong></h3>
+                                {{preInscripcionForm.get('identificacion').value}}
+                            </label>
                         </div>
                         <div class="form-group">
-                            <label for="institucionA"><h3><strong>Institución:</strong></h3> {{preInscripcionForm.get('institucion').value}}</label>
+                            <label for="institucionA">
+                                <h3><strong>Institución:</strong></h3> {{preInscripcionForm.get('institucion').value}}
+                            </label>
                         </div>
-                        <button type="submit" class="btn btn-primary"
-                            [disabled]='preInscripcionForm.invalid'>Descargar Imagen</button>
+                        <a [href]="preInscripcionForm.get('img').value | imagen: 'participante'">
+                            <button type="button" class="btn btn-primary">
+                                <mat-icon>cloud_download</mat-icon> Descargar
+                                Imagen
+                            </button>
+                        </a>
                     </div>
                     <div class="form-group">
                         <div class="form-check">

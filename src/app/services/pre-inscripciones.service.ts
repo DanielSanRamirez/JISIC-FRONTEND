@@ -22,6 +22,8 @@ const base_url = GLOBAL.base_url;
 })
 export class PreInscripcionService {
 
+  public inscripcionImg: Inscripcion;
+
   constructor(
     private _http: HttpClient,
     private _router: Router,

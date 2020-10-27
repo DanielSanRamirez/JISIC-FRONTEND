@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import {MatIconModule} from '@angular/material/icon'
+import { PipesModule } from '../pipes/pipes.module';
 
 // Importación de componentes
 import { DatosInscripcionComponent } from './datos-inscripcion/datos-inscripcion.component';
@@ -68,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatIconModule,
     ReactiveFormsModule,
     RouterModule,
+    PipesModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
