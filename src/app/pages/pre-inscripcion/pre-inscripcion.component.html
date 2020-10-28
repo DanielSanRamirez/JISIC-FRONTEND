@@ -118,13 +118,16 @@
                     </div>
                     <div class="form-group" *ngIf="isChecked">
                         <label for="exampleFormControlTextarea1">Motivo de rechazo</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            formControlName="mensaje"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success"
-                            [disabled]='preInscripcionForm.invalid'>Aprobar</button>
-                        <button type="submit" class="btn btn-danger"
-                            [disabled]='preInscripcionForm.invalid'>Rechazar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-success" *ngIf="!isChecked"
+                            [disabled]='preInscripcionForm.invalid' (click)="aprobarPreInscripcion()">Aprobar</button>
+                        <button type="submit" class="btn btn-danger" *ngIf="isChecked"
+                            [disabled]='preInscripcionForm.invalid' (click)="rechazarPreInscripcion()">Rechazar</button>
                     </div>
                 </form>
             </div>

@@ -74,6 +74,10 @@ export class PreInscripcionService {
       );
   }
 
+  rechazarPreInscripcion(mensaje: string, id: string) {
+    return this._http.put(`${base_url}/pre-inscripcion/rechazo/${id}`, {mensaje});
+  }
+
   /*actualizarParticipante(participante: { nombres: string, apellidos: string, direccion: string, codTelefono: string, telefono: string, email: string, pais: string, tipoIdentificacion: string, identificacion: string, id: string }) {
 
     return this._http.put(`${base_url}/pre-registro/${participante.id}`, participante);

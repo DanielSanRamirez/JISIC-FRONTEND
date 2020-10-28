@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { PreInscripcionService } from 'src/app/services/pre-inscripciones.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pre-inscripcion',
@@ -27,7 +28,7 @@ export class PreInscripcionComponent implements OnInit {
     private _preInscripcionService: PreInscripcionService,
     private _fb: FormBuilder,
     private _fileUploadService: FileUploadService,
-  ) { 
+  ) {
   }
 
   ngOnInit(): void {
@@ -47,7 +48,6 @@ export class PreInscripcionComponent implements OnInit {
           this.element[index] = index + 1;
         }
         this.inscripciones = inscripciones;
-        console.log(this.inscripciones);
         this.inscripcionesTemp = inscripciones;
         this.cargando = false;
       }
@@ -126,12 +126,13 @@ export class PreInscripcionComponent implements OnInit {
       identificacion: [inscripcion.participante.identificacion, Validators.required],
       institucion: [inscripcion.institucion, Validators.required],
       img: [inscripcion.img, Validators.required],
+      mensaje: [''],
       id: [inscripcion._id]
     });
   }
 
   cambioCheck(event) {
-    this.isChecked= event.target.checked;
+    this.isChecked = event.target.checked;
   }
 
   downloadImagen(img) {
@@ -139,4 +140,21 @@ export class PreInscripcionComponent implements OnInit {
     this._fileUploadService.downloadImagen('participante', img);
   }
 
+  aprobarPreInscripcion() {
+    console.log(this.preInscripcionForm.value);
+
+  }
+
+  rechazarPreInscripcion() {
+    this._preInscripcionService.rechazarPreInscripcion(this.preInscripcionForm.value.mensaje, this.preInscripcionForm.value.id)
+      .subscribe(
+        (resp: any) => {
+          Swal.fire('Rechazado', `Participante ${this.preInscripcionForm.value.nombres} ${this.preInscripcionForm.value.apellidos} rechazado`, 'success');
+          this.cargarPreInscripcionesParticipantes();
+        },
+        err => {
+          Swal.fire('Error', err.error.msg, 'error');
+        }
+      )
+  }
 }
