@@ -53,5 +53,10 @@
         "TITLEMSGCORRECT": "Correcto",
         "TEXTMSGCORRECT1": "La pre-inscripción del participante",
         "TEXTMSGCORRECT2": "ha sido creado correctamente"
+    },
+    "RECHAZO": {
+        "TITLE": "Actualizar Archivo",
+        "UPLOADBUTTON": "Actualizar",
+        "NAMES": "Participante"
     }
 }

@@ -49,5 +49,10 @@
         "TITLEMSGCORRECT": "Correct",
         "TEXTMSGCORRECT1": "Participant",
         "TEXTMSGCORRECT2": "'s pre-registration has been created successfully"
+    },
+    "RECHAZO": {
+        "TITLE": "Update File",
+        "UPLOADBUTTON": "Upload",
+        "NAMES": "Participant"
     }
 }

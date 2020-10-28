@@ -1,0 +1,79 @@
+<div class="container">
+
+    <div class="row text-center" *ngIf="cargando">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Cargando</h4>
+                <mat-spinner style="margin:0 auto;"> </mat-spinner>
+                <p class="mb-0">Por favor espere</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;" *ngIf="!cargando">
+        <h1>
+            {{'RECHAZO.TITLE' | translate}}
+        </h1>
+    </div>
+    <div class="col-2" *ngIf="!cargando">
+        <select class="custom-select" [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
+            <option value="formulario-es">
+                {{'HOME.SPANISH' | translate}}
+            </option>
+
+            <option value="formulario-en">
+                {{'HOME.ENGLISH' | translate}}
+            </option>
+        </select>
+    </div>
+    <br>
+    <div class="row justify-content-center" *ngIf="!cargando">
+        <div class="card bg-light col-7">
+            <div class="card-header text-center text-white bg-info" *ngIf="selectedLanguages === 'formulario-en'">
+                <h1 class="card-title">{{producto.name}}</h1>
+            </div>
+            <div class="card-header text-center text-white bg-info" *ngIf="selectedLanguages === 'formulario-es'">
+                <h1 class="card-title">{{producto.nombre}}</h1>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-4">
+                            <h2>{{'RECHAZO.NAMES' | translate}} :</h2>
+                        </div>
+                        <div class="col">
+                            <p><strong>{{inscripcion.participante.apellidos}}
+                                    {{inscripcion.participante.nombres}}</strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label
+                                    *ngIf="producto.nombre === 'Estudiante EPN' || producto.nombre === 'Estudiante EPN Postgrado'"
+                                    for="exampleFormControlFile1">{{'HOME.FILEMSGEPN' | translate}}</label>
+                                <label *ngIf="producto.nombre === 'Estudiante Externo (otras universidades)'"
+                                    for="exampleFormControlFile1">{{'HOME.FILEMSGEXT' | translate}}</label>
+                                <label
+                                    *ngIf="producto.nombre === 'Autores - Primer Artículo' || producto.nombre === 'Autores - Por cada artículo adicional'"
+                                    for="exampleFormControlFile1">{{'HOME.FILEMSGAUT' | translate}}</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1"
+                                    (change)="cambiarImagen($event.target.files[0])">
+                                <div class="col text-danger" *ngIf="!imagenValida && mostrarErrorArchivo">
+                                    <p>{{'HOME.FILEMSGERR' | translate}}</p>
+                                </div>
+                                <br>
+                                <div class="row justify-content-end">
+                                    <button type="button" class="btn btn-info"
+                                        [disabled]="(!imagenValida || !imagenSubir) && producto.nombre !== 'Profesionales y Profesores Externos'"
+                                        (click)="actualizarFile()">
+                                        {{'RECHAZO.UPLOADBUTTON' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

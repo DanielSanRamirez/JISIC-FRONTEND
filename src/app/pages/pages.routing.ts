@@ -23,6 +23,7 @@ import { SecretariaGuard } from '../guards/secretaria.guard';
 import { TesoreraGuard } from '../guards/tesorera.guard';
 import { PorPagarComponent } from './por-pagar/por-pagar.component';
 import { InscritosComponent } from './inscritos/inscritos.component';
+import { RechazoPreInscripcionComponent } from './rechazo-pre-inscripcion/rechazo-pre-inscripcion.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,10 @@ const routes: Routes = [
     {
         path: 'email-confirmation/:id',
         component: MensajeEmailConfirmadoComponent
+    },
+    {
+        path: 'rechazo/pre-inscripcion/:id',
+        component: RechazoPreInscripcionComponent
     },
     {
         path: 'admin/dashboard',

@@ -75,4 +75,46 @@ export class FileUploadService {
     return this._http.get(url);
   }
 
+  async actualizarArchivoRechazo(
+    archivo: File,
+    tipo: 'participante' | 'factura',
+    id: string,
+    nombres: string,
+    apellidos: string,
+  ) {
+    try {
+      const url = `${base_url}/uploads/${tipo}/${id}`;
+      const formData = new FormData();
+
+      formData.append('archivo', archivo);
+
+      const resp = await fetch(url, {
+        method: 'PUT',
+        body: formData
+      });
+
+      const data = await resp.json();
+
+      if (data.ok) {
+        Swal.fire('Actualizado',
+        `Participant ${nombres} ${apellidos}'s file has been successfully updated`,
+        'success').then((result) => {
+            if (result.isConfirmed) {
+              this._router.navigateByUrl('/');
+            }
+
+          });
+        
+        return data.nombreArchivo;
+      } else {
+        Swal.fire('Error', data.msg, 'error');
+        return false;
+      }
+
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
 }
