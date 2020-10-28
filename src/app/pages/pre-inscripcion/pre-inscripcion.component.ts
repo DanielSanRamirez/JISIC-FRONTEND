@@ -141,7 +141,16 @@ export class PreInscripcionComponent implements OnInit {
   }
 
   aprobarPreInscripcion() {
-    console.log(this.preInscripcionForm.value);
+    this._preInscripcionService.aprobarPreInscripcion(this.preInscripcionForm.value.id)
+      .subscribe(
+        (resp: any) => {
+          Swal.fire('Aprobado', `Participante ${this.preInscripcionForm.value.nombres} ${this.preInscripcionForm.value.apellidos} aprobado`, 'success');
+          this.cargarPreInscripcionesParticipantes();
+        },
+        err => {
+          Swal.fire('Error', err.error.msg, 'error');
+        }
+      )
 
   }
 

@@ -125,9 +125,9 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             (click)="limpiarDatos()">Cerrar</button>
                         <button type="submit" class="btn btn-success" *ngIf="!isChecked"
-                            [disabled]='preInscripcionForm.invalid' (click)="aprobarPreInscripcion()" data-dismiss="modal">Aprobar</button>
+                            [disabled]='preInscripcionForm.invalid' (click)="aprobarPreInscripcion()">Aprobar</button>
                         <button type="submit" class="btn btn-danger" *ngIf="isChecked"
-                            [disabled]='preInscripcionForm.invalid' (click)="rechazarPreInscripcion()" data-dismiss="modal">Rechazar</button>
+                            [disabled]='preInscripcionForm.invalid' (click)="rechazarPreInscripcion()">Rechazar</button>
                     </div>
                 </form>
             </div>

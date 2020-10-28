@@ -1,0 +1,252 @@
+<div class="col-12">
+    <div style="text-align: center;">
+        <h1>
+            {{'HOME.TITLE' | translate}}
+        </h1>
+    </div>
+    <div class="col-2">
+        <select class="custom-select" [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
+            <option value="formulario-es">
+                {{'HOME.SPANISH' | translate}}
+            </option>
+
+            <option value="formulario-en">
+                {{'HOME.ENGLISH' | translate}}
+            </option>
+        </select>
+    </div>
+
+
+    <form (submit)="datosParticipante()">
+        <mat-vertical-stepper linear #stepper>
+
+            <!--Step de Información Personal-->
+            <mat-step [label]="step[0]" [stepControl]="participanteForm">
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Address">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.nombre}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone" maxlength="20">
+                        </div>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.name}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.EMAIL' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="example@email.com">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.COUNTRY' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.IDTYPE' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.IDENTIFICATION' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Inscripciones</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                </div>
+
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
+                </div>
+
+            </mat-step>
+
+            <!--Step de Inscripción-->
+            <mat-step [label]="step[1]">
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck">
+                            Enviar mensaje de rechazo?
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Nombres:</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.nombre}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone" maxlength="20">
+                        </div>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.name}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col-6">
+                        <label>{{'HOME.IDTYPE' | translate}}</label>
+                        <select class="custom-select mr-sm-2 tipoIdt">
+                            <option selected value="">Choose...</option>
+                            <option value="1">{{'HOME.IDCARD' | translate}}</option>
+                            <option value="2">{{'HOME.PASSPORT' | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Identification"
+                            formControlName="identificacion" maxlength="10" minlength="10" required>
+
+                    </div>
+                    <div class="col-6">
+                        <label>{{'HOME.IDENTIFICATION' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Identification" formControlName="pasaporte"
+                            required>
+                    </div>
+                </div>
+
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
+                </div>
+
+            </mat-step>
+
+            <!--Step de Done-->
+            <mat-step [label]="step[2]">
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
+                        <label class="form-check-label" for="gridCheck">
+                            Transferencia directa Banco Pichincha
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Institución Bancaria</label>
+                        <input type="text" class="form-control" placeholder="First name" value="BANCO PICHINCHA">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">Número de transacción bancaria</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">Fecha Transferencia</label>
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">Copia de Depósito</label>
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperNext>{{'HOME.SEND' | translate}}</button>
+                </div>
+
+            </mat-step>
+
+        </mat-vertical-stepper>
+
+    </form>
+</div>

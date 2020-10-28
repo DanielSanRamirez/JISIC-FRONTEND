@@ -24,6 +24,7 @@ import { TesoreraGuard } from '../guards/tesorera.guard';
 import { PorPagarComponent } from './por-pagar/por-pagar.component';
 import { InscritosComponent } from './inscritos/inscritos.component';
 import { RechazoPreInscripcionComponent } from './rechazo-pre-inscripcion/rechazo-pre-inscripcion.component';
+import { DatosFacturaComponent } from './datos-factura/datos-factura.component';
 
 
 const routes: Routes = [
@@ -45,6 +46,10 @@ const routes: Routes = [
     {
         path: 'rechazo/pre-inscripcion/:id',
         component: RechazoPreInscripcionComponent
+    },
+    {
+        path: 'datos-factura/:id',
+        component: DatosFacturaComponent
     },
     {
         path: 'admin/dashboard',

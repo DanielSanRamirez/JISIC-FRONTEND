@@ -54,5 +54,12 @@
         "TITLE": "Update File",
         "UPLOADBUTTON": "Upload",
         "NAMES": "Participant"
+    },
+    "FACTURA": {
+        "STEP": [
+            "Personal Information",
+            "Sales Check Data",
+            "Payment Data"
+        ]
     }
 }

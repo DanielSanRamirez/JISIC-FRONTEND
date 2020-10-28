@@ -58,5 +58,12 @@
         "TITLE": "Actualizar Archivo",
         "UPLOADBUTTON": "Actualizar",
         "NAMES": "Participante"
+    },
+    "FACTURA": {
+        "STEP": [
+            "Información Personal",
+            "Datos Factura",
+            "Datos Pago"
+        ]
     }
 }
