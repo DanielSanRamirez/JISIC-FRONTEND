@@ -60,6 +60,8 @@
             "Personal Information",
             "Sales Check Data",
             "Payment Data"
-        ]
+        ],
+        "NAMES": "Full Name",
+        "CHECKMESDATA": "Use registered personal information?"
     }
 }

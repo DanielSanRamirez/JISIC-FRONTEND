@@ -64,6 +64,8 @@
             "Información Personal",
             "Datos Factura",
             "Datos Pago"
-        ]
+        ],
+        "NAMES": "Nombres",
+        "CHECKMESDATA": "Usar información personal?"
     }
 }

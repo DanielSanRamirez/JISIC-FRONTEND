@@ -1,10 +1,21 @@
 <div class="col-12">
-    <div style="text-align: center;">
+
+    <div class="row text-center" *ngIf="cargando">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h4 class="alert-heading">Cargando</h4>
+                <mat-spinner style="margin:0 auto;"> </mat-spinner>
+                <p class="mb-0">Por favor espere</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;" *ngIf="!cargando">
         <h1>
             {{'HOME.TITLE' | translate}}
         </h1>
     </div>
-    <div class="col-2">
+    <div class="col-2" *ngIf="!cargando">
         <select class="custom-select" [(ngModel)]="selectedLanguages" (ngModelChange)="selectLanguage($event)">
             <option value="formulario-es">
                 {{'HOME.SPANISH' | translate}}
@@ -17,27 +28,27 @@
     </div>
 
 
-    <form (submit)="datosParticipante()">
-        <mat-vertical-stepper linear #stepper>
 
-            <!--Step de Información Personal-->
-            <mat-step [label]="step[0]" [stepControl]="participanteForm">
+    <mat-vertical-stepper linear #stepper *ngIf="!cargando">
 
+        <!--Step de Información Personal-->
+        <mat-step [label]="step[0]" [stepControl]="participanteForm">
+            <form [formGroup]="participanteForm" (submit)="datosParticipante()">
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <input type="text" class="form-control" placeholder="First name" formControlName="nombres">
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="apellidos">
                     </div>
                 </div>
 
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Address">
+                        <input type="text" class="form-control" placeholder="Address" formControlName="direccion">
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
@@ -45,25 +56,26 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.nombre}}
                                 </option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Phone" maxlength="20">
+                            <input type="text" class="form-control" placeholder="Phone" maxlength="20"
+                                formControlName="telefono">
                         </div>
                         <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefono">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.name}}
                                 </option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Phone">
+                            <input type="text" class="form-control" placeholder="Phone" formControlName="telefono">
                         </div>
                     </div>
                 </div>
@@ -71,12 +83,12 @@
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.EMAIL' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="example@email.com">
+                        <input type="text" class="form-control" placeholder="example@email.com" formControlName="email">
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.COUNTRY' | translate}}</label>
                         <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="pais">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.nombre}}
@@ -84,7 +96,7 @@
                             </select>
                         </div>
                         <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
-                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="pais">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.name}}
@@ -97,18 +109,38 @@
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.IDTYPE' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <select class="custom-select mr-sm-2 tipoIdt" formControlName="tipoIdentificacion">
+                            <option selected value="">Choose...</option>
+                            <option value="1">{{'HOME.IDCARD' | translate}}</option>
+                            <option value="2">{{'HOME.PASSPORT' | translate}}</option>
+                        </select>
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.IDENTIFICATION' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <input type="text" class="form-control" placeholder="Last name"
+                            formControlName="identificacion">
                     </div>
                 </div>
 
-                <div class="row row-formulario">
+                <div class="row" *ngIf="selectedLanguages === 'formulario-es'">
                     <div class="col">
                         <label for="inputEmail4">Inscripciones</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <div class="card bg-light" style="width: 26rem;">
+                            <ul class="list-group list-group-flush bg-light" *ngFor="let inscripcion of inscripciones">
+                                <li class="list-group-item bg-light">{{inscripcion.producto.nombre}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="selectedLanguages !== 'formulario-es'">
+                    <div class="col">
+                        <label for="inputEmail4">Inscripciones</label>
+                        <div class="card bg-light" style="width: 26rem;">
+                            <ul class="list-group list-group-flush bg-light" *ngFor="let inscripcion of inscripciones">
+                                <li class="list-group-item bg-light">{{inscripcion.producto.name}}</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -116,58 +148,68 @@
                     <button type="button" class="btn btn-info" mat-button
                         matStepperNext>{{'HOME.NEXT' | translate}}</button>
                 </div>
+            </form>
+        </mat-step>
 
-            </mat-step>
-
-            <!--Step de Inscripción-->
-            <mat-step [label]="step[1]">
-
+        <!--Step de Inscripción-->
+        <mat-step [label]="step[1]" [stepControl]="participanteDatosFacturaForm1" *ngIf="valorCheckboxs">
+            <form [formGroup]="participanteDatosFacturaForm1" (submit)="datosParticipante()">
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <input class="form-check-input" type="checkbox" id="gridCheck" checked
+                            (change)="cambioCheckBox($event)">
                         <label class="form-check-label" for="gridCheck">
-                            Enviar mensaje de rechazo?
+                            {{'FACTURA.CHECKMESDATA' | translate}}
                         </label>
                     </div>
                 </div>
 
                 <div class="row row-formulario">
-                    <div class="col">
-                        <label for="inputEmail4">Nombres:</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                    <div class="col" *ngIf="participanteDatosFacturaForm1.get('apellidosDF').value !== 0">
+                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name" formControlName="apellidosDF">
+                    </div>
+                    <div class="col" *ngIf="participanteDatosFacturaForm1.get('apellidosDF').value === 0">
+                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name" formControlName="apellidosDF">
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="nombresDF">
                     </div>
                 </div>
 
                 <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Address" formControlName="direccionDF">
+                    </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
                         <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefonoDF">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.nombre}}
                                 </option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Phone" maxlength="20">
+                            <input type="text" class="form-control" placeholder="Phone" maxlength="20"
+                                formControlName="telefonoDF">
                         </div>
                         <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">+</div>
                             </div>
-                            <select class="custom-select mr-sm-2">
+                            <select class="custom-select mr-sm-2" formControlName="codTelefonoDF">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let pais of paises" [value]="pais._id">
                                     {{pais.phone_code}} - {{pais.name}}
                                 </option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Phone">
+                            <input type="text" class="form-control" placeholder="Phone" formControlName="telefonoDF">
                         </div>
                     </div>
                 </div>
@@ -175,7 +217,7 @@
                 <div class="row row-formulario">
                     <div class="col-6">
                         <label>{{'HOME.IDTYPE' | translate}}</label>
-                        <select class="custom-select mr-sm-2 tipoIdt">
+                        <select class="custom-select mr-sm-2 tipoIdt" formControlName="tipoIdentificacionDF">
                             <option selected value="">Choose...</option>
                             <option value="1">{{'HOME.IDCARD' | translate}}</option>
                             <option value="2">{{'HOME.PASSPORT' | translate}}</option>
@@ -184,13 +226,8 @@
                     <div class="col-6">
                         <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
-                            formControlName="identificacion" maxlength="10" minlength="10" required>
+                            formControlName="identificacionDF" maxlength="10" minlength="10" required>
 
-                    </div>
-                    <div class="col-6">
-                        <label>{{'HOME.IDENTIFICATION' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Identification" formControlName="pasaporte"
-                            required>
                     </div>
                 </div>
 
@@ -200,40 +237,88 @@
                     <button type="button" class="btn btn-info" mat-button
                         matStepperNext>{{'HOME.NEXT' | translate}}</button>
                 </div>
+            </form>
+        </mat-step>
 
-            </mat-step>
-
-            <!--Step de Done-->
-            <mat-step [label]="step[2]">
-
+        <mat-step [label]="step[1]" [stepControl]="participanteDatosFacturaForm2" *ngIf="!valorCheckboxs">
+            <form [formGroup]="participanteDatosFacturaForm2" (submit)="datosParticipante()">
                 <div class="form-group">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
+                        <input class="form-check-input" type="checkbox" id="gridCheck"
+                            (change)="cambioCheckBox($event)">
                         <label class="form-check-label" for="gridCheck">
-                            Transferencia directa Banco Pichincha
+                            {{'FACTURA.CHECKMESDATA' | translate}}
                         </label>
                     </div>
                 </div>
 
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">Institución Bancaria</label>
-                        <input type="text" class="form-control" placeholder="First name" value="BANCO PICHINCHA">
+                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="First name" formControlName="apellidosDF">
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">Número de transacción bancaria</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="nombresDF">
                     </div>
                 </div>
 
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">Fecha Transferencia</label>
-                        <input type="text" class="form-control" placeholder="First name">
+                        <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Address" formControlName="direccionDF">
                     </div>
                     <div class="col">
-                        <label for="inputEmail4">Copia de Depósito</label>
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages === 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2" formControlName="codTelefonoDF">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.nombre}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone" maxlength="20"
+                                formControlName="telefonoDF">
+                        </div>
+                        <div class="input-group mb-2" *ngIf="selectedLanguages !== 'formulario-es'">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">+</div>
+                            </div>
+                            <select class="custom-select mr-sm-2" formControlName="codTelefonoDF">
+                                <option value="">Choose...</option>
+                                <option *ngFor="let pais of paises" [value]="pais._id">
+                                    {{pais.phone_code}} - {{pais.name}}
+                                </option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Phone" formControlName="telefonoDF">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-formulario">
+                    <div class="col-6">
+                        <label>{{'HOME.IDTYPE' | translate}}</label>
+                        <select class="custom-select mr-sm-2 tipoIdt" formControlName="tipoIdentificacionDF"
+                            (change)="cambioTipoIdentificacion(participanteDatosFacturaForm2.get('tipoIdentificacionDF').value)">
+                            <option selected value="">Choose...</option>
+                            <option value="1">{{'HOME.IDCARD' | translate}}</option>
+                            <option value="2">{{'HOME.PASSPORT' | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6"
+                        *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '1'">
+                        <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Identification"
+                            formControlName="identificacionDF" maxlength="10" minlength="10">
+                    </div>
+                    <div class="col-6"
+                        *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '2'">
+                        <label>{{'HOME.IDENTIFICATION' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Identification"
+                            formControlName="identificacionDF">
                     </div>
                 </div>
 
@@ -241,12 +326,55 @@
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
                     <button type="button" class="btn btn-info" mat-button
-                        matStepperNext>{{'HOME.SEND' | translate}}</button>
+                        matStepperNext [disabled]="participanteDatosFacturaForm2.invalid">{{'HOME.NEXT' | translate}}</button>
                 </div>
+            </form>
+        </mat-step>
 
-            </mat-step>
+        <!--Step de Done-->
+        <mat-step [label]="step[2]">
 
-        </mat-vertical-stepper>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
+                    <label class="form-check-label" for="gridCheck">
+                        Transferencia directa Banco Pichincha
+                    </label>
+                </div>
+            </div>
 
-    </form>
+            <div class="row row-formulario">
+                <div class="col">
+                    <label for="inputEmail4">Institución Bancaria</label>
+                    <input type="text" class="form-control" placeholder="First name" value="BANCO PICHINCHA">
+                </div>
+                <div class="col">
+                    <label for="inputEmail4">Número de transacción bancaria</label>
+                    <input type="text" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="row row-formulario">
+                <div class="col">
+                    <label for="inputEmail4">Fecha Transferencia</label>
+                    <input type="text" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                    <label for="inputEmail4">Copia de Depósito</label>
+                    <input type="text" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+
+            <div class="row justify-content-end">
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                <button type="button" class="btn btn-info" mat-button
+                    matStepperNext>{{'HOME.SEND' | translate}}</button>
+            </div>
+
+        </mat-step>
+
+    </mat-vertical-stepper>
+
+
 </div>

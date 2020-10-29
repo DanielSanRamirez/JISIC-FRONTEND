@@ -7,6 +7,8 @@ import { GLOBAL } from '../services/global'
 
 // Importación del modelo
 import { Pais } from '../models/pais.model';
+import { map } from 'rxjs/operators';
+import { CargarParticipanteSolo } from '../interfaces/cargar-participante.interface';
 
 // Definir varible global
 const base_url = GLOBAL.base_url;
@@ -39,11 +41,25 @@ export class ParticipanteService {
 
     actualizarEstadoParticipante(_id: string) {
 
-        const url = `${base_url}/participantes/estado/${ _id }`;
+        const url = `${base_url}/participantes/estado/${_id}`;
         const estado = true;
-    
-        return this._http.put(url, {estado});
-          
-      }
+
+        return this._http.put(url, { estado });
+
+    }
+
+    obtenerParticipante(id: string) {
+        const url = `${base_url}/participantes/participante?id=${id}`;
+
+        return this._http.get<CargarParticipanteSolo>(url).pipe(
+            map(resp => {
+                const participante = resp.participante;
+                return {
+                    ok: resp.ok,
+                    participante
+                }
+            })
+        )
+    }
 
 }

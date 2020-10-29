@@ -9,6 +9,7 @@ import { Producto } from '../models/producto.model';
 import { Inscripcion } from '../models/inscripcion.model';
 import { CargarInscripcion } from '../interfaces/cargar-inscripcion.interface';
 import { map } from 'rxjs/operators';
+import { CargarInscripciones } from '../interfaces/cargar-inscripciones.interface';
 
 // Importación del modelo
 
@@ -47,6 +48,21 @@ export class InscripcionService {
                     return {
                         ok: resp.ok,
                         inscripcion
+                    }
+                })
+            )
+    }
+
+    getInscripciones(id: string) {
+        const url = `${base_url}/inscripciones/inscripciones?id=${id}`;
+
+        return this._http.get<CargarInscripciones>(url)
+            .pipe(
+                map(resp => {
+                    const inscripciones = resp.inscripciones;
+                    return {
+                        ok: resp.ok,
+                        inscripciones
                     }
                 })
             )

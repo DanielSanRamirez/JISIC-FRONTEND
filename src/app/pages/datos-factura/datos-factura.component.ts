@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { Pais } from 'src/app/models/pais.model';
+import { Participante } from 'src/app/models/participante.model';
+import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PaisService } from 'src/app/services/pais.service';
+import { ParticipanteService } from 'src/app/services/participante.service';
 
 @Component({
   selector: 'app-datos-factura',
@@ -15,13 +20,23 @@ export class DatosFacturaComponent implements OnInit {
   public selectedLanguages = 'formulario-en';
   public step = [];
   public participanteForm: FormGroup;
+  public participanteDatosFacturaForm1: FormGroup;
+  public participanteDatosFacturaForm2: FormGroup;
   public paises: Pais[] = [];
+  public participanteId: string;
+  public participante: Participante;
+  public cargando: boolean = true;
+  public inscripciones: Inscripcion[] = [];
+  public valorCheckboxs = true;
 
   constructor(
     private _translateService: TranslateService,
     private _fb: FormBuilder,
     private _paisService: PaisService,
-  ) { 
+    private _route: ActivatedRoute,
+    private _participanteService: ParticipanteService,
+    private _inscripcionService: InscripcionService
+  ) {
     this.selectLanguage(this.selectedLanguages);
   }
 
@@ -34,25 +49,18 @@ export class DatosFacturaComponent implements OnInit {
     );
 
     //obtendo el id de la ruta
-    /*this.inscripcionId = this._route.snapshot.paramMap.get("id");
+    this.participanteId = this._route.snapshot.paramMap.get("id");
 
-    this.participanteForm = this._fb.group({
-      nombres: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      apellidos: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      direccion: ['', Validators.required],
-      codTelefono: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-      email: ['', [Validators.required, Validators.email]],
-      pais: ['', Validators.required],
-    });*/
+    this.obtenerDatosParticipante();
+
   }
 
   selectLanguage(lang: string) {
     this.selectedLanguages = lang;
     this._translateService.use(lang);
     this._translateService.get('FACTURA.STEP').subscribe(
-      res => {this.step = res}
-      
+      res => { this.step = res }
+
     );
   }
 
@@ -114,4 +122,113 @@ export class DatosFacturaComponent implements OnInit {
     )*/
   }
 
+  obtenerDatosParticipante() {
+    this.cargando = true;
+    this._participanteService.obtenerParticipante(this.participanteId).subscribe(
+      resp => {
+        this.participante = resp.participante
+        this.cargando = false;
+        this.obtenerParticipanteForm(this.participante);
+        this.obtenerInscripcionesParticipante(this.participante.uid);
+        this.obtenerDatosFacturaForm1(this.participante);
+        this.obtenerDatosFacturaForm2();
+      }
+    )
+  }
+
+  obtenerParticipanteForm(participante) {
+
+    this.participanteForm = this._fb.group({
+      nombres: [{ value: participante.nombres, disabled: true }, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidos: [{ value: participante.apellidos, disabled: true }, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccion: [{ value: participante.direccion, disabled: true }, Validators.required],
+      codTelefono: [{ value: participante.codTelefono, disabled: true }, Validators.required],
+      telefono: [{ value: participante.telefono, disabled: true }, [Validators.required, Validators.pattern('[0-9]*')]],
+      email: [{ value: participante.email, disabled: true }, [Validators.required, Validators.email]],
+      pais: [{ value: participante.pais, disabled: true }, Validators.required],
+      tipoIdentificacion: [{ value: participante.tipoIdentificacion, disabled: true }, Validators.required],
+      identificacion: [{ value: participante.identificacion, disabled: true }, Validators.required],
+    });
+
+  }
+
+  obtenerInscripcionesParticipante(idParticipante: string) {
+
+    this._inscripcionService.getInscripciones(idParticipante).subscribe(
+      resp => {
+        this.inscripciones = resp.inscripciones;
+      }
+    )
+  }
+
+  obtenerDatosFacturaForm1(participante) {
+    this.participanteDatosFacturaForm1 = this._fb.group({
+      nombresDF: [{ value: participante.nombres, disabled: true }, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidosDF: [{ value: participante.apellidos, disabled: true }, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccionDF: [{ value: participante.direccion, disabled: true }, Validators.required],
+      codTelefonoDF: [{ value: participante.codTelefono, disabled: true }, Validators.required],
+      telefonoDF: [{ value: participante.telefono, disabled: true }, [Validators.required, Validators.pattern('[0-9]*')]],
+      emailDF: [{ value: participante.email, disabled: true }],
+      paisDF: [{ value: participante.pais, disabled: true }],
+      tipoIdentificacionDF: [{ value: participante.tipoIdentificacion, disabled: true }, Validators.required],
+      identificacionDF: [{ value: participante.identificacion, disabled: true }, Validators.required],
+    });
+  }
+
+  obtenerDatosFacturaForm2() {
+    this.participanteDatosFacturaForm2 = this._fb.group({
+      nombresDF: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidosDF: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      direccionDF: ['', Validators.required],
+      codTelefonoDF: ['', Validators.required],
+      telefonoDF: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      emailDF: [''],
+      paisDF: [''],
+      tipoIdentificacionDF: ['', Validators.required],
+      identificacionDF: ['']
+    });
+  }
+
+  cambioCheckBox(event) {
+    this.valorCheckboxs = event.target.checked;
+    if (event.target.checked) {
+      this.obtenerDatosFacturaForm1(this.participante);
+    } else {
+      this.obtenerDatosFacturaForm2();
+    }
+
+  }
+
+  cambioTipoIdentificacion(evento) {
+    if (evento === '1') {
+      console.log(this.participanteDatosFacturaForm2);
+      this.participanteDatosFacturaForm2 = this._fb.group({
+        nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        direccionDF: [this.participanteDatosFacturaForm2.value.direccionDF, Validators.required],
+        codTelefonoDF: [this.participanteDatosFacturaForm2.value.codTelefonoDF, Validators.required],
+        telefonoDF: [this.participanteDatosFacturaForm2.value.telefonoDF, [Validators.required, Validators.pattern('[0-9]*')]],
+        emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
+        paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
+        tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, Validators.required]
+      });
+      console.log(this.participanteDatosFacturaForm2);
+
+    } else {
+      console.log(this.participanteDatosFacturaForm2);
+      this.participanteDatosFacturaForm2 = this._fb.group({
+        nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        direccionDF: [this.participanteDatosFacturaForm2.value.direccionDF, Validators.required],
+        codTelefonoDF: [this.participanteDatosFacturaForm2.value.codTelefonoDF, Validators.required],
+        telefonoDF: [this.participanteDatosFacturaForm2.value.telefonoDF, [Validators.required, Validators.pattern('[0-9]*')]],
+        emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
+        paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
+        tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF]
+      });
+      console.log(this.participanteDatosFacturaForm2);
+    }
+  }
 }

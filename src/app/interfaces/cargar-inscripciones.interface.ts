@@ -1,6 +1,6 @@
 import { Inscripcion } from '../models/inscripcion.model';
 
-export interface CargarInscripcion {
+export interface CargarInscripciones {
     ok: boolean;
-    inscripcion: Inscripcion;
+    inscripciones: Inscripcion[];
 }
