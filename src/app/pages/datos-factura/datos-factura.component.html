@@ -234,8 +234,8 @@
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="button" class="btn btn-info" mat-button
-                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button matStepperNext
+                        (click)="datosFactura()">{{'HOME.NEXT' | translate}}</button>
                 </div>
             </form>
         </mat-step>
@@ -256,10 +256,18 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
                         <input type="text" class="form-control" placeholder="First name" formControlName="apellidosDF">
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('apellidosDF').invalid && (participanteDatosFacturaForm2.get('apellidosDF').dirty || participanteDatosFacturaForm2.get('apellidosDF').touched)">
+                            <p *ngIf="campoNoValido('apellidosDF')">{{'HOME.LASTNAMESMSG' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Last name" formControlName="nombresDF">
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('nombresDF').invalid && (participanteDatosFacturaForm2.get('nombresDF').dirty || participanteDatosFacturaForm2.get('nombresDF').touched)">
+                            <p *ngIf="campoNoValido('nombresDF')">{{'HOME.NAMESMSG' | translate}}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -267,6 +275,10 @@
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.ADDRESS' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Address" formControlName="direccionDF">
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('direccionDF').invalid && (participanteDatosFacturaForm2.get('direccionDF').dirty || participanteDatosFacturaForm2.get('direccionDF').touched)">
+                            <p *ngIf="campoNoValido('direccionDF')">{{'HOME.ADDRESSMSG' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.PHONE' | translate}}</label>
@@ -295,6 +307,15 @@
                             </select>
                             <input type="text" class="form-control" placeholder="Phone" formControlName="telefonoDF">
                         </div>
+
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('codTelefonoDF').invalid && (participanteDatosFacturaForm2.get('codTelefonoDF').dirty || participanteDatosFacturaForm2.get('codTelefonoDF').touched)">
+                            <p *ngIf="campoNoValido('codTelefonoDF')">{{'HOME.CODEPHONEMSG' | translate}}</p>
+                        </div>
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('telefonoDF').invalid && (participanteDatosFacturaForm2.get('telefonoDF').dirty || participanteDatosFacturaForm2.get('telefonoDF').touched)">
+                            <p *ngIf="campoNoValido('telefonoDF')">{{'HOME.PHONEMSG' | translate}}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -307,26 +328,50 @@
                             <option value="1">{{'HOME.IDCARD' | translate}}</option>
                             <option value="2">{{'HOME.PASSPORT' | translate}}</option>
                         </select>
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.get('tipoIdentificacionDF').invalid && (participanteDatosFacturaForm2.get('tipoIdentificacionDF').dirty || participanteDatosFacturaForm2.get('tipoIdentificacionDF').touched)">
+                            <p *ngIf="campoNoValido('tipoIdentificacionDF')">
+                                {{'HOME.IDTYPEMSG' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col-6"
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '1'">
                         <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
                             formControlName="identificacionDF" maxlength="10" minlength="10">
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '1' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
+                            <p
+                                *ngIf="participanteDatosFacturaForm2.controls.identificacionDF.errors.pattern || participanteDatosFacturaForm2.controls.identificacionDF.errors.required || participanteDatosFacturaForm2.controls.identificacionDF.errors.minlength">
+                                {{'HOME.IDENTIFICATIONMSG' | translate}}</p>
+                        </div>
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '1' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
+                            <p *ngIf="participanteDatosFacturaForm2.controls.identificacionDF.errors.cedulaIdentidad">
+                                Error
+                                en la cédula
+                                de identidad</p>
+                        </div>
                     </div>
                     <div class="col-6"
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '2'">
                         <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
                             formControlName="identificacionDF">
+                        <div class="col text-danger"
+                            *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '2' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
+                            <p *ngIf="campoNoValido('identificacionDF')">{{'HOME.PASAPORTEMSG' | translate}}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="button" class="btn btn-info" mat-button
-                        matStepperNext [disabled]="participanteDatosFacturaForm2.invalid">{{'HOME.NEXT' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button matStepperNext
+                        [disabled]="participanteDatosFacturaForm2.invalid"
+                        (click)="datosFactura()">{{'HOME.NEXT' | translate}}</button>
                 </div>
             </form>
         </mat-step>

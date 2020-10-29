@@ -5,9 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { Pais } from 'src/app/models/pais.model';
 import { Participante } from 'src/app/models/participante.model';
+import { CampoValidoService } from 'src/app/services/campoValido.service';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { ParticipanteService } from 'src/app/services/participante.service';
+import { cedulaIdentidad } from 'src/app/validaciones/cedula-identidad.directive';
 
 @Component({
   selector: 'app-datos-factura',
@@ -35,7 +37,8 @@ export class DatosFacturaComponent implements OnInit {
     private _paisService: PaisService,
     private _route: ActivatedRoute,
     private _participanteService: ParticipanteService,
-    private _inscripcionService: InscripcionService
+    private _inscripcionService: InscripcionService,
+    private _campoValidoService: CampoValidoService,
   ) {
     this.selectLanguage(this.selectedLanguages);
   }
@@ -147,7 +150,7 @@ export class DatosFacturaComponent implements OnInit {
       email: [{ value: participante.email, disabled: true }, [Validators.required, Validators.email]],
       pais: [{ value: participante.pais, disabled: true }, Validators.required],
       tipoIdentificacion: [{ value: participante.tipoIdentificacion, disabled: true }, Validators.required],
-      identificacion: [{ value: participante.identificacion, disabled: true }, Validators.required],
+      identificacion: [{ value: participante.identificacion, disabled: true }, Validators.required]
     });
 
   }
@@ -172,6 +175,7 @@ export class DatosFacturaComponent implements OnInit {
       paisDF: [{ value: participante.pais, disabled: true }],
       tipoIdentificacionDF: [{ value: participante.tipoIdentificacion, disabled: true }, Validators.required],
       identificacionDF: [{ value: participante.identificacion, disabled: true }, Validators.required],
+      idParticipante: [{ value: participante.uid, disabled: true }, Validators.required]
     });
   }
 
@@ -185,7 +189,8 @@ export class DatosFacturaComponent implements OnInit {
       emailDF: [''],
       paisDF: [''],
       tipoIdentificacionDF: ['', Validators.required],
-      identificacionDF: ['']
+      identificacionDF: [''],
+      idParticipante: [this.participanteId, Validators.required]
     });
   }
 
@@ -201,7 +206,6 @@ export class DatosFacturaComponent implements OnInit {
 
   cambioTipoIdentificacion(evento) {
     if (evento === '1') {
-      console.log(this.participanteDatosFacturaForm2);
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
@@ -211,12 +215,11 @@ export class DatosFacturaComponent implements OnInit {
         emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
         paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
         tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
-        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, Validators.required]
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.required, Validators.pattern('[0-9]*'), cedulaIdentidad()]],
+        idParticipante: [this.participanteId, Validators.required]
       });
-      console.log(this.participanteDatosFacturaForm2);
 
     } else {
-      console.log(this.participanteDatosFacturaForm2);
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
@@ -226,9 +229,22 @@ export class DatosFacturaComponent implements OnInit {
         emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
         paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
         tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
-        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF]
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.pattern('[a-zA-Z0-9À-ÿ\u00f1\u00d1]*'), Validators.required]],
+        idParticipante: [this.participanteId, Validators.required]
       });
-      console.log(this.participanteDatosFacturaForm2);
+    }
+  }
+
+  campoNoValido(campo) {
+    let valor = this._campoValidoService.campoNoValido(campo, this.participanteDatosFacturaForm2);
+    return valor;
+  }
+
+  datosFactura() {
+    if (this.valorCheckboxs) {
+      console.log(this.participanteDatosFacturaForm1.value);
+    } else {
+      console.log(this.participanteDatosFacturaForm2.value);
     }
   }
 }

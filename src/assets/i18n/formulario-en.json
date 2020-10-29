@@ -23,7 +23,7 @@
         "ADD": "Add",
         "COLLEGE": "Institution",
         "NAMESMSG": "* The name can only contain letters and is required",
-        "LASTNAMESMSG": "* The Last names can only be letters and is required",
+        "LASTNAMESMSG": "* The last names can only be letters and is required",
         "ADDRESSMSG": "* The address is required",
         "CODEPHONEMSG": "* The code phone is required",
         "PHONEMSG": "* The phone can only contain numbers and is required",
