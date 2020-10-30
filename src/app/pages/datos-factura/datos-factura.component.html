@@ -151,7 +151,7 @@
             </form>
         </mat-step>
 
-        <!--Step de Inscripción-->
+        <!--Sales Check Data-->
         <mat-step [label]="step[1]" [stepControl]="participanteDatosFacturaForm1" *ngIf="valorCheckboxs">
             <form [formGroup]="participanteDatosFacturaForm1" (submit)="datosParticipante()">
                 <div class="form-group">
@@ -376,47 +376,61 @@
             </form>
         </mat-step>
 
-        <!--Step de Done-->
+        <!--Payment Data-->
         <mat-step [label]="step[2]">
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
-                    <label class="form-check-label" for="gridCheck">
-                        Transferencia directa Banco Pichincha
-                    </label>
+            <form [formGroup]="payForm" (submit)="datosParticipante()">
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
+                        <label class="form-check-label" for="gridCheck">
+                            {{'FACTURA.CHECKMESPAY' | translate}}
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row row-formulario">
-                <div class="col">
-                    <label for="inputEmail4">Institución Bancaria</label>
-                    <input type="text" class="form-control" placeholder="First name" value="BANCO PICHINCHA">
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'FACTURA.BANK' | translate}}</label>
+                        <input type="text" class="form-control" placeholder="Bank" formControlName="nombreBanco"
+                            disabled>
+                    </div>
+                    <div class="col">
+                        <label for="inputEmail4">{{'FACTURA.NUMBERTRANFERENCE' | translate}}</label>
+                        <input type="number" class="form-control" placeholder="Bank transaction number"
+                            formControlName="numeroTransaccion" min="0">
+                        <div class="col text-danger"
+                            *ngIf="payForm.get('numeroTransaccion').invalid && (payForm.get('numeroTransaccion').dirty || payForm.get('numeroTransaccion').touched)">
+                            <p *ngIf="campoNoValido('numeroTransaccion')">{{'FACTURA.MSGTRANSFNUMBER' | translate}}</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="inputEmail4">Número de transacción bancaria</label>
-                    <input type="text" class="form-control" placeholder="Last name">
-                </div>
-            </div>
 
-            <div class="row row-formulario">
-                <div class="col">
-                    <label for="inputEmail4">Fecha Transferencia</label>
-                    <input type="text" class="form-control" placeholder="First name">
+                <div class="row row-formulario">
+                    <div class="col">
+                        <label for="inputEmail4">{{'FACTURA.TRANFERENCEDATE' | translate}}</label>
+                        <input type="date" class="form-control" placeholder="Date" max={{limiteFecha}}
+                            formControlName="fecha">
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">{{'FACTURA.TRANFERENCECOPY' | translate}}</label>
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1"
+                                (change)="cambiarImagen($event.target.files[0])">
+                            <div class="col text-danger" *ngIf="!imagenValida && mostrarErrorArchivo">
+                                <p>{{'HOME.FILEMSGERR' | translate}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="inputEmail4">Copia de Depósito</label>
-                    <input type="text" class="form-control" placeholder="Last name">
+
+                <div class="row justify-content-end">
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperPrevious>{{'HOME.BACK' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button matStepperNext
+                        [disabled]="payForm.invalid || (!imagenValida || !imagenSubir)" (click)="
+                        datosPay()">{{'HOME.SEND' | translate}}</button>
                 </div>
-            </div>
-
-            <div class="row justify-content-end">
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                <button type="button" class="btn btn-info" mat-button
-                    matStepperNext>{{'HOME.SEND' | translate}}</button>
-            </div>
-
+            </form>
         </mat-step>
 
     </mat-vertical-stepper>

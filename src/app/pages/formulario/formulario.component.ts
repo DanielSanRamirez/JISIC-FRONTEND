@@ -155,6 +155,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
               let idInscripcion = resp.inscripcion._id;
               if (file !== undefined) {
+                console.log(file);
                 this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
               } else {
                 console.log(this.tituloMensaje + this.textoMensaje1 + this.textoMensaje2);

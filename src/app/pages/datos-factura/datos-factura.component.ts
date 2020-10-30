@@ -22,6 +22,7 @@ export class DatosFacturaComponent implements OnInit {
   public selectedLanguages = 'formulario-en';
   public step = [];
   public participanteForm: FormGroup;
+  public payForm: FormGroup;
   public participanteDatosFacturaForm1: FormGroup;
   public participanteDatosFacturaForm2: FormGroup;
   public paises: Pais[] = [];
@@ -30,6 +31,11 @@ export class DatosFacturaComponent implements OnInit {
   public cargando: boolean = true;
   public inscripciones: Inscripcion[] = [];
   public valorCheckboxs = true;
+  public fechaActual = new Date();
+  public limiteFecha: string;
+  public imagenSubir: File;
+  public imagenValida: Boolean = false;
+  public mostrarErrorArchivo: Boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -45,6 +51,8 @@ export class DatosFacturaComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.limiteFecha = `${this.fechaActual.getFullYear()}-${this.fechaActual.getMonth()+1}-${this.fechaActual.getDate()}`;
+    
     this._paisService.cargarPaises().subscribe(
       resp => {
         this.paises = resp;
@@ -56,6 +64,11 @@ export class DatosFacturaComponent implements OnInit {
 
     this.obtenerDatosParticipante();
 
+    this.payForm = this._fb.group({
+      nombreBanco: ['BANCO PICHINCHA'],
+      numeroTransaccion: ['', [Validators.required, Validators.min(0)]],
+      fecha: [this.limiteFecha, Validators.required]
+    });
   }
 
   selectLanguage(lang: string) {
@@ -246,5 +259,27 @@ export class DatosFacturaComponent implements OnInit {
     } else {
       console.log(this.participanteDatosFacturaForm2.value);
     }
+  }
+
+  cambiarImagen(file: File) {
+    this.imagenSubir = file;
+
+    if (!this.imagenSubir) {
+      this.imagenValida = false;
+      this.mostrarErrorArchivo = true;
+      return;
+    }
+
+    if (this.imagenSubir.type === 'image/png' || this.imagenSubir.type === 'image/jpeg') {
+      this.imagenValida = true;
+    } else {
+      this.imagenValida = false;
+      this.mostrarErrorArchivo = true;
+    }
+  }
+
+  datosPay() {
+    console.log(this.payForm);
+    console.log(this.imagenSubir);
   }
 }
