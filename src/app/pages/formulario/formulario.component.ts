@@ -155,10 +155,21 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
               let idInscripcion = resp.inscripcion._id;
               if (file !== undefined) {
-                console.log(file);
-                this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
+                this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos).then(
+                  resp => {
+                    if (resp) {
+                      Swal.fire(this.tituloMensaje,
+                        `${this.textoMensaje1} ${nombres} ${apellidos} ${this.textoMensaje2}`,
+                        'success').then((result) => {
+                          if (result.isConfirmed) {
+                            this._router.navigateByUrl('/success');
+                          }
+      
+                        });
+                    }
+                  }
+                );
               } else {
-                console.log(this.tituloMensaje + this.textoMensaje1 + this.textoMensaje2);
                 
                 Swal.fire(this.tituloMensaje,
                   `${this.textoMensaje1} ${nombres} ${apellidos} ${this.textoMensaje2}`,

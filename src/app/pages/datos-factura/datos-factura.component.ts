@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { Pais } from 'src/app/models/pais.model';
 import { Participante } from 'src/app/models/participante.model';
 import { CampoValidoService } from 'src/app/services/campoValido.service';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
+import { PagoService } from 'src/app/services/pago.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { ParticipanteService } from 'src/app/services/participante.service';
 import { cedulaIdentidad } from 'src/app/validaciones/cedula-identidad.directive';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-datos-factura',
@@ -36,6 +39,7 @@ export class DatosFacturaComponent implements OnInit {
   public imagenSubir: File;
   public imagenValida: Boolean = false;
   public mostrarErrorArchivo: Boolean = false;
+  public datosParaFactura;
 
   constructor(
     private _translateService: TranslateService,
@@ -45,14 +49,17 @@ export class DatosFacturaComponent implements OnInit {
     private _participanteService: ParticipanteService,
     private _inscripcionService: InscripcionService,
     private _campoValidoService: CampoValidoService,
+    private _pagoService: PagoService,
+    private _fileUploadService: FileUploadService,
+    private _router: Router,
   ) {
     this.selectLanguage(this.selectedLanguages);
   }
 
   ngOnInit(): void {
 
-    this.limiteFecha = `${this.fechaActual.getFullYear()}-${this.fechaActual.getMonth()+1}-${this.fechaActual.getDate()}`;
-    
+    this.limiteFecha = `${this.fechaActual.getFullYear()}-${this.fechaActual.getMonth() + 1}-${this.fechaActual.getDate()}`;
+
     this._paisService.cargarPaises().subscribe(
       resp => {
         this.paises = resp;
@@ -67,7 +74,7 @@ export class DatosFacturaComponent implements OnInit {
     this.payForm = this._fb.group({
       nombreBanco: ['BANCO PICHINCHA'],
       numeroTransaccion: ['', [Validators.required, Validators.min(0)]],
-      fecha: [this.limiteFecha, Validators.required]
+      fechaTransaccion: [this.limiteFecha, Validators.required]
     });
   }
 
@@ -80,7 +87,48 @@ export class DatosFacturaComponent implements OnInit {
     );
   }
 
-  datosParticipante() {
+  datosPago() {
+
+    if (this.valorCheckboxs) {
+      this.datosParaFactura = this.participanteDatosFacturaForm1.value;
+    } else {
+      this.datosParaFactura = this.participanteDatosFacturaForm2.value;
+    }
+
+    this._pagoService.crearParticipante(this.datosParaFactura, this.payForm.value, this.participanteId).subscribe(
+      (resp: any) => {
+
+        this._fileUploadService.actualizarArchivo(this.imagenSubir, 'factura', resp.pago._id).then(
+          resp => {
+            if (!resp) {
+              Swal.fire('Error',
+                `${resp}`,
+                'error').then((result) => {
+                  if (result.isConfirmed) {
+                    this._router.navigateByUrl('/');
+                  }
+
+                })
+            } else {
+
+              Swal.fire('Creado',
+                `Registro de pago con exito`,
+                'success').then((result) => {
+                  if (result.isConfirmed) {
+                    this._router.navigateByUrl('/');
+                  }
+
+                })
+            }
+          }
+        );
+      },
+      (err: any) => {
+        Swal.fire('Error',
+          `${err.error.msg}`,
+          'error')
+      }
+    );
 
     /*this.infoParticipante = this.participanteForm.value;
     this.infoParticipante.tipoIdentificacion = this.identificacionForm.get('tipoIdentificacion').value;
@@ -187,8 +235,7 @@ export class DatosFacturaComponent implements OnInit {
       emailDF: [{ value: participante.email, disabled: true }],
       paisDF: [{ value: participante.pais, disabled: true }],
       tipoIdentificacionDF: [{ value: participante.tipoIdentificacion, disabled: true }, Validators.required],
-      identificacionDF: [{ value: participante.identificacion, disabled: true }, Validators.required],
-      idParticipante: [{ value: participante.uid, disabled: true }, Validators.required]
+      identificacionDF: [{ value: participante.identificacion, disabled: true }, Validators.required]
     });
   }
 
@@ -254,11 +301,7 @@ export class DatosFacturaComponent implements OnInit {
   }
 
   datosFactura() {
-    if (this.valorCheckboxs) {
-      console.log(this.participanteDatosFacturaForm1.value);
-    } else {
-      console.log(this.participanteDatosFacturaForm2.value);
-    }
+
   }
 
   cambiarImagen(file: File) {
@@ -278,8 +321,4 @@ export class DatosFacturaComponent implements OnInit {
     }
   }
 
-  datosPay() {
-    console.log(this.payForm);
-    console.log(this.imagenSubir);
-  }
 }

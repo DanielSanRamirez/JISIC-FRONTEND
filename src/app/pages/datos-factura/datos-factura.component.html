@@ -33,7 +33,7 @@
 
         <!--Step de Información Personal-->
         <mat-step [label]="step[0]" [stepControl]="participanteForm">
-            <form [formGroup]="participanteForm" (submit)="datosParticipante()">
+            <form [formGroup]="participanteForm">
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
@@ -153,7 +153,7 @@
 
         <!--Sales Check Data-->
         <mat-step [label]="step[1]" [stepControl]="participanteDatosFacturaForm1" *ngIf="valorCheckboxs">
-            <form [formGroup]="participanteDatosFacturaForm1" (submit)="datosParticipante()">
+            <form [formGroup]="participanteDatosFacturaForm1">
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="gridCheck" checked
@@ -241,7 +241,7 @@
         </mat-step>
 
         <mat-step [label]="step[1]" [stepControl]="participanteDatosFacturaForm2" *ngIf="!valorCheckboxs">
-            <form [formGroup]="participanteDatosFacturaForm2" (submit)="datosParticipante()">
+            <form [formGroup]="participanteDatosFacturaForm2">
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="gridCheck"
@@ -378,7 +378,7 @@
 
         <!--Payment Data-->
         <mat-step [label]="step[2]">
-            <form [formGroup]="payForm" (submit)="datosParticipante()">
+            <form [formGroup]="payForm" (submit)="datosPago()">
                 <div class="form-group">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
@@ -409,7 +409,7 @@
                     <div class="col">
                         <label for="inputEmail4">{{'FACTURA.TRANFERENCEDATE' | translate}}</label>
                         <input type="date" class="form-control" placeholder="Date" max={{limiteFecha}}
-                            formControlName="fecha">
+                            formControlName="fechaTransaccion">
                     </div>
                     <div class="col">
                         <div class="form-group">
@@ -426,9 +426,8 @@
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="button" class="btn btn-info" mat-button matStepperNext
-                        [disabled]="payForm.invalid || (!imagenValida || !imagenSubir)" (click)="
-                        datosPay()">{{'HOME.SEND' | translate}}</button>
+                    <button type="submit" class="btn btn-info" mat-button matStepperNext
+                        [disabled]="payForm.invalid || (!imagenValida || !imagenSubir)">{{'HOME.SEND' | translate}}</button>
                 </div>
             </form>
         </mat-step>

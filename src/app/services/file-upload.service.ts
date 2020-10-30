@@ -27,8 +27,8 @@ export class FileUploadService {
     archivo: File,
     tipo: 'participante' | 'factura',
     id: string,
-    nombres: string,
-    apellidos: string
+    nombres?: string,
+    apellidos?: string
   ) {
     try {
       const url = `${base_url}/uploads/${tipo}/${id}`;
@@ -42,21 +42,11 @@ export class FileUploadService {
       });
 
       const data = await resp.json();
-
+  
       if (data.ok) {
-        Swal.fire('Creado',
-        `La pre-inscripción del participante ${nombres} ${apellidos} ha sido creado correctamente.`,
-        'success').then((result) => {
-            if (result.isConfirmed) {
-              this._router.navigateByUrl('/success');
-            }
-
-          });
-        
-        return data.nombreArchivo;
+        return true;
       } else {
-        Swal.fire('Error', data.msg, 'error');
-        return false;
+        return data.msg;
       }
 
     } catch (error) {
