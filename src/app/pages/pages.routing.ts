@@ -25,6 +25,7 @@ import { PorPagarComponent } from './por-pagar/por-pagar.component';
 import { InscritosComponent } from './inscritos/inscritos.component';
 import { RechazoPreInscripcionComponent } from './rechazo-pre-inscripcion/rechazo-pre-inscripcion.component';
 import { DatosFacturaComponent } from './datos-factura/datos-factura.component';
+import { MensajeFinPagoComponent } from './mensaje-fin-pago/mensaje-fin-pago.component';
 
 
 const routes: Routes = [
@@ -50,6 +51,10 @@ const routes: Routes = [
     {
         path: 'datos-factura/:id',
         component: DatosFacturaComponent
+    },
+    {
+        path: 'success-pay',
+        component: MensajeFinPagoComponent
     },
     {
         path: 'admin/dashboard',

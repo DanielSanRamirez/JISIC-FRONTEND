@@ -105,7 +105,7 @@ export class DatosFacturaComponent implements OnInit {
                 `${resp}`,
                 'error').then((result) => {
                   if (result.isConfirmed) {
-                    this._router.navigateByUrl('/');
+                    this._router.navigateByUrl('/success-pay');
                   }
 
                 })
@@ -115,7 +115,7 @@ export class DatosFacturaComponent implements OnInit {
                 `Registro de pago con exito`,
                 'success').then((result) => {
                   if (result.isConfirmed) {
-                    this._router.navigateByUrl('/');
+                    this._router.navigateByUrl('/success-pay');
                   }
 
                 })

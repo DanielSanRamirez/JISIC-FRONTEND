@@ -1,5 +1,6 @@
 import { Participante } from './participante.model';
 import { Producto } from './producto.model';
+import { Pago } from './pago.model';
 
 /* Importación de variables globales */
 import { GLOBAL } from '../services/global'
@@ -16,5 +17,8 @@ export class Inscripcion {
         public img?: string,
         public estado?: boolean,
         public _id?: string,
+        public estadoParticipante?: boolean,
+        public estadoRecibo?: boolean,
+        public pago?: Pago
     ) { }
 }
