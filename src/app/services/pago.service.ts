@@ -50,7 +50,6 @@ export class PagoService {
             datosPago.numeroTransaccion,
             datosPago.fechaTransaccion
         )
-        console.log(pago);
         
         return this._http.post(url, pago);
     }

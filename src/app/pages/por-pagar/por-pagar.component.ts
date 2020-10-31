@@ -36,7 +36,6 @@ export class PorPagarComponent implements OnInit {
           this.element[index] = index + 1;
         }
         this.inscripciones = inscripciones;
-        console.log(this.inscripciones);
 
         this.inscripcionesTemp = inscripciones;
         this.cargando = false;
@@ -57,6 +56,7 @@ export class PorPagarComponent implements OnInit {
     this._porPagarService.buscar(this.dato, termino)
       .subscribe((resultados: Inscripcion[]) => {
         this.inscripciones = resultados;
+        
       }
       );
   }

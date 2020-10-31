@@ -190,8 +190,8 @@
                     </div>
                     <div class="col text-danger"
                         *ngIf="identificacionForm.value.tipoIdentificacion === '1' && identificacionForm.get('identificacion').invalid && (identificacionForm.get('identificacion').dirty || identificacionForm.get('identificacion').touched)">
-                        <p *ngIf="identificacionForm.controls.identificacion.errors.cedulaIdentidad">Error en la cédula
-                            de identidad</p>
+                        <p *ngIf="identificacionForm.controls.identificacion.errors.cedulaIdentidad">
+                            {{'HOME.MSGERRORIDENTITY' | translate}}</p>
                     </div>
                 </form>
 

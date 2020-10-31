@@ -72,7 +72,7 @@ export class DatosFacturaComponent implements OnInit {
     this.obtenerDatosParticipante();
 
     this.payForm = this._fb.group({
-      nombreBanco: ['BANCO PICHINCHA'],
+      nombreBanco: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9À-ÿ\u00f1\u00d1 ]*')]],
       numeroTransaccion: ['', [Validators.required, Validators.min(0)]],
       fechaTransaccion: [this.limiteFecha, Validators.required]
     });
@@ -266,6 +266,7 @@ export class DatosFacturaComponent implements OnInit {
 
   cambioTipoIdentificacion(evento) {
     if (evento === '1') {
+      this.participanteDatosFacturaForm2.value.identificacionDF = '';
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
@@ -280,6 +281,7 @@ export class DatosFacturaComponent implements OnInit {
       });
 
     } else {
+      this.participanteDatosFacturaForm2.value.identificacionDF = '';
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
@@ -289,7 +291,7 @@ export class DatosFacturaComponent implements OnInit {
         emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
         paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
         tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
-        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.pattern('[a-zA-Z0-9À-ÿ\u00f1\u00d1]*'), Validators.required]],
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.pattern('[0-9]*'), Validators.required]],
         idParticipante: [this.participanteId, Validators.required]
       });
     }
@@ -300,8 +302,9 @@ export class DatosFacturaComponent implements OnInit {
     return valor;
   }
 
-  datosFactura() {
-
+  campoNoValidoPay(campo) {
+    let valor = this._campoValidoService.campoNoValido(campo, this.payForm);
+    return valor;
   }
 
   cambiarImagen(file: File) {

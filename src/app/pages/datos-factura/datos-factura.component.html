@@ -234,8 +234,8 @@
                 <div class="row justify-content-end">
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
-                    <button type="button" class="btn btn-info" mat-button matStepperNext
-                        (click)="datosFactura()">{{'HOME.NEXT' | translate}}</button>
+                    <button type="button" class="btn btn-info" mat-button
+                        matStepperNext>{{'HOME.NEXT' | translate}}</button>
                 </div>
             </form>
         </mat-step>
@@ -326,7 +326,7 @@
                             (change)="cambioTipoIdentificacion(participanteDatosFacturaForm2.get('tipoIdentificacionDF').value)">
                             <option selected value="">Choose...</option>
                             <option value="1">{{'HOME.IDCARD' | translate}}</option>
-                            <option value="2">{{'HOME.PASSPORT' | translate}}</option>
+                            <option value="2">RUC</option>
                         </select>
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.get('tipoIdentificacionDF').invalid && (participanteDatosFacturaForm2.get('tipoIdentificacionDF').dirty || participanteDatosFacturaForm2.get('tipoIdentificacionDF').touched)">
@@ -348,19 +348,17 @@
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '1' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
                             <p *ngIf="participanteDatosFacturaForm2.controls.identificacionDF.errors.cedulaIdentidad">
-                                Error
-                                en la cédula
-                                de identidad</p>
+                                {{'HOME.MSGERRORIDENTITY' | translate}}</p>
                         </div>
                     </div>
                     <div class="col-6"
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '2'">
                         <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
-                            formControlName="identificacionDF">
+                            formControlName="identificacionDF" minlength="13">
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '2' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
-                            <p *ngIf="campoNoValido('identificacionDF')">{{'HOME.PASAPORTEMSG' | translate}}
+                            <p *ngIf="campoNoValido('identificacionDF')">{{'FACTURA.MSGRUC' | translate}}
                             </p>
                         </div>
                     </div>
@@ -370,8 +368,7 @@
                     <button type="button" class="btn btn-info" mat-button
                         matStepperPrevious>{{'HOME.BACK' | translate}}</button>
                     <button type="button" class="btn btn-info" mat-button matStepperNext
-                        [disabled]="participanteDatosFacturaForm2.invalid"
-                        (click)="datosFactura()">{{'HOME.NEXT' | translate}}</button>
+                        [disabled]="participanteDatosFacturaForm2.invalid">{{'HOME.NEXT' | translate}}</button>
                 </div>
             </form>
         </mat-step>
@@ -379,20 +376,15 @@
         <!--Payment Data-->
         <mat-step [label]="step[2]">
             <form [formGroup]="payForm" (submit)="datosPago()">
-                <div class="form-group">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck" checked disabled>
-                        <label class="form-check-label" for="gridCheck">
-                            {{'FACTURA.CHECKMESPAY' | translate}}
-                        </label>
-                    </div>
-                </div>
 
                 <div class="row row-formulario">
                     <div class="col">
                         <label for="inputEmail4">{{'FACTURA.BANK' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Bank" formControlName="nombreBanco"
-                            disabled>
+                        <input type="text" class="form-control" placeholder="Bank" formControlName="nombreBanco">
+                        <div class="col text-danger"
+                            *ngIf="payForm.get('nombreBanco').invalid && (payForm.get('nombreBanco').dirty || payForm.get('nombreBanco').touched)">
+                            <p *ngIf="campoNoValidoPay('nombreBanco')">{{'FACTURA.MSGBANKNAME' | translate}}</p>
+                        </div>
                     </div>
                     <div class="col">
                         <label for="inputEmail4">{{'FACTURA.NUMBERTRANFERENCE' | translate}}</label>
@@ -400,7 +392,7 @@
                             formControlName="numeroTransaccion" min="0">
                         <div class="col text-danger"
                             *ngIf="payForm.get('numeroTransaccion').invalid && (payForm.get('numeroTransaccion').dirty || payForm.get('numeroTransaccion').touched)">
-                            <p *ngIf="campoNoValido('numeroTransaccion')">{{'FACTURA.MSGTRANSFNUMBER' | translate}}</p>
+                            <p *ngIf="campoNoValidoPay('numeroTransaccion')">{{'FACTURA.MSGTRANSFNUMBER' | translate}}</p>
                         </div>
                     </div>
                 </div>
