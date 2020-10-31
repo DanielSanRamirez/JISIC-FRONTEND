@@ -61,4 +61,21 @@ export class PorPagarComponent implements OnInit {
       );
   }
 
+  cambiarPagina(valor) {
+
+    if (this.desde === 1 && valor === 'restar') {
+      this.desde = 1;
+
+    } else if (this.desde === this.totalInscripciones && valor === 'sumar') {
+      this.desde = this.totalInscripciones
+    } else if (this.desde !== 1 && valor === 'restar') {
+      this.desde -= 1;
+    } else if (this.desde !== this.totalInscripciones && valor === 'sumar') {
+      this.desde += 1;
+    } else {
+      this.desde = valor;
+    }
+    this.cargarPorPagar();
+  }
+
 }

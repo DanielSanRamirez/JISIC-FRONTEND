@@ -43,4 +43,13 @@
             </tr>
         </tbody>
     </table>
+    <h3># Página {{desde}}</h3>
+    <nav aria-label="Page navigation example" *ngIf="totalInscripciones > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>
 </div>
