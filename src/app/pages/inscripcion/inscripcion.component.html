@@ -13,33 +13,124 @@
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
+                <th scope="col"># de comprobante</th>
                 <th scope="col">Identificación</th>
-                <th scope="col">Participante</th>
-                <th scope="col">Tipo de Inscripción</th>
-                <th scope="col">Nombre Factura</th>
+                <th scope="col">Cliente</th>
                 <th scope="col">Fecha de Pago</th>
                 <th scope="col">Validar</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr *ngFor="let pago of pagos; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{pago.numeroTransaccion}}</td>
+                <td>{{pago.identificacion}}</td>
+                <td>{{pago.nombres}} {{pago.apellidos}}</td>
+                <td>{{pago.fechaTransaccion.split("T")[0]}}</td>
+                <td class="text-nowrap text-center">
+
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#actualizarModal"
+                        (click)="obtenerParticipante(pago._id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!--Actualizar Modal Con datos-->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="actualizarModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Aprobar o Rechazar</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarDatos()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row text-center" *ngIf="cargandoModal">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <h4 class="alert-heading">Cargando</h4>
+                            <mat-spinner style="margin:0 auto;"> </mat-spinner>
+                            <p class="mb-0">Por favor espere</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form *ngIf="!cargandoModal">
+                    <div class="card-body bg-light">
+                        <div class="form-group">
+                            <label for="participante">
+                                <h3><strong>Participante:</strong></h3>
+                                {{inscripcion.participante.apellidos}} {{inscripcion.participante.nombres}}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente">
+                                <h3><strong>Cliente:</strong></h3> {{inscripcion.pago.nombres}}
+                                {{inscripcion.pago.apellidos}}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="valorTotalPagar">
+                                <h3><strong>Valor total a pagar:</strong></h3>
+                                {{inscripcion.costoTotal}}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaPago">
+                                <h3><strong>Fecha de Pago:</strong></h3>
+                                {{inscripcion.pago.fechaTransaccion.split("T")[0]}}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="comprobante">
+                                <h3><strong>Número de comprobante:</strong></h3>
+                                {{inscripcion.pago.numeroTransaccion}}
+                            </label>
+                        </div>
+                        <a [href]="inscripcion.pago.imgDeposito | imagen: 'factura'">
+                            <button type="button" class="btn btn-primary">
+                                <mat-icon>cloud_download</mat-icon> Descargar
+                                Imagen
+                            </button>
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck"
+                                (change)="cambioCheck($event)">
+                            <label class="form-check-label" for="gridCheck">
+                                Enviar mensaje de rechazo?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="!isChecked">
+                        <label for="exampleInputNumeroFactura">Número de Factura: </label>
+                        <input type="number" class="form-control" id="exampleInputPassword1"
+                            placeholder="Número Factura" (keyup)="numeroFactura(txtTermino.value)" #txtTermino>
+                    </div>
+                    <div class="form-group" *ngIf="isChecked">
+                        <label for="exampleFormControlTextarea1">Motivo de rechazo</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" (keyup)="mensaje(txtTermino.value)" #txtTermino></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            (click)="limpiarDatos()">Cerrar</button>
+                        <button type="submit" class="btn btn-success" *ngIf="!isChecked"
+                            [disabled]='numeroFacturaValor === ""' (click)="aprobarPreInscripcion()">Aprobar</button>
+                        <button type="submit" class="btn btn-danger" *ngIf="isChecked"
+                            [disabled]='mensajeValor === ""' (click)="rechazarPago()">Rechazar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>

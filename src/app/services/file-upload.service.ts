@@ -86,7 +86,7 @@ export class FileUploadService {
 
       if (data.ok) {
         Swal.fire('Actualizado',
-        `Participant ${nombres} ${apellidos}'s file has been successfully updated`,
+        `${nombres} ${apellidos}'s file has been successfully updated`,
         'success').then((result) => {
             if (result.isConfirmed) {
               this._router.navigateByUrl('/');

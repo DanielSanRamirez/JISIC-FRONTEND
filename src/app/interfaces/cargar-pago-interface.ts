@@ -1,6 +1,6 @@
-import { Inscripcion } from '../models/inscripcion.model';
+import { Pago } from '../models/pago.model';
 
-export interface CargarPago {
+export interface CargarPagos {
     totalPages: number;
-    inscripciones: Inscripcion[];
+    pagos: Pago[];
 }

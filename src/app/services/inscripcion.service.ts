@@ -39,7 +39,22 @@ export class InscripcionService {
     }
 
     getInscripcion(id: string) {
-        const url = `${base_url}/inscripciones/rechazo?id=${id}`;
+        const url = `${base_url}/inscripciones/inscripcion?id=${id}`;
+
+        return this._http.get<CargarInscripcion>(url)
+            .pipe(
+                map(resp => {
+                    const inscripcion = resp.inscripcion;
+                    return {
+                        ok: resp.ok,
+                        inscripcion
+                    }
+                })
+            )
+    }
+
+    getInscripcionPorPago(id: string) {
+        const url = `${base_url}/inscripciones/inscripcion/pago?id=${id}`;
 
         return this._http.get<CargarInscripcion>(url)
             .pipe(

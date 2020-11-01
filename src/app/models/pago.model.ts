@@ -12,8 +12,9 @@ export class Pago {
         public identificacion: string,
         public nombreBanco: string,
         public numeroTransaccion: number,
-        public fechaTransaccion: Date,
+        public fechaTransaccion: string,
         public apellidos?: string,
         public _id?: string,
+        public imgDeposito?: string,
     ) { }
 }

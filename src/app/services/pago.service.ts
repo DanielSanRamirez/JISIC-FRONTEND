@@ -10,8 +10,9 @@ import { Pais } from '../models/pais.model';
 import { Pago } from '../models/pago.model';
 import { map } from 'rxjs/operators';
 import { CargarParticipanteSolo } from '../interfaces/cargar-participante.interface';
-import { CargarPago } from '../interfaces/cargar-pago-interface';
+import { CargarPagos } from '../interfaces/cargar-pago-interface';
 import { Inscripcion } from '../models/inscripcion.model';
+import { CargarPago } from '../interfaces/cargar-pago-solo-interface';
 
 // Definir varible global
 const base_url = GLOBAL.base_url;
@@ -60,26 +61,27 @@ export class PagoService {
 
     const url = `${base_url}/pagos?desde=${desde}`;
 
-    return this._http.get<CargarPago>(url)
+    return this._http.get<CargarPagos>(url)
       .pipe(
         map(resp => {
-          const inscripciones = resp.inscripciones.map(
-            inscripcion => new Inscripcion(
-              inscripcion.participante,
-              inscripcion.producto,
-              inscripcion.costoTotal,
-              inscripcion.institucion,
-              inscripcion.img,
-              inscripcion.estado,
-              inscripcion._id,
-              inscripcion.estadoParticipante,
-              inscripcion.estadoRecibo,
-              inscripcion.pago
+          const pagos = resp.pagos.map(
+            pago => new Pago(
+              pago.nombres,
+              pago.direccion,
+              pago.codTelefono,
+              pago.telefono,
+              pago.tipoIdentificacion,
+              pago.identificacion,
+              pago.nombreBanco,
+              pago.numeroTransaccion,
+              pago.fechaTransaccion,
+              pago.apellidos,
+              pago._id
             )
           );
           return {
             totalPages: resp.totalPages,
-            inscripciones
+            pagos
           }
         })
       )
@@ -91,5 +93,24 @@ export class PagoService {
 
     return this._http.get(url);
   }
+
+  rechazarPago(mensaje: string, id: string) {
+    return this._http.post(`${base_url}/pagos/rechazo/${id}`, {mensaje});
+  }
+
+  getPago(id: string) {
+    const url = `${base_url}/pagos/pago?id=${id}`;
+
+    return this._http.get<CargarPago>(url)
+        .pipe(
+            map(resp => {
+                const pago = resp.pago;
+                return {
+                    ok: resp.ok,
+                    pago
+                }
+            })
+        )
+}
 
 }

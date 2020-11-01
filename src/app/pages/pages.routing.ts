@@ -26,6 +26,7 @@ import { InscritosComponent } from './inscritos/inscritos.component';
 import { RechazoPreInscripcionComponent } from './rechazo-pre-inscripcion/rechazo-pre-inscripcion.component';
 import { DatosFacturaComponent } from './datos-factura/datos-factura.component';
 import { MensajeFinPagoComponent } from './mensaje-fin-pago/mensaje-fin-pago.component';
+import { RechazoPagoComponent } from './rechazo-pago/rechazo-pago.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
     {
         path: 'rechazo/pre-inscripcion/:id',
         component: RechazoPreInscripcionComponent
+    },
+    {
+        path: 'rechazo/pago/:id',
+        component: RechazoPagoComponent
     },
     {
         path: 'datos-factura/:id',

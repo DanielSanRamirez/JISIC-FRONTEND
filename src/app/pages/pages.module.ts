@@ -34,6 +34,7 @@ import { InscritosComponent } from './inscritos/inscritos.component';
 import { RechazoPreInscripcionComponent } from './rechazo-pre-inscripcion/rechazo-pre-inscripcion.component';
 import { DatosFacturaComponent } from './datos-factura/datos-factura.component';
 import { MensajeFinPagoComponent } from './mensaje-fin-pago/mensaje-fin-pago.component';
+import { RechazoPagoComponent } from './rechazo-pago/rechazo-pago.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -59,6 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
     RechazoPreInscripcionComponent,
     DatosFacturaComponent,
     MensajeFinPagoComponent,
+    RechazoPagoComponent,
   ],
 
   exports: [
