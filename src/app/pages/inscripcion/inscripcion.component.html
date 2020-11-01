@@ -8,12 +8,25 @@
     </div>
 </div>
 
+<div class="row" *ngIf="!cargando">
+    <div class="col-10 input-group mb-3">
+        <div class="col-3 tipoBuscar">
+            <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
+                <option value="numeroTransaccion"># Comprobante</option>
+                <option value="identificacion">Identificación</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
+            aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
+    </div>
+</div>
+
 <div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"># de comprobante</th>
+                <th scope="col"># de Comprobante</th>
                 <th scope="col">Identificación</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Fecha de Pago</th>
@@ -38,6 +51,15 @@
             </tr>
         </tbody>
     </table>
+    <h3># Página {{desde}}</h3>
+    <nav aria-label="Page navigation example" *ngIf="totalPagos > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>
 </div>
 
 <!--Actualizar Modal Con datos-->

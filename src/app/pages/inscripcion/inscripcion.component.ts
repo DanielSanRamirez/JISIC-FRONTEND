@@ -26,6 +26,7 @@ export class InscripcionComponent implements OnInit {
   public numeroFacturaValor = '';
   public mensajeValor = '';
   public idPago;
+  public dato: 'numeroTransaccion' | 'identificacion' = 'numeroTransaccion';
 
   constructor(
     private _pagoService: PagoService,
@@ -74,17 +75,16 @@ export class InscripcionComponent implements OnInit {
   }
 
   aprobarPreInscripcion() {
-    /*this._preInscripcionService.aprobarPreInscripcion(this.preInscripcionForm.value.id)
+    this._pagoService.aprobarPago(this.idPago, this.numeroFacturaValor)
       .subscribe(
         (resp: any) => {
-          Swal.fire('Aprobado', `Participante ${this.preInscripcionForm.value.nombres} ${this.preInscripcionForm.value.apellidos} aprobado`, 'success');
-          this.cargarPreInscripcionesParticipantes();
+          Swal.fire('Aprobado', `Participante ${this.inscripcion.participante.nombres} ${this.inscripcion.participante.apellidos} aprobado`, 'success');
+          this.cargarPorPagar();
         },
         err => {
           Swal.fire('Error', err.error.msg, 'error');
         }
       )
-*/
   }
 
   rechazarPago() {
@@ -106,6 +106,41 @@ export class InscripcionComponent implements OnInit {
 
   mensaje(txtTermino) {
     this.mensajeValor = txtTermino;
+  }
+
+  cambiarBusqueda(value) {
+    this.dato = value.target.value;
+  }
+
+  buscar(termino: string) {
+
+    if (termino.length === 0) {
+      return this.pagos = this.pagosTemp;
+    }
+
+    this._pagoService.buscar(this.dato, termino)
+      .subscribe((resultados: Pago[]) => {
+        this.pagos = resultados;
+        
+      }
+      );
+  }
+
+  cambiarPagina(valor) {
+
+    if (this.desde === 1 && valor === 'restar') {
+      this.desde = 1;
+
+    } else if (this.desde === this.totalPagos && valor === 'sumar') {
+      this.desde = this.totalPagos
+    } else if (this.desde !== 1 && valor === 'restar') {
+      this.desde -= 1;
+    } else if (this.desde !== this.totalPagos && valor === 'sumar') {
+      this.desde += 1;
+    } else {
+      this.desde = valor;
+    }
+    this.cargarPorPagar();
   }
 
 }

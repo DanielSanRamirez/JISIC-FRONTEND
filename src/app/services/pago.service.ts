@@ -88,29 +88,53 @@ export class PagoService {
   }
 
   crearEmail(idParticipante: string) {
-    
+
     const url = `${base_url}/pagos/email-teso?id=${idParticipante}`;
 
     return this._http.get(url);
   }
 
   rechazarPago(mensaje: string, id: string) {
-    return this._http.post(`${base_url}/pagos/rechazo/${id}`, {mensaje});
+    return this._http.post(`${base_url}/pagos/rechazo/${id}`, { mensaje });
   }
 
   getPago(id: string) {
     const url = `${base_url}/pagos/pago?id=${id}`;
 
     return this._http.get<CargarPago>(url)
-        .pipe(
-            map(resp => {
-                const pago = resp.pago;
-                return {
-                    ok: resp.ok,
-                    pago
-                }
-            })
-        )
-}
+      .pipe(
+        map(resp => {
+          const pago = resp.pago;
+          return {
+            ok: resp.ok,
+            pago
+          }
+        })
+      )
+  }
+
+  aprobarPago(id: string, numeroFactura: string) {
+    
+    return this._http.post(`${base_url}/pagos/aceptado/${id}`, {numeroFactura});
+  }
+
+  private transformarPago(resultados: any[]): Pago[] {
+
+    return resultados;
+  }
+
+  buscar(
+    tipo: 'numeroTransaccion' | 'identificacion',
+    termino: string
+  ) {
+    const url = `${base_url}/pagos/coleccion/${tipo}/${termino}`;
+
+    return this._http.get<any[]>(url)
+      .pipe(
+        map((resp: any) => {
+          return this.transformarPago(resp.resultados);
+        })
+      );
+  }
 
 }
