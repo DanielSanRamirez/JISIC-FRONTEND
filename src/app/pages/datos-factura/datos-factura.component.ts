@@ -100,6 +100,9 @@ export class DatosFacturaComponent implements OnInit {
 
         this._fileUploadService.actualizarArchivo(this.imagenSubir, 'factura', resp.pago._id).then(
           resp => {
+            this._pagoService.crearEmail(this.participanteId).subscribe(
+              resp => console.log()   
+            )
             if (!resp) {
               Swal.fire('Error',
                 `${resp}`,
@@ -242,7 +245,7 @@ export class DatosFacturaComponent implements OnInit {
   obtenerDatosFacturaForm2() {
     this.participanteDatosFacturaForm2 = this._fb.group({
       nombresDF: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-      apellidosDF: ['', [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+      apellidosDF: ['', [ Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
       direccionDF: ['', Validators.required],
       codTelefonoDF: ['', Validators.required],
       telefonoDF: ['', [Validators.required, Validators.pattern('[0-9]*')]],
@@ -269,7 +272,7 @@ export class DatosFacturaComponent implements OnInit {
       this.participanteDatosFacturaForm2.value.identificacionDF = '';
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         direccionDF: [this.participanteDatosFacturaForm2.value.direccionDF, Validators.required],
         codTelefonoDF: [this.participanteDatosFacturaForm2.value.codTelefonoDF, Validators.required],
         telefonoDF: [this.participanteDatosFacturaForm2.value.telefonoDF, [Validators.required, Validators.pattern('[0-9]*')]],
@@ -284,7 +287,7 @@ export class DatosFacturaComponent implements OnInit {
       this.participanteDatosFacturaForm2.value.identificacionDF = '';
       this.participanteDatosFacturaForm2 = this._fb.group({
         nombresDF: [this.participanteDatosFacturaForm2.value.nombresDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
-        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.required, Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
+        apellidosDF: [this.participanteDatosFacturaForm2.value.apellidosDF, [Validators.pattern('[a-zA-ZÀ-ÿ\u00f1\u00d1 ]*')]],
         direccionDF: [this.participanteDatosFacturaForm2.value.direccionDF, Validators.required],
         codTelefonoDF: [this.participanteDatosFacturaForm2.value.codTelefonoDF, Validators.required],
         telefonoDF: [this.participanteDatosFacturaForm2.value.telefonoDF, [Validators.required, Validators.pattern('[0-9]*')]],

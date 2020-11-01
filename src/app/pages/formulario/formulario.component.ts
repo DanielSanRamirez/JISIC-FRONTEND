@@ -208,7 +208,7 @@ export class FormularioComponent implements OnInit, AfterViewInit {
 
   obtenerDatosCompra(arrayProductos) {
 
-    if (arrayProductos.nombre === 'Estudiante EPN Postgrado' || arrayProductos.nombre === 'Estudiante EPN') {
+    if (arrayProductos.nombre === 'Estudiante EPN Postgrado' || arrayProductos.nombre === 'Estudiante EPN Pregrado') {
       arrayProductos.participanteForm.institucion.value = 'Escuela Politécnica Nacional'
     }
 

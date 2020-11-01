@@ -61,7 +61,6 @@ export class FileUploadService {
   ) {
     
     const url = `${base_url}/uploads/descargar/${tipo}/${archivo}`;
-    console.log(url);
     return this._http.get(url);
   }
 

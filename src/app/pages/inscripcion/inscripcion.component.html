@@ -1,4 +1,4 @@
-<div class="row animated fedeIn fast text-center">
+<div class="row text-center" *ngIf="cargando">
     <div class="col-12">
         <div class="alert alert-info">
             <h4 class="alert-heading">Cargando</h4>
@@ -8,14 +8,17 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Participante</th>
+                <th scope="col">Tipo de Inscripción</th>
+                <th scope="col">Nombre Factura</th>
+                <th scope="col">Fecha de Pago</th>
+                <th scope="col">Validar</th>
             </tr>
         </thead>
         <tbody>

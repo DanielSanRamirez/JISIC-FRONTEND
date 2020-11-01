@@ -19,7 +19,7 @@ export class MensajeEmailConfirmadoComponent implements OnInit {
     this.participanteId = this._activateRoute.snapshot.paramMap.get("id");
     this._participanteService.actualizarEstadoParticipante(this.participanteId).subscribe(
       resp => {
-        console.log(resp);
+        console.log();
       }
     )
     

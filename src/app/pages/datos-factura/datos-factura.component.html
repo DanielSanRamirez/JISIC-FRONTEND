@@ -254,16 +254,8 @@
 
                 <div class="row row-formulario">
                     <div class="col">
-                        <label for="inputEmail4">{{'HOME.LASTNAMES' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="First name" formControlName="apellidosDF">
-                        <div class="col text-danger"
-                            *ngIf="participanteDatosFacturaForm2.get('apellidosDF').invalid && (participanteDatosFacturaForm2.get('apellidosDF').dirty || participanteDatosFacturaForm2.get('apellidosDF').touched)">
-                            <p *ngIf="campoNoValido('apellidosDF')">{{'HOME.LASTNAMESMSG' | translate}}</p>
-                        </div>
-                    </div>
-                    <div class="col">
                         <label for="inputEmail4">{{'HOME.NAMES' | translate}}</label>
-                        <input type="text" class="form-control" placeholder="Last name" formControlName="nombresDF">
+                        <input type="text" class="form-control" placeholder="Name" formControlName="nombresDF">
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.get('nombresDF').invalid && (participanteDatosFacturaForm2.get('nombresDF').dirty || participanteDatosFacturaForm2.get('nombresDF').touched)">
                             <p *ngIf="campoNoValido('nombresDF')">{{'HOME.NAMESMSG' | translate}}</p>
@@ -355,7 +347,7 @@
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '2'">
                         <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
-                            formControlName="identificacionDF" minlength="13">
+                            formControlName="identificacionDF" minlength="13" maxlength="13">
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '2' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
                             <p *ngIf="campoNoValido('identificacionDF')">{{'FACTURA.MSGRUC' | translate}}

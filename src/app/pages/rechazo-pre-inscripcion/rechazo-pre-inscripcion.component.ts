@@ -31,7 +31,6 @@ export class RechazoPreInscripcionComponent implements OnInit {
     private _participanteService: ParticipanteService
   ) {
     this.selectLanguage(this.selectedLanguages);
-    console.log(this.selectedLanguages);
 
   }
 
@@ -52,7 +51,6 @@ export class RechazoPreInscripcionComponent implements OnInit {
       async resp => {
         this.inscripcion = await resp.inscripcion;
         this.producto = await resp.inscripcion.producto;
-        console.log(this.inscripcion);
         this.cargando = false;
       }
     )
@@ -85,7 +83,7 @@ export class RechazoPreInscripcionComponent implements OnInit {
     );
     this._participanteService.actualizarEstadoParticipante(this.inscripcion.participante._id).subscribe(
       resp => {
-        console.log(resp);
+        console.log();
       }
     )
 

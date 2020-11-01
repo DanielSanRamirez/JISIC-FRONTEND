@@ -136,7 +136,6 @@ export class PreInscripcionComponent implements OnInit {
   }
 
   downloadImagen(img) {
-    console.log(img);
     this._fileUploadService.downloadImagen('participante', img);
   }
 

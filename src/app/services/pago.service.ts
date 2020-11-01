@@ -10,71 +10,86 @@ import { Pais } from '../models/pais.model';
 import { Pago } from '../models/pago.model';
 import { map } from 'rxjs/operators';
 import { CargarParticipanteSolo } from '../interfaces/cargar-participante.interface';
+import { CargarPago } from '../interfaces/cargar-pago-interface';
+import { Inscripcion } from '../models/inscripcion.model';
 
 // Definir varible global
 const base_url = GLOBAL.base_url;
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class PagoService {
 
-    constructor(
-        private _http: HttpClient,
-        private _router: Router,
-    ) { }
+  constructor(
+    private _http: HttpClient,
+    private _router: Router,
+  ) { }
 
-    crearParticipante(datosFactura: {
-        nombresDF: string,
-        apellidosDF: string,
-        direccionDF: string,
-        codTelefonoDF: Pais,
-        telefonoDF: string,
-        tipoIdentificacionDF: string,
-        identificacionDF: string
-    }, datosPago: {
-        nombreBanco: string,
-        numeroTransaccion: number,
-        fechaTransaccion: any
-    }, idParticipante: string) {
-        const url = `${base_url}/pagos?id=${idParticipante}`;
-        const pago = new Pago(
-            datosFactura.nombresDF,
-            datosFactura.apellidosDF,
-            datosFactura.direccionDF,
-            datosFactura.codTelefonoDF,
-            datosFactura.telefonoDF,
-            datosFactura.tipoIdentificacionDF,
-            datosFactura.identificacionDF,
-            datosPago.nombreBanco,
-            datosPago.numeroTransaccion,
-            datosPago.fechaTransaccion
-        )
-        
-        return this._http.post(url, pago);
-    }
+  crearParticipante(datosFactura: {
+    nombresDF: string,
+    apellidosDF: string,
+    direccionDF: string,
+    codTelefonoDF: Pais,
+    telefonoDF: string,
+    tipoIdentificacionDF: string,
+    identificacionDF: string
+  }, datosPago: {
+    nombreBanco: string,
+    numeroTransaccion: number,
+    fechaTransaccion: any
+  }, idParticipante: string) {
+    const url = `${base_url}/pagos?id=${idParticipante}`;
+    const pago = new Pago(
+      datosFactura.nombresDF,
+      datosFactura.direccionDF,
+      datosFactura.codTelefonoDF,
+      datosFactura.telefonoDF,
+      datosFactura.tipoIdentificacionDF,
+      datosFactura.identificacionDF,
+      datosPago.nombreBanco,
+      datosPago.numeroTransaccion,
+      datosPago.fechaTransaccion,
+      datosFactura.apellidosDF,
+    )
 
-    /*actualizarEstadoParticipante(_id: string) {
+    return this._http.post(url, pago);
+  }
 
-        const url = `${base_url}/participantes/estado/${_id}`;
-        const estado = true;
+  cargarPagoPaginado(desde: number = 1) {
 
-        return this._http.put(url, { estado });
+    const url = `${base_url}/pagos?desde=${desde}`;
 
-    }*/
+    return this._http.get<CargarPago>(url)
+      .pipe(
+        map(resp => {
+          const inscripciones = resp.inscripciones.map(
+            inscripcion => new Inscripcion(
+              inscripcion.participante,
+              inscripcion.producto,
+              inscripcion.costoTotal,
+              inscripcion.institucion,
+              inscripcion.img,
+              inscripcion.estado,
+              inscripcion._id,
+              inscripcion.estadoParticipante,
+              inscripcion.estadoRecibo,
+              inscripcion.pago
+            )
+          );
+          return {
+            totalPages: resp.totalPages,
+            inscripciones
+          }
+        })
+      )
+  }
 
-    /*obtenerParticipante(id: string) {
-        const url = `${base_url}/participantes/participante?id=${id}`;
+  crearEmail(idParticipante: string) {
+    
+    const url = `${base_url}/pagos/email-teso?id=${idParticipante}`;
 
-        return this._http.get<CargarParticipanteSolo>(url).pipe(
-            map(resp => {
-                const participante = resp.participante;
-                return {
-                    ok: resp.ok,
-                    participante
-                }
-            })
-        )
-    }*/
+    return this._http.get(url);
+  }
 
 }

@@ -5,7 +5,6 @@ export class Pago {
 
     constructor(
         public nombres: string,
-        public apellidos: string,
         public direccion: string,
         public codTelefono: Pais,
         public telefono: string,
@@ -14,6 +13,7 @@ export class Pago {
         public nombreBanco: string,
         public numeroTransaccion: number,
         public fechaTransaccion: Date,
+        public apellidos?: string,
         public _id?: string,
     ) { }
 }

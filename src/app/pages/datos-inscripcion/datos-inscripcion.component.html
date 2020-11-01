@@ -14,7 +14,7 @@
             </div>
 
             <div
-                *ngIf="perfil !== 'Profesionales y Profesores Externos' && perfil !== 'Estudiante EPN Postgrado' && perfil !== 'Estudiante EPN'">
+                *ngIf="perfil !== 'Profesionales y Profesores Externos' && perfil !== 'Estudiante EPN Postgrado' && perfil !== 'Estudiante EPN Pregrado'">
                 <label for="inputEmail4">{{'HOME.COLLEGE' | translate}} *</label>
                 <input type="text" class="form-control" placeholder="Institution" formControlName="institucion" required>
             </div>
@@ -24,7 +24,7 @@
                 <input type="text" class="form-control" placeholder="Institution" formControlName="institucion">
             </div>
 
-            <div *ngIf="perfil === 'Estudiante EPN Postgrado' || perfil === 'Estudiante EPN'">
+            <div *ngIf="perfil === 'Estudiante EPN Postgrado' || perfil === 'Estudiante EPN Pregrado'">
                 <label for="inputEmail4">{{'HOME.COLLEGE' | translate}}</label>
                 <input type="text" class="form-control" placeholder="Institution" disabled
                     value="Escuela Politécnica Nacional">
@@ -32,7 +32,7 @@
 
             <div class="row row-formulario" *ngIf="perfil !== 'Profesionales y Profesores Externos'">
                 <div class="form-group">
-                    <label *ngIf="perfil === 'Estudiante EPN' || perfil === 'Estudiante EPN Postgrado'"
+                    <label *ngIf="perfil === 'Estudiante EPN Pregrado' || perfil === 'Estudiante EPN Postgrado'"
                         for="exampleFormControlFile1">{{'HOME.FILEMSGEPN' | translate}}</label>
                     <label *ngIf="perfil === 'Estudiante Externo (otras universidades)'"
                         for="exampleFormControlFile1">{{'HOME.FILEMSGEXT' | translate}}</label>
