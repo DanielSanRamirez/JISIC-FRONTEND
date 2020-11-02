@@ -1,4 +1,4 @@
-<div class="row animated fedeIn fast text-center">
+<div class="row text-center" *ngIf="cargando">
     <div class="col-12">
         <div class="alert alert-info">
             <h4 class="alert-heading">Cargando</h4>
@@ -8,35 +8,52 @@
     </div>
 </div>
 
-<div class="table-responsive">
+<div class="row" *ngIf="!cargando">
+    <div class="col-10 input-group mb-3">
+        <div class="col-3 tipoBuscar">
+            <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
+                <option value="identificacion">Identificación</option>
+                <option value="apellidos">Apellidos</option>
+                <option value="nombres">Nombres</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
+            aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
+    </div>
+</div>
+
+<div class="table-responsive" *ngIf="!cargando">
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Participante</th>
+                <th scope="col">Email</th>
+                <th scope="col">Teléfono</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr *ngFor="let participante of participantes; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{participante.identificacion}}</td>
+                <td>{{participante.apellidos}} {{participante.nombres}}</td>
+                <td>{{participante.email}}</td>
+                <td>
+                    +{{participante.codTelefono}}
+                    {{participante.telefono}}
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <h3># Página {{desde}}</h3>
+    <nav aria-label="Page navigation example" *ngIf="totalParticipantes > 1">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('restar')">Previous</a></li>
+            <li class="page-item" *ngFor="let item of element"><a class="page-link"
+                    (click)="cambiarPagina(item)">{{item}}</a></li>
+            <li class="page-item"><a class="page-link" (click)="cambiarPagina('sumar')">Next</a></li>
+        </ul>
+    </nav>
 </div>

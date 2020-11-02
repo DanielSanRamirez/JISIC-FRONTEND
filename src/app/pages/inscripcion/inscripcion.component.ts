@@ -74,7 +74,7 @@ export class InscripcionComponent implements OnInit {
     this.isChecked = event.target.checked;
   }
 
-  aprobarPreInscripcion() {
+  aprobarPago() {
     this._pagoService.aprobarPago(this.idPago, this.numeroFacturaValor)
       .subscribe(
         (resp: any) => {

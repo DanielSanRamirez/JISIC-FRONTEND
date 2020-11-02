@@ -146,7 +146,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             (click)="limpiarDatos()">Cerrar</button>
                         <button type="submit" class="btn btn-success" *ngIf="!isChecked"
-                            [disabled]='numeroFacturaValor === ""' (click)="aprobarPreInscripcion()">Aprobar</button>
+                            [disabled]='numeroFacturaValor === ""' (click)="aprobarPago()">Aprobar</button>
                         <button type="submit" class="btn btn-danger" *ngIf="isChecked"
                             [disabled]='mensajeValor === ""' (click)="rechazarPago()">Rechazar</button>
                     </div>
