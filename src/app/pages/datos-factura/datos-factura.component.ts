@@ -40,6 +40,7 @@ export class DatosFacturaComponent implements OnInit {
   public imagenValida: Boolean = false;
   public mostrarErrorArchivo: Boolean = false;
   public datosParaFactura;
+  public estadoRecibo = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -133,60 +134,6 @@ export class DatosFacturaComponent implements OnInit {
       }
     );
 
-    /*this.infoParticipante = this.participanteForm.value;
-    this.infoParticipante.tipoIdentificacion = this.identificacionForm.get('tipoIdentificacion').value;
-    if (this.identificacionForm.get('tipoIdentificacion').value === '1') {
-      this.infoParticipante.identificacion = this.identificacionForm.get('identificacion').value;
-    } else {
-      this.infoParticipante.identificacion = this.identificacionForm.get('pasaporte').value;
-    }
-
-    const { nombres, apellidos } = this.participanteForm.value;
-    this._participanteService.crearParticipante(this.infoParticipante).subscribe(
-      (resp: any) => {
-
-        let participante = resp.participante.uid;
-
-        this.arregloItemProducto.forEach((productos, index) => {
-          let producto = productos.idProducto;
-
-          let institucion = productos.participanteForm.institucion.value;
-
-          let file = productos.file;
-
-          let inscripcion = new Inscripcion(participante, producto, this.costoTotal, institucion);
-          this._inscripcionService.crearInscripcion(inscripcion).subscribe(
-            (resp: any) => {
-
-              let idInscripcion = resp.inscripcion._id;
-              if (file !== undefined) {
-                this._fileUploadService.actualizarArchivo(file, 'participante', idInscripcion, nombres, apellidos);
-              } else {
-                console.log(this.tituloMensaje + this.textoMensaje1 + this.textoMensaje2);
-                
-                Swal.fire(this.tituloMensaje,
-                  `${this.textoMensaje1} ${nombres} ${apellidos} ${this.textoMensaje2}`,
-                  'success').then((result) => {
-                    if (result.isConfirmed) {
-                      this._router.navigateByUrl('/success');
-                    }
-
-                  });
-              }
-
-            }
-          )
-        });
-      },
-      err => {
-        if (err.error.msg) {
-          Swal.fire('Error', err.error.msg, 'error'); 
-        } else {
-          Swal.fire('Error', 'The email is not correct', 'error');
-        }
-        
-      }
-    )*/
   }
 
   obtenerDatosParticipante() {
@@ -224,6 +171,11 @@ export class DatosFacturaComponent implements OnInit {
     this._inscripcionService.getInscripciones(idParticipante).subscribe(
       resp => {
         this.inscripciones = resp.inscripciones;
+        this.inscripciones.forEach(element => {
+          if (element.estadoRecibo === true) {
+            this.estadoRecibo = true;
+          }
+        });
       }
     )
   }

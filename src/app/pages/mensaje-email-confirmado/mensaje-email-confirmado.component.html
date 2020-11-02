@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="card text-center">
+    <div class="card text-center" *ngIf="!estadoParticipante">
         <div class="card-header">
             <img class="card-img-top icono"
                 src="https://jisic.epn.edu.ec/images/inscripcion/verificacionEmail.svg"
@@ -9,6 +9,19 @@
         <div class="card-body">
             <h2 class="card-title">Your email has been confirmed</h2>
             <p class="card-text">Your information will be validated by our staff, an email will be sent with the payment information</p>
+            <a [routerLink]="['/inscripcion']" class="btn btn-primary">Back Home</a>
+        </div>
+    </div>
+
+    <div class="card text-center" *ngIf="estadoParticipante">
+        <div class="card-header">
+            <img class="card-img-top icono"
+                src="https://jisic.epn.edu.ec/images/inscripcion/EquisError.svg"
+                alt="Card image cap">
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">Your email has already been verified before</h2>
+            <p class="card-text">Wait for instructions that will be notified to you shortly</p>
             <a [routerLink]="['/inscripcion']" class="btn btn-primary">Back Home</a>
         </div>
     </div>

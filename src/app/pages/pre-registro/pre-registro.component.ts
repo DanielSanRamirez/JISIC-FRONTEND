@@ -20,7 +20,7 @@ export class PreRegistroComponent implements OnInit {
   public element = [];
   public participantes: Participante[] = [];
   public participantesTemp: Participante[] = [];
-  public dato: 'identificacion' | 'participante' = 'identificacion';
+  public dato: 'identificacion' | 'apellidos' | 'nombres' = 'identificacion';
   public participanteForm: FormGroup;
   public paises: Pais[] = [];
 

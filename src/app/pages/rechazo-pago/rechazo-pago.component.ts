@@ -19,6 +19,7 @@ export class RechazoPagoComponent implements OnInit {
   public imagenSubir: File;
   public imagenValida: Boolean = false;
   public mostrarErrorArchivo: Boolean = false;
+  public estadoPago = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -45,6 +46,9 @@ export class RechazoPagoComponent implements OnInit {
     this._pagoService.getPago(id).subscribe(
       async resp => {
         this.pago = await resp.pago;
+        if (this.pago.estado === true && this.pago.estadoInscripcion === true) {
+          this.estadoPago = true;
+        }
         this.cargando = false;
       }
     )

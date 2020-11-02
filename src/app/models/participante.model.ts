@@ -14,5 +14,6 @@ export class Participante {
         public tipoIdentificacion: string,
         public identificacion: string,
         public uid?: string,
+        public estado?: boolean,
     ) { }
 }

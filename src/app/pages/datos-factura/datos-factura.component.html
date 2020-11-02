@@ -28,8 +28,21 @@
     </div>
 
 
+    <div class="card text-center" *ngIf="estadoRecibo">
+        <div class="card-header">
+            <img class="card-img-top icono"
+                src="https://jisic.epn.edu.ec/images/inscripcion/EquisError.svg"
+                alt="Card image cap">
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">You have already filled out the payment form</h2>
+            <p class="card-text">Wait for instructions that will be notified to you shortly</p>
+            <a [routerLink]="['/inscripcion']" class="btn btn-primary">Back Home</a>
+        </div>
+    </div>
 
-    <mat-vertical-stepper linear #stepper *ngIf="!cargando">
+
+    <mat-vertical-stepper linear #stepper *ngIf="!cargando && !estadoRecibo">
 
         <!--Step de Información Personal-->
         <mat-step [label]="step[0]" [stepControl]="participanteForm">

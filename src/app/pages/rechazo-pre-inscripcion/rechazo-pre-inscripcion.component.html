@@ -27,7 +27,21 @@
         </select>
     </div>
     <br>
-    <div class="row justify-content-center" *ngIf="!cargando">
+
+    <div class="card text-center" *ngIf="!cargando && estadoParticipante">
+        <div class="card-header">
+            <img class="card-img-top icono"
+                src="https://jisic.epn.edu.ec/images/inscripcion/EquisError.svg"
+                alt="Card image cap">
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">You have already updated the registration file</h2>
+            <p class="card-text">Wait for instructions that will be notified to you shortly</p>
+            <a [routerLink]="['/inscripcion']" class="btn btn-primary">Back Home</a>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center" *ngIf="!cargando && !estadoParticipante">
         <div class="card bg-light col-7">
             <div class="card-header text-center text-white bg-info" *ngIf="selectedLanguages === 'formulario-en'">
                 <h1 class="card-title">{{producto.name}}</h1>

@@ -61,7 +61,7 @@ export class PreRegistroService {
   }
 
   buscar(
-    tipo: 'identificacion' | 'participante',
+    tipo: 'identificacion' | 'apellidos' | 'nombres',
     termino: string
   ) {
     const url = `${base_url}/pre-registro/coleccion/${tipo}/${termino}`;

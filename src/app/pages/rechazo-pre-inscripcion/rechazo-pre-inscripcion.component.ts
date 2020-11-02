@@ -22,6 +22,7 @@ export class RechazoPreInscripcionComponent implements OnInit {
   public imagenValida: Boolean = false;
   public imagenSubir: File;
   public mostrarErrorArchivo: Boolean = false;
+  public estadoParticipante = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -52,6 +53,9 @@ export class RechazoPreInscripcionComponent implements OnInit {
         this.inscripcion = await resp.inscripcion;
         this.producto = await resp.inscripcion.producto;
         this.cargando = false;
+        if (this.inscripcion.estado !== false || this.inscripcion.estadoParticipante !== false) {
+          this.estadoParticipante = true;
+        }
       }
     )
   }
