@@ -41,6 +41,7 @@ export class DatosFacturaComponent implements OnInit {
   public mostrarErrorArchivo: Boolean = false;
   public datosParaFactura;
   public estadoRecibo = false;
+  public dia = '';
 
   constructor(
     private _translateService: TranslateService,
@@ -59,7 +60,13 @@ export class DatosFacturaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.limiteFecha = `${this.fechaActual.getFullYear()}-${this.fechaActual.getMonth() + 1}-${this.fechaActual.getDate()}`;
+    if (this.fechaActual.getDate() < 10) {
+      this.dia = `0${this.fechaActual.getDate()}`
+    } else {
+      this.dia = String(this.fechaActual.getDate());
+    }
+
+    this.limiteFecha = `${this.fechaActual.getFullYear()}-${this.fechaActual.getMonth() + 1}-${this.dia}`;
 
     this._paisService.cargarPaises().subscribe(
       resp => {
@@ -69,14 +76,15 @@ export class DatosFacturaComponent implements OnInit {
 
     //obtendo el id de la ruta
     this.participanteId = this._route.snapshot.paramMap.get("id");
-
-    this.obtenerDatosParticipante();
-
+    
     this.payForm = this._fb.group({
       nombreBanco: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9À-ÿ\u00f1\u00d1 ]*')]],
       numeroTransaccion: ['', [Validators.required, Validators.min(0)]],
       fechaTransaccion: [this.limiteFecha, Validators.required]
     });
+
+    this.obtenerDatosParticipante();
+    
   }
 
   selectLanguage(lang: string) {
@@ -137,6 +145,8 @@ export class DatosFacturaComponent implements OnInit {
   }
 
   obtenerDatosParticipante() {
+    console.log('Entro');
+    
     this.cargando = true;
     this._participanteService.obtenerParticipante(this.participanteId).subscribe(
       resp => {

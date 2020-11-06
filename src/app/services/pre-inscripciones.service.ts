@@ -81,17 +81,5 @@ export class PreInscripcionService {
   aprobarPreInscripcion(id: string) {
     return this._http.put(`${base_url}/pre-inscripcion/aceptado/${id}`, '');
   }
-  /*actualizarParticipante(participante: { nombres: string, apellidos: string, direccion: string, codTelefono: string, telefono: string, email: string, pais: string, tipoIdentificacion: string, identificacion: string, id: string }) {
-
-    return this._http.put(`${base_url}/pre-registro/${participante.id}`, participante);
-
-  }
-
-  eliminarParticipante(producto: { uid: string }) {
-
-    const url = `${base_url}/pre-registro/${producto.uid}`;
-
-    return this._http.delete(url);
-  }*/
 
 }

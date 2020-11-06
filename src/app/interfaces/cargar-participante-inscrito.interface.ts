@@ -1,6 +1,6 @@
-import { Participante } from '../models/participante.model';
+import { Inscripcion } from '../models/inscripcion.model';
 
 export interface CargarParticipanteInscrito {
     totalPages: number;
-    participantes: Participante[];
+    participantes: Inscripcion[];
 }

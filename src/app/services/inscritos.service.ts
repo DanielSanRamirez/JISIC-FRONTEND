@@ -13,6 +13,7 @@ import { Inscripcion } from '../models/inscripcion.model';
 // Importación de interface
 import { CargarParticipanteInscrito } from '../interfaces/cargar-participante-inscrito.interface';
 import { Participante } from '../models/participante.model';
+import { CargarInscripciones } from '../interfaces/cargar-inscripciones.interface';
 
 // Definir varible global
 const base_url = GLOBAL.base_url;
@@ -27,7 +28,7 @@ export class InscritosService {
     private _router: Router,
   ) { }
 
-  cargarPorPagarPaginado(desde: number = 1) {
+  cargarInscritos(desde: number = 1) {
 
     const url = `${base_url}/inscritos?desde=${desde}`;
 
@@ -35,17 +36,17 @@ export class InscritosService {
       .pipe(
         map(resp => {
           const participantes = resp.participantes.map(
-            participante => new Participante(
-              participante.nombres,
-              participante.apellidos,
-              participante.direccion,
-              participante.codTelefono,
-              participante.telefono,
-              participante.email,
-              participante.pais,
-              participante.tipoIdentificacion,
-              participante.identificacion,
-              participante.uid
+            inscripcion => new Inscripcion(
+              inscripcion.participante,
+              inscripcion.producto,
+              inscripcion.costoTotal,
+              inscripcion.institucion,
+              inscripcion.img,
+              inscripcion.estado,
+              inscripcion._id,
+              inscripcion.estadoParticipante,
+              inscripcion.estadoRecibo,
+              inscripcion.pago
             )
           );
           return {

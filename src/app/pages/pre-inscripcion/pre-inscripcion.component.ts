@@ -23,6 +23,7 @@ export class PreInscripcionComponent implements OnInit {
   public preInscripcionForm: FormGroup;
   public isChecked = false;
   public inscripcion: Inscripcion;
+  public tipo = 'pre-inscripcion';
 
   constructor(
     private _preInscripcionService: PreInscripcionService,

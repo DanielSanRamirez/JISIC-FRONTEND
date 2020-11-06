@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Inscripcion } from 'src/app/models/inscripcion.model';
 import { Pais } from 'src/app/models/pais.model';
 import { Participante } from 'src/app/models/participante.model';
 import { InscripcionService } from 'src/app/services/inscripcion.service';
@@ -18,9 +19,10 @@ export class InscritosComponent implements OnInit {
   public totalParticipantes: number = 0;
   public element = [];
   public participantes: any = [];
-  public participantesTemp: Participante[] = [];
+  public participantesTemp: Inscripcion[] = [];
   public paises: Pais[] = [];
   public dato: 'identificacion' | 'apellidos' | 'nombres' = 'identificacion';
+  public tipo = 'inscritos'
 
   constructor(
     private _inscritosService: InscritosService,
@@ -36,7 +38,7 @@ export class InscritosComponent implements OnInit {
   cargarParticipanteInscrito() {
 
     this.cargando = true;
-    this._inscritosService.cargarPorPagarPaginado(this.desde).subscribe(
+    this._inscritosService.cargarInscritos(this.desde).subscribe(
       ({ totalPages, participantes }) => {
 
         this._paisService.cargarPaises().subscribe(
@@ -46,8 +48,8 @@ export class InscritosComponent implements OnInit {
             this.participantes.forEach(element => {
               
               this.paises.forEach(elementPais => {
-                if (String(element.codTelefono) === elementPais._id) {
-                  element.codTelefono = elementPais.phone_code;
+                if (String(element.participante.codTelefono) === elementPais._id) {
+                  element.participante.codTelefono = elementPais.phone_code;
                 }
               });
             });

@@ -9,7 +9,7 @@
 </div>
 
 <div class="row" *ngIf="!cargando">
-    <div class="col-10 input-group mb-3">
+    <div class="col-9 input-group mb-3">
         <div class="col-3 tipoBuscar">
             <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
                 <option value="identificacion">Identificación</option>
@@ -20,6 +20,13 @@
         <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
             aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
     </div>
+
+    <a [href]="tipo | reportes">
+        <button type="button" class="btn btn-info">
+            <mat-icon>cloud_download</mat-icon> Descargar
+            Reporte
+        </button>
+    </a>
 </div>
 
 <div class="table-responsive" *ngIf="!cargando">

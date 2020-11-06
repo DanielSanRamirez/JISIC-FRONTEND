@@ -9,7 +9,7 @@
 </div>
 
 <div class="row" *ngIf="!cargando">
-    <div class="col-10 input-group mb-3">
+    <div class="col-9 input-group mb-3">
         <div class="col-3 tipoBuscar">
             <select class="form-control btn-light" (change)=cambiarBusqueda($event)>
                 <option value="identificacion">Identificación</option>
@@ -20,6 +20,13 @@
         <input type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar"
             aria-describedby="button-addon2" (keyup)="buscar(txtTermino.value)" #txtTermino>
     </div>
+
+    <a [href]="tipo | reportes">
+        <button type="button" class="btn btn-info">
+            <mat-icon>cloud_download</mat-icon> Descargar
+            Reporte
+        </button>
+    </a>
 </div>
 
 <div class="table-responsive" *ngIf="!cargando">
@@ -31,18 +38,20 @@
                 <th scope="col">Participante</th>
                 <th scope="col">Email</th>
                 <th scope="col">Teléfono</th>
+                <th scope="col">Tipo Inscripcion</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let participante of participantes; let i=index">
                 <th scope="row">{{i+1}}</th>
-                <td>{{participante.identificacion}}</td>
-                <td>{{participante.apellidos}} {{participante.nombres}}</td>
-                <td>{{participante.email}}</td>
+                <td>{{participante.participante.identificacion}}</td>
+                <td>{{participante.participante.apellidos}} {{participante.participante.nombres}}</td>
+                <td>{{participante.participante.email}}</td>
                 <td>
-                    +{{participante.codTelefono}}
-                    {{participante.telefono}}
+                    +{{participante.participante.codTelefono}}
+                    {{participante.participante.telefono}}
                 </td>
+                <td>{{participante.producto.nombre}}</td>
             </tr>
         </tbody>
     </table>

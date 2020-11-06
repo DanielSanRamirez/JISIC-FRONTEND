@@ -17,6 +17,7 @@ export class PorPagarComponent implements OnInit {
   public element = [];
   public inscripcionesTemp: Inscripcion[] = [];
   public dato: 'identificacion' | 'apellidos' | 'nombres' = 'identificacion';
+  public tipo = 'por-pagar'
 
   constructor(
     private _porPagarService: PorPagarService

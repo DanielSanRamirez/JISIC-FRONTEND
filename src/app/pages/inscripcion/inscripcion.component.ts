@@ -27,6 +27,7 @@ export class InscripcionComponent implements OnInit {
   public mensajeValor = '';
   public idPago;
   public dato: 'numeroTransaccion' | 'identificacion' = 'numeroTransaccion';
+  public tipo = 'pagos'
 
   constructor(
     private _pagoService: PagoService,

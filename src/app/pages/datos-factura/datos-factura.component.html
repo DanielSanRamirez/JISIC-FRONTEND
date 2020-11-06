@@ -403,7 +403,7 @@
                 </div>
 
                 <div class="row row-formulario">
-                    <div class="col">
+                    <div class="col" *ngIf="payForm.value.fechaTransaccion">
                         <label for="inputEmail4">{{'FACTURA.TRANFERENCEDATE' | translate}}</label>
                         <input type="date" class="form-control" placeholder="Date" max={{limiteFecha}}
                             formControlName="fechaTransaccion">
