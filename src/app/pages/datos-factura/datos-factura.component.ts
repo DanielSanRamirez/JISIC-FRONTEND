@@ -124,7 +124,7 @@ export class DatosFacturaComponent implements OnInit {
             } else {
 
               Swal.fire('Creado',
-                `Registro de pago con exito`,
+                `Registro de pago con éxito`,
                 'success').then((result) => {
                   if (result.isConfirmed) {
                     this._router.navigateByUrl('/success-pay');
