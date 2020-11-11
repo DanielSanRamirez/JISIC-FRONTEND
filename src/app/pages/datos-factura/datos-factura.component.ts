@@ -145,8 +145,6 @@ export class DatosFacturaComponent implements OnInit {
   }
 
   obtenerDatosParticipante() {
-    console.log('Entro');
-    
     this.cargando = true;
     this._participanteService.obtenerParticipante(this.participanteId).subscribe(
       resp => {
@@ -241,7 +239,7 @@ export class DatosFacturaComponent implements OnInit {
         emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
         paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
         tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
-        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.required, Validators.pattern('[0-9]*'), cedulaIdentidad()]],
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('[0-9]*'), cedulaIdentidad()]],
         idParticipante: [this.participanteId, Validators.required]
       });
 
@@ -256,7 +254,7 @@ export class DatosFacturaComponent implements OnInit {
         emailDF: [this.participanteDatosFacturaForm2.value.emailDF],
         paisDF: [this.participanteDatosFacturaForm2.value.paisDF],
         tipoIdentificacionDF: [this.participanteDatosFacturaForm2.value.tipoIdentificacionDF, Validators.required],
-        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.pattern('[0-9]*'), Validators.required]],
+        identificacionDF: [this.participanteDatosFacturaForm2.value.identificacionDF, [Validators.pattern('[0-9]*'), Validators.minLength(13), Validators.maxLength(13), Validators.required]],
         idParticipante: [this.participanteId, Validators.required]
       });
     }

@@ -343,11 +343,11 @@
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '1'">
                         <label for="identificacion">{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
-                            formControlName="identificacionDF" maxlength="10" minlength="10">
+                            formControlName="identificacionDF" >
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '1' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
                             <p
-                                *ngIf="participanteDatosFacturaForm2.controls.identificacionDF.errors.pattern || participanteDatosFacturaForm2.controls.identificacionDF.errors.required || participanteDatosFacturaForm2.controls.identificacionDF.errors.minlength">
+                                *ngIf="campoNoValido('identificacionDF')">
                                 {{'HOME.IDENTIFICATIONMSG' | translate}}</p>
                         </div>
                         <div class="col text-danger"
@@ -360,7 +360,7 @@
                         *ngIf="participanteDatosFacturaForm2.controls.tipoIdentificacionDF.value === '2'">
                         <label>{{'HOME.IDENTIFICATION' | translate}}</label>
                         <input type="text" class="form-control" placeholder="Identification"
-                            formControlName="identificacionDF" minlength="13" maxlength="13">
+                            formControlName="identificacionDF">
                         <div class="col text-danger"
                             *ngIf="participanteDatosFacturaForm2.value.tipoIdentificacionDF === '2' && participanteDatosFacturaForm2.get('identificacionDF').invalid && (participanteDatosFacturaForm2.get('identificacionDF').dirty || participanteDatosFacturaForm2.get('identificacionDF').touched)">
                             <p *ngIf="campoNoValido('identificacionDF')">{{'FACTURA.MSGRUC' | translate}}

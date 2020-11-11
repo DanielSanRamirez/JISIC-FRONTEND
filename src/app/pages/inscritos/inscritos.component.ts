@@ -78,13 +78,12 @@ export class InscritosComponent implements OnInit {
     }
 
     this._inscritosService.buscar(this.dato, termino)
-      .subscribe((resultados: Participante[]) => {
+      .subscribe((resultados: Inscripcion[]) => {
         this.participantes = resultados;
         this.participantes.forEach(element => {
-              
           this.paises.forEach(elementPais => {
-            if (String(element.codTelefono) === elementPais._id) {
-              element.codTelefono = elementPais.phone_code;
+            if (String(element.participante.codTelefono) === elementPais._id) {
+              element.participante.codTelefono = elementPais.phone_code;
             }
           });
         });

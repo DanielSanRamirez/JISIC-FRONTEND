@@ -57,7 +57,7 @@ export class InscritosService {
       )
   }
 
-  private transformarParticipante(resultados: any[]): Participante[] {
+  private transformarParticipante(resultados: any[]): Inscripcion[] {
 
     return resultados;
   }
